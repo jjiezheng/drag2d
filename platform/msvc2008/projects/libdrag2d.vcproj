@@ -48,7 +48,7 @@
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				AssemblerListingLocation="..\libdrag2d\x86\Debug"
-				ProgramDataBaseFileName="..\libdrag2d\x86\Debug\libeasy.pdb"
+				ProgramDataBaseFileName="..\libdrag2d\x86\Debug\libdrag2d.pdb"
 				WarningLevel="3"
 				DebugInformationFormat="4"
 			/>
@@ -113,7 +113,7 @@
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				AssemblerListingLocation="..\libdrag2d\x86\Release"
-				ProgramDataBaseFileName="..\libdrag2d\x86\Release\libeasy.pdb"
+				ProgramDataBaseFileName="..\libdrag2d\x86\Release\libdrag2d.pdb"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
