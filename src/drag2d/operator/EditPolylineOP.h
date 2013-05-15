@@ -105,6 +105,26 @@ namespace d2d
 
 		}; // InterruptChainVisitor
 
+		class NearestNodeVisitor : public IVisitor
+		{
+		public:
+			NearestNodeVisitor(const Vector& pos, int tol);
+
+			virtual void visit(ICloneable* object, bool& bFetchNext);
+
+			const Vector& getNearestNode() const {
+				return m_nearest;
+			}
+
+		private:
+			Vector m_pos;
+			int m_tol;
+
+			float m_dis;
+			Vector m_nearest;
+
+		}; // NearestNodeVisitor
+
 	private:
 		static const int DRAG_SELECT_TOL = 5;
 
