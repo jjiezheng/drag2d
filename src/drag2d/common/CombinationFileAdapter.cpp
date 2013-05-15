@@ -31,6 +31,8 @@ void CombinationFileAdapter::load(const char* filename)
 
 	std::ifstream fin(filename);
 
+	wxString dir = FilenameTools::getFileDir(filename) + "\\";
+
 	size_t size;
 	fin >> size;
 	m_data.reserve(size);
@@ -39,7 +41,7 @@ void CombinationFileAdapter::load(const char* filename)
 		Entry entry;
 
 		entry.filepath = StringTools::getLine(fin);
-		entry.filepath = FilenameTools::getExistFilepath(entry.filepath);
+		entry.filepath = FilenameTools::getExistFilepath(entry.filepath, dir);
 
 		std::string strLine = StringTools::getLine(fin);
 		std::stringstream ss(strLine);
