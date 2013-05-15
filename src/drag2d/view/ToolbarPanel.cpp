@@ -21,6 +21,6 @@
 using namespace d2d;
 
 ToolbarPanel::ToolbarPanel(wxWindow* parent, EditPanel* editPanel)
-	: AbstractEditCMPT(parent, wxT("Toolbar"), editPanel, wxT("Operaiton"))
+	: AbstractEditCMPT(parent, wxT("Toolbar"), editPanel, wxT("Operation"))
 {
 }
