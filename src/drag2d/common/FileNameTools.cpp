@@ -82,7 +82,7 @@ bool FilenameTools::isExist(const wxString& filepath)
 	return wxFileName::FileExists(filepath);
 }
 
-wxString FilenameTools::getExistFilepath(const wxString& filepath)
+wxString FilenameTools::getExistFilepath(const wxString& filepath, const wxString& dir /*= wxEmptyString*/)
 {
 	wxString filepathFixed = filepath;
 	if (!isExist(filepathFixed))
@@ -94,6 +94,12 @@ wxString FilenameTools::getExistFilepath(const wxString& filepath)
 			for ( ; itr != Settings::RESOURCE_PATH.end(); ++itr)
 			{
 				filepathFixed = *itr + filename;
+				if (isExist(filepathFixed))
+					return filepathFixed;
+			}
+			if (dir != wxEmptyString)
+			{
+				filepathFixed = dir + filename;
 				if (isExist(filepathFixed))
 					return filepathFixed;
 			}
