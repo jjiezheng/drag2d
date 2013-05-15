@@ -122,6 +122,29 @@ onMouseLeftUp(int x, int y)
 {
 	if (TBase::onMouseLeftUp(x, y)) return true;
 
+	int tolerance;
+	if (m_cmpt)
+		tolerance = m_cmpt->getNodeCaptureDistance();
+	else
+		tolerance = 0;
+	if (tolerance != 0)
+	{	
+		Vector pos = m_editPanel->transPosScreenToProject(x, y);
+		NearestNodeVisitor nearest(pos, tolerance);
+		m_shapesImpl->traverseShapes(nearest, e_visible);
+		float dis = Math::getDistance(nearest.getNearestNode(), pos);
+		if (dis < tolerance)
+		{
+			if (m_capturedEditable.chain)
+			{
+				m_capturedEditable.chain->changeVertices(m_capturedEditable.pos, nearest.getNearestNode());
+				m_capturedEditable.chain->refresh();
+				m_capturedEditable.pos = nearest.getNearestNode();
+				m_editPanel->Refresh();
+			}
+		}
+	}
+
 	if (m_bSelectOpen)
 	{
 		m_selectOP->onMouseLeftUp(x, y);
@@ -384,5 +407,48 @@ visit(ICloneable* object, bool& bFetchNext)
 
 	bFetchNext = true;
 }
+
+//////////////////////////////////////////////////////////////////////////
+// class EditPolylineOP::NearestNodeVisitor
+//////////////////////////////////////////////////////////////////////////
+
+template <typename TBase, typename TSelected, typename TCMPT>
+d2d::EditPolylineOP<TBase, TSelected, TCMPT>::NearestNodeVisitor::
+NearestNodeVisitor(const Vector& pos, int tol)
+	: m_pos(pos)
+	, m_tol(tol)
+{
+	m_dis = FLT_MAX;
+	m_nearest.setInvalid();
+}
+
+template <typename TBase, typename TSelected, typename TCMPT>
+void d2d::EditPolylineOP<TBase, TSelected, TCMPT>::NearestNodeVisitor::
+visit(ICloneable* object, bool& bFetchNext)
+{
+	Rect rect(m_pos, m_tol, m_tol);
+
+	ChainShape* chain = static_cast<ChainShape*>(object);
+	if (!chain->isIntersect(rect)) 
+	{
+		bFetchNext = true;
+		return;
+	}
+
+	size_t index;
+	const std::vector<Vector>& vertices = chain->getVertices();
+	for (size_t i = 0, n = vertices.size(); i < n; ++i)
+	{
+		float dis = Math::getDistance(m_pos, vertices[i]);
+		if (dis < m_dis && dis != 0)
+		{
+			m_dis = dis;
+			m_nearest = vertices[i];
+		}
+	}
+
+	bFetchNext = true;
+}
+
 
 #endif // D2D_EDIT_POLYLINE_OP_CPP_
