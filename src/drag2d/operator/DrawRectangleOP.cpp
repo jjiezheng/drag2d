@@ -18,7 +18,7 @@
 
 #include "DrawRectangleOP.h"
 
-#include <gl/glu.h>
+#include "render/PrimitiveDraw.h"
 
 using namespace d2d;
 
@@ -70,19 +70,7 @@ bool DrawRectangleOP::onDraw() const
 	if (ZoomViewOP::onDraw()) return true;
 
 	if (m_firstPos.isValid() && m_currPos.isValid())
-	{
-		glColor3f(m_color.r, m_color.g, m_color.b);
-		glLineWidth(2.0f);
-		glPushMatrix();
-		glBegin(GL_LINE_LOOP);
-			glVertex3f(m_firstPos.x, m_firstPos.y, -1.0f);
-			glVertex3f(m_currPos.x, m_firstPos.y, -1.0f);
-			glVertex3f(m_currPos.x, m_currPos.y, -1.0f);
-			glVertex3f(m_firstPos.x, m_currPos.y, -1.0f);
-		glEnd();
-		glPopMatrix();
-		glLineWidth(1.0f);
-	}
+		PrimitiveDraw::drawSquareFrame(m_firstPos, m_currPos, 2, m_color);
 
 	return false;
 }

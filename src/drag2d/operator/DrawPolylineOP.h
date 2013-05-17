@@ -47,7 +47,7 @@ namespace d2d
 		void fixPosTo45Degree(Vector& pos) const;
 
 	protected:
-		std::vector<Vector> m_polyline;
+		mutable std::vector<Vector> m_polyline;
 		Vector m_currPos;
 
 	private:

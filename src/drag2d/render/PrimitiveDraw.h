@@ -21,6 +21,8 @@
 
 #include <vector>
 
+#include "common/Color.h"
+
 namespace d2d
 {
 	class Vector;
@@ -33,6 +35,7 @@ namespace d2d
 
 		static void drawSquare(const Vector& center, float radius, const Colorf& color);
 		static void drawSquareFrame(const Vector& center, float radius, const Colorf& color);
+		static void drawSquareFrame(const Vector& p0, const Vector& p1, int size = 2, const Colorf& color = Colorf(0, 0, 0));
 		static void drawRectangle(const Vector& center, float width, float height, const Colorf& color);
 		static void drawRing(const Vector& center, float radius, const Colorf& color, int size = 3, int kSegments = 16);
 		static void drawCircle(const Vector& center, float radius, const Colorf& color);
