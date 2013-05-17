@@ -18,7 +18,7 @@
 
 #include "DrawCurveOP.h"
 
-#include <gl/glu.h>
+#include "render/PrimitiveDraw.h"
 
 using namespace d2d;
 
@@ -69,13 +69,8 @@ bool DrawCurveOP::onDraw() const
 {
 	if (ZoomViewOP::onDraw()) return true;
 
-	if (m_curve.empty()) return false;
-
-	glColor3f(0.0f, 0.0f, 0.0f);
-	glBegin(GL_LINE_STRIP);
-	for (size_t i = 0, n = m_curve.size(); i < n; ++i)
-		glVertex2f(m_curve[i].x, m_curve[i].y);
-	glEnd();
+	if (!m_curve.empty())
+		PrimitiveDraw::drawPolyline(m_curve, Colorf(0, 0, 0), false, 1);
 
 	return false;
 }

@@ -107,6 +107,7 @@
 #include "component/DrawLineCMPT.h"
 #include "component/DrawPolylineCMPT.h"
 #include "component/DrawPolygonCMPT.h"
+#include "component/DrawRectCMPT.h"
 #include "component/EditNodesCMPT.h"
 #include "component/EditPolylinesCMPT.h"
 #include "component/LayersMgrCMPT.h"

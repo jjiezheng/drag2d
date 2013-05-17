@@ -22,6 +22,7 @@
 #include "view/MultiShapesImpl.h"
 #include "component/DrawPolylineCMPT.h"
 #include "dataset/ChainShape.h"
+#include "NodeCapture.h"
 
 namespace d2d
 {
@@ -50,45 +51,6 @@ namespace d2d
 		virtual bool clear();
 
 	private:
-		struct NodeAddr
-		{
-			ChainShape* chain;
-			Vector pos;
-
-			NodeAddr() : chain(NULL) {}
-		};
-
-		class NodeCapture
-		{
-		public:
-			NodeCapture(MultiShapesImpl* shapesImpl, int tol);
-
-			void captureEditable(const Vector& pos, NodeAddr& result);
-			void captureSelectable(const Vector& pos, NodeAddr& result);
-
-		private:
-			class QueryChainVisitor : public IVisitor
-			{
-			public:
-				QueryChainVisitor(const Vector& pos, float tolerance, NodeAddr& result);
-
-				virtual void visit(ICloneable* object, bool& bFetchNext);
-
-			private:
-				const Vector& m_pos;
-				float m_tolerance;
-
-				Rect m_rect;
-				NodeAddr& m_result;
-
-			}; // SetTexCoordsVisitor
-
-		private:
-			MultiShapesImpl* m_shapesImpl;
-			int m_tol;
-
-		}; // NodeCapture
-
 		class InterruptChainVisitor : public IVisitor
 		{
 		public:

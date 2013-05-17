@@ -20,8 +20,7 @@
 
 #include "common/Math.h"
 #include "view/Camera.h"
-
-#include <gl/glu.h>
+#include "render/PrimitiveDraw.h"
 
 using namespace d2d;
 
@@ -89,20 +88,17 @@ bool DrawPolylineOP::onDraw() const
 {
 	if (ZoomViewOP::onDraw()) return true;
 
-	if (m_polyline.empty()) return false;
-
-	glColor3f(0, 0, 0);
-
-	glLineWidth(2.0f);
-	glPushMatrix();
-	glBegin(GL_LINE_STRIP);
-	for (size_t i = 0, n = m_polyline.size(); i < n; ++i)
-		glVertex2f(m_polyline[i].x, m_polyline[i].y);
-	if (m_currPos.isValid())
-		glVertex2f(m_currPos.x, m_currPos.y);
-	glEnd();
-	glPopMatrix();
-	glLineWidth(1.0f);
+	if (!m_polyline.empty())
+	{
+		if (m_currPos.isValid())
+		{
+			m_polyline.push_back(m_currPos);
+			PrimitiveDraw::drawPolyline(m_polyline, Colorf(0, 0, 0), false, 2);
+			m_polyline.pop_back();
+		}
+		else
+			PrimitiveDraw::drawPolyline(m_polyline, Colorf(0, 0, 0), false, 2);
+	}
 
 	return false;
 }

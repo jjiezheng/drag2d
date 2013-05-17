@@ -53,6 +53,19 @@ void PrimitiveDraw::drawSquareFrame(const Vector& center, float radius, const Co
 	GL10::End();
 }
 
+void PrimitiveDraw::drawSquareFrame(const Vector& p0, const Vector& p1, int size /*= 2*/, const Colorf& color /*= Colorf(0, 0, 0)*/)
+{
+	GL10::LineWidth(size);
+	GL10::Color4f(color.r, color.g, color.b, color.a);
+	GL10::Begin(GL10::GL_LINE_LOOP);
+		GL10::Vertex2f(p0.x, p0.y);
+		GL10::Vertex2f(p0.x, p1.y);
+		GL10::Vertex2f(p1.x, p1.y);
+		GL10::Vertex2f(p1.x, p0.y);
+	GL10::End();
+	GL10::LineWidth(1.0f);
+}
+
 void PrimitiveDraw::drawRectangle(const Vector& center, float width, float height, const Colorf& color)
 {
 	float hWidth = width * 0.5f;

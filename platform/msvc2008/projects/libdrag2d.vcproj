@@ -5,6 +5,10 @@
 	Name="libdrag2d"
 	ProjectGUID="{E69A7CDE-521A-45B5-B776-AD16F72F6A07}"
 	RootNamespace="libdrag2d"
+	SccProjectName="Svn"
+	SccAuxPath="Svn"
+	SccLocalPath="Svn"
+	SccProvider="SubversionScc"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -292,6 +296,14 @@
 					RelativePath="..\..\..\src\drag2d\operator\EditPolylineWithCopyNodeOP.h"
 					>
 				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\operator\EditRectOP.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\operator\EditRectOP.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="other"
@@ -405,6 +417,18 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="tools"
+				>
+				<File
+					RelativePath="..\..\..\src\drag2d\operator\NodeCapture.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\operator\NodeCapture.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="edit_history"
@@ -502,6 +526,14 @@
 				</File>
 				<File
 					RelativePath="..\..\..\src\drag2d\component\DrawPolylineCMPT.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\component\DrawRectCMPT.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\component\DrawRectCMPT.h"
 					>
 				</File>
 			</Filter>

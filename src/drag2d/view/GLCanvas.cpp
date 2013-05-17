@@ -119,14 +119,10 @@ void GLCanvas::onPaint(wxPaintEvent& event)
 
 	glFlush();
 	SwapBuffers();
-
-// 	dc.DrawText(wxT("§­§Ö§Ó §¯§Ú§Ü§à§Ýa§Ö§Ó§Ú§é §´§à§Ý§ã§äo§Û"), 40, 60);
-// 	dc.DrawText(wxT("§¡§ß§ß§Ñ §¬§Ñ§â§Ö§ß§Ú§ß§Ñ"), 70, 80);
 }
 
 void GLCanvas::onEraseBackground(wxEraseEvent& event)
-{
-	
+{	
 }
 
 void GLCanvas::onMouse(wxMouseEvent& event)
