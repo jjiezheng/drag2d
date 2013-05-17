@@ -90,6 +90,8 @@ namespace d2d
 		SpriteSelection* m_selection;
 		Vector m_lastPos;
 
+		ISprite* m_scaling;
+
 	private:
 		bool m_scaleOpen;
 
@@ -97,7 +99,6 @@ namespace d2d
 
 		Vector m_firstPos;
 
-		ISprite* m_scaling;
 		Vector m_scaleSelected;
 
 		bool m_bDirty;

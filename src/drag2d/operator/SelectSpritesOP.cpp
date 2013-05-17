@@ -75,6 +75,12 @@ bool SelectSpritesOP::onMouseLeftDown(int x, int y)
 				{
 					if (m_selection->size() == 1)
 						m_propertyPanel->setPropertySetting(createPropertySetting(selected));
+					else if (m_selection->size() > 1)
+					{
+						std::vector<ISprite*> sprites;
+						m_selection->traverse(FetchAllVisitor<ISprite>(sprites));
+						m_propertyPanel->setPropertySetting(createPropertySetting(sprites));
+					}
 					else
 						m_propertyPanel->setPropertySetting(NULL);
 				}
