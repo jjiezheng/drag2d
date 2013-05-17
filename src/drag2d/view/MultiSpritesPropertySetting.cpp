@@ -47,7 +47,7 @@ void MultiSpritesPropertySetting::updatePanel(PropertySettingPanel* panel)
 		pg->Clear();
 
 		static const wxChar* align_labels[] = { wxT("none"),
-			wxT("left"), wxT("right"), wxT("up"), wxT("down"), NULL };
+			wxT("left"), wxT("right"), wxT("up"), wxT("down"), wxT("center x"), wxT("center y"), NULL };
 		pg->Append(new wxEnumProperty(wxT("Align"), wxPG_LABEL, align_labels));
 
 		static const wxChar* center_labels[] = { wxT("none"), 
@@ -133,6 +133,38 @@ void MultiSpritesPropertySetting::onPropertyGridChange(const wxString& name, con
 				ISprite* sprite = m_sprites[i];
 				float y = down + sprite->getSymbol().getHeight()*0.5f;
 				m_sprites[i]->setTransform(Vector(sprite->getPosition().x, y), sprite->getAngle());
+			}
+			m_editPanel->Refresh();
+		}
+		else if (type == 5)
+		{
+			float down = FLT_MAX;
+			for (size_t i = 0, n = m_sprites.size(); i < n; ++i)
+			{
+				float y = m_sprites[i]->getPosition().y;
+				if (y < down)
+					down = y;
+			}
+			for (size_t i = 0, n = m_sprites.size(); i < n; ++i)
+			{
+				ISprite* sprite = m_sprites[i];
+				m_sprites[i]->setTransform(Vector(sprite->getPosition().x, down), sprite->getAngle());
+			}
+			m_editPanel->Refresh();
+		}
+		else if (type == 6)
+		{
+			float left = FLT_MAX;
+			for (size_t i = 0, n = m_sprites.size(); i < n; ++i)
+			{
+				float x = m_sprites[i]->getPosition().x;
+				if (x < left)
+					left = x;
+			}
+			for (size_t i = 0, n = m_sprites.size(); i < n; ++i)
+			{
+				ISprite* sprite = m_sprites[i];
+				m_sprites[i]->setTransform(Vector(left, sprite->getPosition().y), sprite->getAngle());
 			}
 			m_editPanel->Refresh();
 		}

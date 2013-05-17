@@ -168,7 +168,7 @@ bool EditRectOP::clear()
 
 bool EditRectOP::isRect(const ChainShape* chain)
 {
-	const std::vector<Vector> vertices = chain->getVertices();
+	const std::vector<Vector>& vertices = chain->getVertices();
 	if (vertices.size() == 4)
 	{
 		if (vertices[1].x == vertices[0].x && vertices[1].y == vertices[2].y && 

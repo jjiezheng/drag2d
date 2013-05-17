@@ -55,10 +55,10 @@ namespace d2d
 
 		PropertySettingPanel* m_propertyPanel;
 
+		MultiSpritesImpl* m_spritesImpl;
+
 	private:
 		AbstractEditCMPT* m_callback;
-
-		MultiSpritesImpl* m_spritesImpl;
 
 		Vector m_firstPos;
 
