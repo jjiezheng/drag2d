@@ -62,6 +62,16 @@ wxString FilenameTools::getFilenameWithExtension(const wxString& filepath)
 	return filepath.substr(filepath.find_last_of('\\') + 1);
 }
 
+wxString FilenameTools::getRelativePath(const wxString& dlg, const wxString& filepath)
+{
+	size_t start = 0;
+	while (dlg.size() > start && filepath.size() > start && dlg[start] == filepath[start])
+		++start;
+	wxString ret = filepath.substr(start);
+	ret.Replace('\\', '/');
+	return ret;
+}
+
 wxString FilenameTools::getFilePathExceptExtension(const wxString& filepath)
 {
 	return filepath.substr(0, filepath.find_last_of('.'));
