@@ -39,6 +39,9 @@ namespace d2d
 		// get string after the last '\'
 		static wxString getFilenameWithExtension(const wxString& filepath);
 
+		// get path start from dlg
+		static wxString getRelativePath(const wxString& dlg, const wxString& filepath);
+
 		// get string from begin to '.'
 		static wxString getFilePathExceptExtension(const wxString& filepath);
 
