@@ -36,12 +36,13 @@ namespace d2d
 	{
 	public:
 		ISprite();
+		ISprite(const ISprite& sprite);
 		virtual ~ISprite();
 
 		//
 		// ICloneable interface
 		//
-		virtual ISprite* clone() { return NULL; }
+		virtual ISprite* clone();
 
 		//
 		// UserDataImpl interface
