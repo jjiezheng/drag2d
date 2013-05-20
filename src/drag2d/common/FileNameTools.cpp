@@ -100,10 +100,16 @@ wxString FilenameTools::getExistFilepath(const wxString& filepath, const wxStrin
 		wxString filename = filepathFixed = getFilenameWithExtension(filepathFixed);
 		if (!isExist(filepathFixed))
 		{
+			wxString cwd = wxFileName::GetCwd();
+
 			std::set<wxString>::iterator itr = Settings::RESOURCE_PATH.begin();
 			for ( ; itr != Settings::RESOURCE_PATH.end(); ++itr)
 			{
 				filepathFixed = *itr + filename;
+				if (isExist(filepathFixed))
+					return filepathFixed;
+
+				filepathFixed = cwd + *itr + filename;
 				if (isExist(filepathFixed))
 					return filepathFixed;
 			}
