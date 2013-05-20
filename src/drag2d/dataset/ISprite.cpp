@@ -37,9 +37,25 @@ ISprite::ISprite()
 	m_bounding = NULL;
 }
 
+ISprite::ISprite(const ISprite& sprite)
+{
+	m_pos = sprite.m_pos;
+	m_angle = sprite.m_angle;
+	m_scale = sprite.m_scale;
+	m_xMirror = sprite.m_xMirror;
+	m_yMirror = sprite.m_yMirror;
+	m_bounding = sprite.m_bounding->clone();
+	m_body = sprite.m_body ? sprite.m_body->clone() : NULL;
+}
+
 ISprite::~ISprite()
 {
 	delete m_body;
+}
+
+ISprite* ISprite::clone()
+{
+	return NULL;
 }
 
 void ISprite::clearUserData(bool deletePtr)

@@ -32,6 +32,11 @@ namespace d2d
 	{
 	public:
 		
+		//
+		// ICloneable interface
+		//
+		virtual AbstractBV* clone() { return NULL; }
+
 		virtual void initFromRect(const Rect& rect) = 0;
 
 		virtual bool isValid() const = 0;
