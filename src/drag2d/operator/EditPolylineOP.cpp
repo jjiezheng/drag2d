@@ -16,8 +16,8 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef D2D_EDIT_POLYLINE_OP_CPP_
-#define D2D_EDIT_POLYLINE_OP_CPP_
+#ifndef D2D_EDIT_POLYLINE_OP_CPP
+#define D2D_EDIT_POLYLINE_OP_CPP
 
 #include "EditPolylineOP.h"
 
@@ -381,4 +381,4 @@ visit(ICloneable* object, bool& bFetchNext)
 }
 
 
-#endif // D2D_EDIT_POLYLINE_OP_CPP_
+#endif // D2D_EDIT_POLYLINE_OP_CPP

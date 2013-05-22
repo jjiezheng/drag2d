@@ -53,10 +53,27 @@ void PolylineFileAdapter::store(const char* filename)
 {
 	std::ofstream fout(filename);
 
-	fout << m_imgPath << '\n';
-	fout << m_chains.size() << '\n';
-	for (size_t i = 0, n = m_chains.size(); i < n; ++i)
-		m_chains[i]->storeToTextFile(fout);
+	//////////////////////////////////////////////////////////////////////////
+
+ 	fout << m_imgPath << '\n';
+ 	fout << m_chains.size() << '\n';
+ 	for (size_t i = 0, n = m_chains.size(); i < n; ++i)
+ 		m_chains[i]->storeToTextFile(fout);
+
+	//////////////////////////////////////////////////////////////////////////
+
+	//fout << "{";
+	//for (size_t i = 0, n = m_chains.size(); i < n; ++i)
+	//{
+	//	fout << "{";
+	//	const std::vector<Vector>& vertices = m_chains[i]->getVertices();
+	//	for (size_t j = 0, m = vertices.size(); j < m; ++j)
+	//		fout << vertices[j].x << "," << vertices[j].y << ",";
+	//	fout << "},";
+	//}
+	//fout << "}";
+
+	//////////////////////////////////////////////////////////////////////////
 
 	fout.close();
 }

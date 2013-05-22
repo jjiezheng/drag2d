@@ -19,12 +19,16 @@
 #ifndef D2D_LIST_ITEM_H
 #define D2D_LIST_ITEM_H
 
+#include "common/Object.h"
 #include "common/interface.h"
-#include "dataset/Bitmap.h"
+
+#include <wx/wx.h>
 
 namespace d2d
 {
-	class ListItem : public ICloneable
+	class Bitmap;
+
+	class ListItem : public Object, public ICloneable
 	{
 	public:
 		ListItem() {
