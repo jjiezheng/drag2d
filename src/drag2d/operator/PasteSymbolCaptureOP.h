@@ -21,17 +21,19 @@
 
 #include "PasteSymbolOP.h"
 
+#include "component/PasteSymbolOffsetCMPT.h"
+
 namespace d2d
 {
+	class PasteSymbolCaptureOP;
 	class MultiSpritesImpl;
 	class LibraryPanel;
-	class PasteSymbolCaptureCMPT;
 
 	class PasteSymbolCaptureOP : public PasteSymbolOP
 	{
 	public:
 		PasteSymbolCaptureOP(EditPanel* editPanel, MultiSpritesImpl* spritesImpl, 
-			LibraryPanel* libraryPanel, PasteSymbolCaptureCMPT* cmpt);
+			LibraryPanel* libraryPanel, PasteSymbolOffsetCMPT<PasteSymbolCaptureOP>* cmpt);
 
 		virtual bool onMouseLeftDown(int x, int y);
 		virtual bool onMouseMove(int x, int y);
@@ -39,7 +41,7 @@ namespace d2d
 		virtual bool clear();
 
 	private:
-		PasteSymbolCaptureCMPT* m_cmpt;
+		PasteSymbolOffsetCMPT<PasteSymbolCaptureOP>* m_cmpt;
 
 		bool m_bCaptured;
 		Vector m_lastPos;

@@ -19,6 +19,7 @@
 #include "VerticalImageList.h"
 #include "ListItem.h"
 
+#include "dataset/Bitmap.h"
 #include "widgets/DragTargetNull.h"
 
 using namespace d2d;

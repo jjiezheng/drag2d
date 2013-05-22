@@ -53,6 +53,8 @@ namespace d2d
 
 		unsigned int getTextureID() const;
 
+		Image* getImage() { return m_image; }
+
 	protected:
 		virtual void loadResources();
 

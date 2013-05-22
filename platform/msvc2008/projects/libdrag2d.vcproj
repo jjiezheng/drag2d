@@ -380,6 +380,14 @@
 					RelativePath="..\..\..\src\drag2d\operator\PasteSymbolRandomOP.h"
 					>
 				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\operator\PasteSymbolTileOP.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\operator\PasteSymbolTileOP.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="select"
@@ -581,11 +589,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\drag2d\component\PasteSymbolCaptureCMPT.cpp"
+					RelativePath="..\..\..\src\drag2d\component\PasteSymbolOffsetCMPT.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\drag2d\component\PasteSymbolCaptureCMPT.h"
+					RelativePath="..\..\..\src\drag2d\component\PasteSymbolOffsetCMPT.h"
 					>
 				</File>
 				<File

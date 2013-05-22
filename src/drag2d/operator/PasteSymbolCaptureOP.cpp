@@ -20,14 +20,13 @@
 
 #include "common/Math.h"
 #include "dataset/SpriteFactory.h"
-#include "component/PasteSymbolCaptureCMPT.h"
 #include "view/MultiSpritesImpl.h"
 #include "view/LibraryPanel.h"
 
 using namespace d2d;
 
 PasteSymbolCaptureOP::PasteSymbolCaptureOP(EditPanel* editPanel, MultiSpritesImpl* spritesImpl,
-										   LibraryPanel* libraryPanel, PasteSymbolCaptureCMPT* cmpt)
+										   LibraryPanel* libraryPanel, PasteSymbolOffsetCMPT<PasteSymbolCaptureOP>* cmpt)
 	: PasteSymbolOP(editPanel, spritesImpl, libraryPanel)
 	, m_cmpt(cmpt)
 	, m_bCaptured(false)
