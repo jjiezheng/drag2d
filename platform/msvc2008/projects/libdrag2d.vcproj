@@ -737,6 +737,22 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\src\drag2d\dataset\Font.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\dataset\Font.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\dataset\FreeType.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\dataset\FreeType.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\drag2d\dataset\Image.cpp"
 					>
 				</File>
@@ -840,6 +856,14 @@
 					RelativePath="..\..\..\src\drag2d\dataset\ShapeSprite.h"
 					>
 				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\dataset\TextSprite.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\dataset\TextSprite.h"
+					>
+				</File>
 				<Filter
 					Name="base"
 					>
@@ -870,6 +894,14 @@
 				</File>
 				<File
 					RelativePath="..\..\..\src\drag2d\dataset\CombinationSymbol.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\dataset\FontSymbol.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\dataset\FontSymbol.h"
 					>
 				</File>
 				<File
@@ -1328,6 +1360,18 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="font"
+					>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\LibraryFontPage.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\LibraryFontPage.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="property"
@@ -1362,6 +1406,14 @@
 				</File>
 				<File
 					RelativePath="..\..\..\src\drag2d\view\SpritePropertySetting.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\view\TextPropertySetting.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\view\TextPropertySetting.h"
 					>
 				</File>
 			</Filter>

@@ -49,17 +49,17 @@ void ImageSymbol::reloadTexture() const
 	m_image->reload();
 }
 
-void ImageSymbol::draw() const
+void ImageSymbol::draw(const ISprite* sprite/* = NULL*/) const
 {
 	m_image->draw();
 }
 
-float ImageSymbol::getWidth() const
+float ImageSymbol::getWidth(const ISprite* sprite/* = NULL*/) const
 {
 	return m_image->width();
 }
 
-float ImageSymbol::getHeight() const
+float ImageSymbol::getHeight(const ISprite* sprite/* = NULL*/) const
 {
 	return m_image->height();
 }

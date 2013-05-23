@@ -52,19 +52,19 @@ void MeshSymbol::reloadTexture() const
 	m_image->reload();
 }
 
-void MeshSymbol::draw() const
+void MeshSymbol::draw(const ISprite* sprite/* = NULL*/) const
 {
 //	PrimitiveDraw::drawTriangles(m_image->textureID(), m_vertices, m_texCoords);
 
 	PrimitiveDraw::drawTrianglesSlow(m_image->textureID(), m_vertices, m_texCoords);
 }
 
-float MeshSymbol::getWidth() const
+float MeshSymbol::getWidth(const ISprite* sprite/* = NULL*/) const
 {
 	return 0;
 }
 
-float MeshSymbol::getHeight() const
+float MeshSymbol::getHeight(const ISprite* sprite/* = NULL*/) const
 {
 	return 0;
 }

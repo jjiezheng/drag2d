@@ -65,18 +65,18 @@ void CombinationSymbol::reloadTexture() const
 		m_sprites[i]->getSymbol().reloadTexture();
 }
 
-void CombinationSymbol::draw() const
+void CombinationSymbol::draw(const ISprite* sprite/* = NULL*/) const
 {
 	for (size_t i = 0, n = m_sprites.size(); i < n; ++i)
 		SpriteDraw::drawSprite(m_sprites[i]);
 }
 
-float CombinationSymbol::getWidth() const
+float CombinationSymbol::getWidth(const ISprite* sprite/* = NULL*/) const
 {
 	return 0;
 }
 
-float CombinationSymbol::getHeight() const
+float CombinationSymbol::getHeight(const ISprite* sprite/* = NULL*/) const
 {
 	return 0;
 }

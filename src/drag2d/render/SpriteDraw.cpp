@@ -41,7 +41,7 @@ void SpriteDraw::drawSprite(const ISprite* sprite)
 		yScale = yMirror ? -sprite->getScale() : sprite->getScale();
 	GL10::Scalef(xScale, yScale, 1.0f);
 
-	sprite->getSymbol().draw();
+	sprite->getSymbol().draw(sprite);
 
 	GL10::PopMatrix();
 }

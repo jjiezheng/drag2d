@@ -60,18 +60,18 @@ void ShapeSymbol::reloadTexture() const
 
 }
 
-void ShapeSymbol::draw() const
+void ShapeSymbol::draw(const ISprite* sprite/* = NULL*/) const
 {
 	for (size_t i = 0, n = m_shapes.size(); i < n; ++i)
 		m_shapes[i]->draw();
 }
 
-float ShapeSymbol::getWidth() const
+float ShapeSymbol::getWidth(const ISprite* sprite/* = NULL*/) const
 {
 	return 0;
 }
 
-float ShapeSymbol::getHeight() const
+float ShapeSymbol::getHeight(const ISprite* sprite/* = NULL*/) const
 {
 	return 0;
 }
