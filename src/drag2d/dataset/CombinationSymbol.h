@@ -51,9 +51,9 @@ namespace d2d
 		// ISymbol interface
 		//
 		virtual void reloadTexture() const;
-		virtual void draw() const;
-		virtual float getWidth() const;
-		virtual float getHeight() const;
+		virtual void draw(const ISprite* sprite = NULL) const;
+		virtual float getWidth(const ISprite* sprite = NULL) const;
+		virtual float getHeight(const ISprite* sprite = NULL) const;
 
  		const std::vector<ISprite*>& getChildren() const {
  			return m_sprites;

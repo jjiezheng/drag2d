@@ -24,6 +24,8 @@
 
 namespace d2d
 {
+	class ISprite;
+
 	class ISymbol : public ListItem, public ISerializable
 	{
 	public:
@@ -35,9 +37,9 @@ namespace d2d
 		virtual ISymbol* clone() { return NULL; }
 
 		virtual void reloadTexture() const = 0;
-		virtual void draw() const = 0;
-		virtual float getWidth() const = 0;
-		virtual float getHeight() const = 0;
+		virtual void draw(const ISprite* sprite = NULL) const = 0;
+		virtual float getWidth(const ISprite* sprite = NULL) const = 0;
+		virtual float getHeight(const ISprite* sprite = NULL) const = 0;
 
 		bool loadFromFile(const wxString& filepath);
 

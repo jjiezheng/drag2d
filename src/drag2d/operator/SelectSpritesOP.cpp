@@ -19,10 +19,12 @@
 #include "SelectSpritesOP.h"
 
 #include "common/Rect.h"
+#include "dataset/TextSprite.h"
 #include "component/AbstractEditCMPT.h"
 #include "view/PropertySettingPanel.h"
 #include "view/SpritePropertySetting.h"
 #include "view/MultiSpritesPropertySetting.h"
+#include "view/TextPropertySetting.h"
 #include "view/MultiSpritesImpl.h"
 #include "render/DrawSelectedSpriteVisitor.h"
 
@@ -162,9 +164,12 @@ bool SelectSpritesOP::clear()
 	return false;
 }
 
-IPropertySetting* SelectSpritesOP::createPropertySetting(d2d::ISprite* sprite) const
+IPropertySetting* SelectSpritesOP::createPropertySetting(ISprite* sprite) const
 {
-	return new SpritePropertySetting(m_editPanel, sprite);
+	if (TextSprite* text = dynamic_cast<TextSprite*>(sprite))
+		return new TextPropertySetting(m_editPanel, text);
+	else
+		return new SpritePropertySetting(m_editPanel, sprite);
 }
 
 IPropertySetting* SelectSpritesOP::createPropertySetting(const std::vector<ISprite*>& sprites) const

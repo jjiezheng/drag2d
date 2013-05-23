@@ -21,6 +21,7 @@
 #include "ShapeSymbol.h"
 #include "MeshSymbol.h"
 #include "CombinationSymbol.h"
+#include "FontSymbol.h"
 
 #include "common/FileNameTools.h"
 #include "common/FileNameParser.h"
@@ -29,21 +30,28 @@ using namespace d2d;
 
 ISymbol* SymbolFactory::create(const wxString& filepath)
 {
-	wxString ext = FilenameTools::getExtension(filepath);
+	ISymbol* symbol = NULL;
+
+	wxString ext = FilenameTools::getExtension(filepath).Lower();
 
 	if (ext == "png" || ext == "jpg" || ext == "bmp")
-		return new ImageSymbol;
-
-	if (ext == "txt")
+	{
+		symbol = new ImageSymbol;
+	}
+	else if (ext == "ttf")
+	{
+		symbol = new FontSymbol;
+	}
+	else if (ext == "txt")
 	{
 		wxString tag = FilenameTools::getFilenameTag(filepath);
 		if (FileNameParser::isType(filepath, FileNameParser::e_polygon))
-			return new ShapeSymbol;
+			symbol = new ShapeSymbol;
 		else if (FileNameParser::isType(filepath, FileNameParser::e_mesh))
-			return new MeshSymbol;
+			symbol = new MeshSymbol;
 		else if (FileNameParser::isType(filepath, FileNameParser::e_combination))
-			return new CombinationSymbol;
+			symbol = new CombinationSymbol;
 	}
 
-	return NULL;
+	return symbol;
 }

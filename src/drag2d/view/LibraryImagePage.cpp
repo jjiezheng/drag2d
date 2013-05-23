@@ -20,7 +20,6 @@
 #include "LibraryList.h"
 
 #include "dataset/SymbolMgr.h"
-#include "dataset/ISymbol.h"
 #include "dataset/ImageSymbol.h"
 
 using namespace d2d;
