@@ -83,6 +83,11 @@ namespace d2d
 	{
 		int r, g, b, a;
 
+		Colori()
+			: r(0), g(0), b(0), a(255) {}
+		Colori(int _r, int _g, int _b, int _a) 
+			: r(_r), g(_g), b(_b), a(_a) {}
+
 		void set(int pr, int pg, int pb, int pa) {
 			r = pr;
 			g = pg;

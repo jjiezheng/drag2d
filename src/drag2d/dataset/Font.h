@@ -39,7 +39,10 @@ namespace d2d
 
 		bool loadFromFile(const wxString& filepath);
 
-		void setSize(unsigned int h);
+//		void setSize(unsigned int h);
+
+	public:
+		static const int DEFAULT_SIZE = 16;
 
 	private:
 		void make_dlist(char ch);

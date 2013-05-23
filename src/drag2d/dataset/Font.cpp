@@ -28,7 +28,7 @@ using namespace d2d;
 
 Font::Font()
 {
-	h = 16;
+	h = DEFAULT_SIZE;
 	textures = NULL;
 	list_base = 0;
 }
@@ -86,12 +86,12 @@ bool Font::loadFromFile(const wxString& filepath)
 	return true;
 }
 
-void Font::setSize(unsigned int h)
-{
-	this->h=h;
-
-	FT_Set_Char_Size( face, h << 6, h << 6, 96, 96);
-}
+// void Font::setSize(unsigned int h)
+// {
+// 	this->h=h;
+// 
+// 	FT_Set_Char_Size( face, h << 6, h << 6, 96, 96);
+// }
 
 ///This function gets the first power of 2 >= the
 ///int that we pass it.

@@ -19,6 +19,7 @@
 #include "TextSprite.h"
 
 #include "common/Rect.h"
+#include "dataset/Font.h"
 #include "dataset/BVFactory.h"
 #include "dataset/AbstractBV.h"
 
@@ -26,17 +27,23 @@ using namespace d2d;
 
 TextSprite::TextSprite()
 	: m_symbol(NULL)
+	, m_text("text")
+	, m_size(Font::DEFAULT_SIZE)
 {
 }
 
 TextSprite::TextSprite(const TextSprite& sprite)
 	: ISprite(sprite)
 	, m_symbol(sprite.m_symbol)
+	, m_text("text")
+	, m_size(Font::DEFAULT_SIZE)
 {
 }
 
 TextSprite::TextSprite(FontSymbol* symbol)
 	: m_symbol(symbol)
+	, m_text("text")
+	, m_size(Font::DEFAULT_SIZE)
 {
 	buildBounding();
 }
@@ -65,6 +72,12 @@ void TextSprite::setText(const std::string& text)
 {
 	m_text = text;
 	buildBounding();
+}
+
+void TextSprite::setSize(int size)
+{
+	m_size = size;
+	setScale((float)size / Font::DEFAULT_SIZE);
 }
 
 void TextSprite::buildBounding()
