@@ -27,6 +27,7 @@ namespace d2d
 {
 	class MultiSpritesImpl;
 	class LibraryPanel;
+	class ISprite;
 
 	class PasteSymbolTileOP : public PasteSymbolOP
 	{
@@ -39,13 +40,28 @@ namespace d2d
 		virtual bool onMouseMove(int x, int y);
 
 		virtual bool onDraw() const;
-		virtual bool clear();
+
+	private:
+		class NearestQueryVisitor : public IVisitor
+		{
+		public:
+			NearestQueryVisitor(const Vector& pos, ISprite** ret);
+
+			virtual void visit(ICloneable* object, bool& bFetchNext);
+
+		private:
+			const Vector& m_pos;
+
+			float m_dis;
+
+			ISprite** m_result;
+
+		}; // NearestQueryVisitor
 
 	private:
 		PasteSymbolOffsetCMPT<PasteSymbolTileOP>* m_cmpt;
 
 		bool m_bCaptured;
-		Vector m_lastPos;
 
 		float m_rotate;
 
