@@ -745,14 +745,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\drag2d\dataset\FreeType.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\drag2d\dataset\FreeType.h"
-					>
-				</File>
-				<File
 					RelativePath="..\..\..\src\drag2d\dataset\Image.cpp"
 					>
 				</File>

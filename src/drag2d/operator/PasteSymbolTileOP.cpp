@@ -33,7 +33,6 @@ PasteSymbolTileOP::PasteSymbolTileOP(EditPanel* editPanel, MultiSpritesImpl* spr
 	, m_bCaptured(false)
 	, m_rotate(0)
 {
-	m_lastPos.setInvalid();
 }
 
 bool PasteSymbolTileOP::onMouseLeftDown(int x, int y)
@@ -43,7 +42,6 @@ bool PasteSymbolTileOP::onMouseLeftDown(int x, int y)
 	{
 		if (!m_bCaptured)
 			m_pos = m_editPanel->transPosScreenToProject(x, y);
-		m_lastPos = m_pos;
 
 		ISprite* sprite = SpriteFactory::create(symbol);
 		sprite->translate(m_pos);
@@ -70,13 +68,21 @@ bool PasteSymbolTileOP::onMouseMove(int x, int y)
 
 	m_bCaptured = false;
 	m_pos = m_editPanel->transPosScreenToProject(x, y);
-	if (m_lastPos.isValid())
+
+	Vector offset = m_cmpt->getOffset();
+	const float dis = offset.length() * 0.5f;
+	ISprite* sprite = NULL;
+	m_panelImpl->traverseSprites(NearestQueryVisitor(m_pos, &sprite), e_editable);
+	if (!sprite) return false;
+
+	const d2d::Vector& capture = sprite->getPosition();
+	if (capture.isValid())
 	{
 		Vector offset = m_cmpt->getOffset();
 		const float dis = offset.length() * 0.5f;
 		do
 		{
-			Vector newPos = d2d::Vector(m_lastPos.x + offset.x, m_lastPos.y + offset.y);
+			Vector newPos = d2d::Vector(capture.x + offset.x, capture.y + offset.y);
 			if (Math::getDistance(m_pos, newPos) < dis)
 			{
 				m_bCaptured = true;
@@ -84,7 +90,7 @@ bool PasteSymbolTileOP::onMouseMove(int x, int y)
 				break;
 			}
 
-			newPos = d2d::Vector(m_lastPos.x + offset.x, m_lastPos.y - offset.y);
+			newPos = d2d::Vector(capture.x + offset.x, capture.y - offset.y);
 			if (Math::getDistance(m_pos, newPos) < dis)
 			{
 				m_bCaptured = true;
@@ -92,7 +98,7 @@ bool PasteSymbolTileOP::onMouseMove(int x, int y)
 				break;
 			}
 
-			newPos = d2d::Vector(m_lastPos.x - offset.x, m_lastPos.y + offset.y);
+			newPos = d2d::Vector(capture.x - offset.x, capture.y + offset.y);
 			if (Math::getDistance(m_pos, newPos) < dis)
 			{
 				m_bCaptured = true;
@@ -100,7 +106,7 @@ bool PasteSymbolTileOP::onMouseMove(int x, int y)
 				break;
 			}
 
-			newPos = d2d::Vector(m_lastPos.x - offset.x, m_lastPos.y - offset.y);
+			newPos = d2d::Vector(capture.x - offset.x, capture.y - offset.y);
 			if (Math::getDistance(m_pos, newPos) < dis)
 			{
 				m_bCaptured = true;
@@ -108,7 +114,7 @@ bool PasteSymbolTileOP::onMouseMove(int x, int y)
 				break;
 			}
 
-			newPos = d2d::Vector(m_lastPos.x, m_lastPos.y - offset.y);
+			newPos = d2d::Vector(capture.x, capture.y - offset.y);
 			if (Math::getDistance(m_pos, newPos) < dis)
 			{
 				m_bCaptured = true;
@@ -116,7 +122,7 @@ bool PasteSymbolTileOP::onMouseMove(int x, int y)
 				break;
 			}
 
-			newPos = d2d::Vector(m_lastPos.x, m_lastPos.y + offset.y);
+			newPos = d2d::Vector(capture.x, capture.y + offset.y);
 			if (Math::getDistance(m_pos, newPos) < dis)
 			{
 				m_bCaptured = true;
@@ -124,7 +130,7 @@ bool PasteSymbolTileOP::onMouseMove(int x, int y)
 				break;
 			}
 
-			newPos = d2d::Vector(m_lastPos.x - offset.x, m_lastPos.y);
+			newPos = d2d::Vector(capture.x - offset.x, capture.y);
 			if (Math::getDistance(m_pos, newPos) < dis)
 			{
 				m_bCaptured = true;
@@ -132,7 +138,7 @@ bool PasteSymbolTileOP::onMouseMove(int x, int y)
 				break;
 			}
 
-			newPos = d2d::Vector(m_lastPos.x + offset.x, m_lastPos.y);
+			newPos = d2d::Vector(capture.x + offset.x, capture.y);
 			if (Math::getDistance(m_pos, newPos) < dis)
 			{
 				m_bCaptured = true;
@@ -163,11 +169,29 @@ bool PasteSymbolTileOP::onDraw() const
 	return false;
 }
 
-bool PasteSymbolTileOP::clear()
+//////////////////////////////////////////////////////////////////////////
+// class PasteSymbolTileOP::NearestQueryVisitor
+//////////////////////////////////////////////////////////////////////////
+
+PasteSymbolTileOP::NearestQueryVisitor::
+NearestQueryVisitor(const Vector& pos, ISprite** ret)
+	: m_pos(pos)
+	, m_dis(FLT_MAX)
+	, m_result(ret)
 {
-	if (PasteSymbolOP::clear()) return true;
+}
 
-	m_lastPos.setInvalid();
+void PasteSymbolTileOP::NearestQueryVisitor::
+visit(ICloneable* object, bool& bFetchNext)
+{
+	ISprite* sprite = static_cast<ISprite*>(object);
 
-	return false;
+	const float dis = Math::getDistance(sprite->getPosition(), m_pos);
+	if (dis < m_dis)
+	{
+		*m_result = sprite;
+		m_dis = dis;
+	}
+
+	bFetchNext = true;
 }

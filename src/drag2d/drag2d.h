@@ -60,6 +60,7 @@
 #include "view/PropertySettingPanel.h"
 #include "view/IPropertySetting.h"
 #include "view/SpritePropertySetting.h"
+#include "view/MultiSpritesPropertySetting.h"
 #include "view/TextPropertySetting.h"
 #include "view/SpriteStageCanvas.h"
 #include "view/ShapeStageCanvas.h"
