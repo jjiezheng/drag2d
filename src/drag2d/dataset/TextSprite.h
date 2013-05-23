@@ -23,6 +23,8 @@
 
 #include "FontSymbol.h"
 
+#include "common/Color.h"
+
 namespace d2d
 {
 	class TextSprite : public ISprite
@@ -49,6 +51,12 @@ namespace d2d
 			return m_text;
 		}
 
+		void setSize(int size);
+		int getSize() const { return m_size; }
+
+		void setColor(const d2d::Colori& color) { m_color = color; }
+		const d2d::Colori& getColor() const { return m_color; }
+
 	protected:
 		virtual void buildBounding();
 
@@ -57,6 +65,10 @@ namespace d2d
 
 	private:
 		std::string m_text;
+
+		int m_size;
+
+		d2d::Colori m_color;
 
 	}; // TextSprite
 }

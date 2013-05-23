@@ -59,6 +59,8 @@ void FontSymbol::reloadTexture() const
 void FontSymbol::draw(const ISprite* sprite/* = NULL*/) const
 {
 	TextSprite* text = static_cast<TextSprite*>(const_cast<ISprite*>(sprite));
+	const d2d::Colori& c = text->getColor();
+	glColor4ub(c.r, c.g, c.b, c.a);
 	print(0, 0, text->getText().c_str());
 }
 
@@ -148,11 +150,7 @@ void FontSymbol::print(float x, float y, const char* text) const
 		//	float len=x-rpos[0];
 
 		glPopMatrix();
-
-
-
 	}
-
 
 	glPopAttrib();		
 
