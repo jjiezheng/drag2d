@@ -86,6 +86,19 @@ void VerticalImageList::remove()
 	}
 }
 
+void VerticalImageList::swap(int i0, int i1)
+{
+	if (i0 < 0 || i0 >= m_items.size() ||
+		i1 < 0 || i1 >= m_items.size())
+		return;
+
+	ListItem* tmp = m_items[i0];
+	m_items[i0] = m_items[i1];
+	m_items[i1] = tmp;
+
+	Refresh();
+}
+
 void VerticalImageList::OnDrawItem(wxDC& dc, const wxRect& rect, size_t n) const
 {
 	int y = rect.y + SPACE_UP;

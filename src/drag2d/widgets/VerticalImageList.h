@@ -45,6 +45,8 @@ namespace d2d
 		void insert(ListItem* item);
 		void remove();
 
+		void swap(int i0, int i1);
+
 	protected:
 		// wxVListBox
 		virtual void OnDrawItem(wxDC& dc, const wxRect& rect, size_t n) const;
