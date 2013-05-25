@@ -21,7 +21,7 @@
 #include <vector>
 
 #include "common/Math.h"
-#include "component/DrawRectCMPT.h"
+#include "component/NodeCaptureCMPT.h"
 #include "dataset/ChainShape.h"
 #include "view/MultiShapesImpl.h"
 #include "render/PrimitiveDraw.h"
@@ -29,7 +29,7 @@
 using namespace d2d;
 
 EditRectOP::EditRectOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl,
-					   DrawRectCMPT* cmpt)
+					   NodeCaptureCMPT<EditRectOP>* cmpt)
 	: ZoomViewOP(editPanel, true)
 	, m_shapesImpl(shapesImpl)
 	, m_cmpt(cmpt)

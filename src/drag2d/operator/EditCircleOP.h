@@ -16,29 +16,43 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "DrawRectCMPT.h"
+#ifndef D2D_EDIT_RECT_OP_H
+#define D2D_EDIT_RECT_OP_H
 
-#include "operator/EditRectOP.h"
+#include "ZoomViewOP.h"
+#include "NodeCapture.h"
 
-using namespace d2d;
-
-DrawRectCMPT::DrawRectCMPT(wxWindow* parent, const wxString& name, 
-						   EditPanel* editPanel, MultiShapesImpl* shapesImpl)
-	: AbstractEditCMPT(parent, name, editPanel)
+namespace d2d
 {
-	m_editOP = new EditRectOP(editPanel, shapesImpl, this);
-}
+	class MultiShapesImpl;
+	class DrawRectCMPT;
+	class ChainShape;
 
-int DrawRectCMPT::getNodeCaptureDistance() const
-{
-	return m_tolSlider->GetValue();
-}
+	class EditRectOP : public ZoomViewOP
+	{
+	public:
+		EditRectOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl,
+			DrawRectCMPT* cmpt);
 
-wxSizer* DrawRectCMPT::initLayout()
-{
-	wxStaticBox* bounding = new wxStaticBox(this, wxID_ANY, wxT("结点捕捉精度"));
-	wxBoxSizer* sizer = new wxStaticBoxSizer(bounding, wxVERTICAL);
-	m_tolSlider = new wxSlider(this, wxID_ANY, 5, 0, 15, wxDefaultPosition, wxDefaultSize, wxSL_LABELS);
-	sizer->Add(m_tolSlider);
-	return sizer;
+		virtual bool onMouseLeftDown(int x, int y);
+		virtual bool onMouseLeftUp(int x, int y);
+		virtual bool onMouseMove(int x, int y);
+		virtual bool onMouseDrag(int x, int y);
+
+		virtual bool onDraw() const;
+		virtual bool clear();
+
+	private:
+		static bool isRect(const ChainShape* chain);
+
+	private:
+		MultiShapesImpl* m_shapesImpl;
+
+		DrawRectCMPT* m_cmpt;
+
+		Vector m_start, m_end;
+
+		NodeAddr m_captured;
+
+	}; // EditRectOP
 }

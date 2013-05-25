@@ -1,3 +1,4 @@
+*.user
 platform/msvc2008/libbox2d/
 platform/msvc2008/libdrag2d/
 !platform/msvc2008/libdrag2d/x86/Release/libdrag2d.lib

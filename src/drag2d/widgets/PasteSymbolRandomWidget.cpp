@@ -47,7 +47,7 @@ void PasteSymbolRandomWidget::initLayout()
 	}
 	topSizer->AddSpacer(5);
 	{
-		wxStaticBox* bounding = new wxStaticBox(this, wxID_ANY, wxT("Ëõ·Å"));
+		wxStaticBox* bounding = new wxStaticBox(this, wxID_ANY, wxT("Scale"));
 		wxBoxSizer* sizer = new wxStaticBoxSizer(bounding, wxHORIZONTAL);
 		m_scaleMinCtrl = new wxSpinCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(50, -1), wxSP_ARROW_KEYS | wxALIGN_RIGHT, 10, 100, 75);
 		sizer->Add(m_scaleMinCtrl);
@@ -58,7 +58,7 @@ void PasteSymbolRandomWidget::initLayout()
 	}
 	topSizer->AddSpacer(5);
 	{
-		wxStaticBox* bounding = new wxStaticBox(this, wxID_ANY, wxT("½Ç¶È"));
+		wxStaticBox* bounding = new wxStaticBox(this, wxID_ANY, wxT("Angle"));
 		wxBoxSizer* sizer = new wxStaticBoxSizer(bounding, wxHORIZONTAL);
 		m_angleMinCtrl = new wxSpinCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(55, -1), wxSP_ARROW_KEYS | wxALIGN_RIGHT, -180, 180, -45);
 		sizer->Add(m_angleMinCtrl);

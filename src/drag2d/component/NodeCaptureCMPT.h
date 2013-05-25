@@ -16,19 +16,20 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef D2D_DRAW_RECT_CMPT_H
-#define D2D_DRAW_RECT_CMPT_H
+#ifndef D2D_NODE_CAPTURE_CMPT_H
+#define D2D_NODE_CAPTURE_CMPT_H
 
 #include "AbstractEditCMPT.h"
-
+ 
 namespace d2d
 {
 	class MultiShapesImpl;
 
-	class DrawRectCMPT : public AbstractEditCMPT
+	template<class T>
+	class NodeCaptureCMPT : public AbstractEditCMPT
 	{
 	public:
-		DrawRectCMPT(wxWindow* parent, const wxString& name,
+		NodeCaptureCMPT(wxWindow* parent, const wxString& name,
 			EditPanel* editPanel, MultiShapesImpl* shapesImpl);
 
 		int getNodeCaptureDistance() const;
@@ -39,7 +40,31 @@ namespace d2d
 	private:
 		wxSlider* m_tolSlider;
 
-	}; // DrawRectCMPT
+	}; // NodeCaptureCMPT
+
+	template<class T>
+	inline NodeCaptureCMPT<T>::NodeCaptureCMPT(wxWindow* parent, 
+		const wxString& name, EditPanel* editPanel, MultiShapesImpl* shapesImpl)
+		: AbstractEditCMPT(parent, name, editPanel)
+	{
+		m_editOP = new T(editPanel, shapesImpl, this);
+	}
+
+	template<class T>
+	int NodeCaptureCMPT<T>::getNodeCaptureDistance() const
+	{
+		return m_tolSlider->GetValue();
+	}
+
+	template<class T>
+	wxSizer* NodeCaptureCMPT<T>::initLayout()
+	{
+		wxStaticBox* bounding = new wxStaticBox(this, wxID_ANY, wxT("Node Capture"));
+		wxBoxSizer* sizer = new wxStaticBoxSizer(bounding, wxVERTICAL);
+		m_tolSlider = new wxSlider(this, wxID_ANY, 5, 0, 15, wxDefaultPosition, wxDefaultSize, wxSL_LABELS);
+		sizer->Add(m_tolSlider);
+		return sizer;
+	}
 }
 
-#endif // D2D_DRAW_RECT_CMPT_H
+#endif // D2D_NODE_CAPTURE_CMPT_H

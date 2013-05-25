@@ -17,17 +17,21 @@
 */
 
 #include "DrawLineCMPT.h"
-#include "DrawPolylineCMPT.h"
+#include "NodeCaptureCMPT.h"
 #include "DrawPencilLineCMPT.h"
+
+#include "operator/EditPolylineOP.h"
+#include "operator/DrawPenLineOP.h"
+#include "operator/SelectShapesOP.h"
 
 using namespace d2d;
 
 DrawLineCMPT::DrawLineCMPT(wxWindow* parent, const wxString& name,
 						   EditPanel* editPanel, MultiShapesImpl* shapesImpl)
-	: AbstractEditCMPT(parent, name, editPanel, wxT("¹¤¾ßÑ¡Ôñ"))
+	: AbstractEditCMPT(parent, name, editPanel, wxT("Tools"))
 {
-	addChild(new DrawPolylineCMPT(this, wxT("¸Ö±Ê"), editPanel, shapesImpl, DrawPolylineCMPT::e_PenLine));
-	addChild(new DrawPencilLineCMPT(this, wxT("Ç¦±Ê"), editPanel, shapesImpl));
+	addChild(new NodeCaptureCMPT<EditPolylineOP<DrawPenLineOP, SelectShapesOP> >(this, wxT("pen"), editPanel, shapesImpl));
+	addChild(new DrawPencilLineCMPT(this, wxT("pencil"), editPanel, shapesImpl));
 }
 
 wxSizer* DrawLineCMPT::initLayout()

@@ -96,6 +96,7 @@
 #include "operator/DrawPenLineOP.h"
 #include "operator/EditPolylineOP.h"
 #include "operator/EditPolylinesOP.h"
+#include "operator/EditRectOP.h"
 
 #include "history/AbstractAtomicOP.h"
 
@@ -106,12 +107,10 @@
 #include "component/PasteSymbolOffsetCMPT.h"
 #include "component/PasteSymbolPhysicsCMPT.h"
 #include "component/PasteSpriteCMPT.h"
-#include "component/DrawPolylineCMPT.h"
 #include "component/DrawPencilLineCMPT.h"
 #include "component/DrawLineCMPT.h"
-#include "component/DrawPolylineCMPT.h"
 #include "component/DrawPolygonCMPT.h"
-#include "component/DrawRectCMPT.h"
+#include "component/NodeCaptureCMPT.h"
 #include "component/EditNodesCMPT.h"
 #include "component/EditPolylinesCMPT.h"
 #include "component/LayersMgrCMPT.h"

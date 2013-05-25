@@ -25,16 +25,16 @@
 namespace d2d
 {
 	template <typename T>
-	class EditPolylineWithCopyNodeOP : public EditPolylineOP<T, SelectNodesOP, DrawPolygonCMPT>
+	class EditPolylineWithCopyNodeOP : public EditPolylineOP<T, SelectNodesOP>
 	{
  	public:
  		EditPolylineWithCopyNodeOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl)
- 			: EditPolylineOP<T, SelectNodesOP, DrawPolygonCMPT>(editPanel, shapesImpl, NULL)
+ 			: EditPolylineOP<T, SelectNodesOP>(editPanel, shapesImpl, NULL)
  		{}
  
  		virtual bool onKeyDown(int keyCode)
  		{
- 			if (EditPolylineOP<T, SelectNodesOP, DrawPolygonCMPT>::onKeyDown(keyCode)) 
+ 			if (EditPolylineOP<T, SelectNodesOP>::onKeyDown(keyCode)) 
 				return true;
  
  			if (wxGetKeyState(WXK_CONTROL_V))

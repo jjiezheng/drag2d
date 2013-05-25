@@ -19,15 +19,18 @@
 #ifndef D2D_DRAW_POLYGON_CMPT_H
 #define D2D_DRAW_POLYGON_CMPT_H
 
-#include "DrawPolylineCMPT.h"
+#include "NodeCaptureCMPT.h"
 
 #include "dataset/Bitmap.h"
+#include "operator/EditPolylineOP.h"
+#include "operator/DrawPolygonEdgeOP.h"
+#include "operator/SelectShapesOP.h"
 
 #include <wx/colordlg.h>
 
 namespace d2d
 {
-	class DrawPolygonCMPT : public DrawPolylineCMPT
+	class DrawPolygonCMPT : public NodeCaptureCMPT<EditPolylineOP<DrawPolygonEdgeOP, SelectShapesOP> >
 	{
 	public:
 		DrawPolygonCMPT(wxWindow* parent, const wxString& name,

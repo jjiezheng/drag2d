@@ -269,6 +269,14 @@
 				Name="edit"
 				>
 				<File
+					RelativePath="..\..\..\src\drag2d\operator\EditCircleOP.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\operator\EditCircleOP.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\drag2d\operator\EditNodesOP.cpp"
 					>
 				</File>
@@ -529,19 +537,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\drag2d\component\DrawPolylineCMPT.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\drag2d\component\DrawPolylineCMPT.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\drag2d\component\DrawRectCMPT.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\drag2d\component\DrawRectCMPT.h"
+					RelativePath="..\..\..\src\drag2d\component\NodeCaptureCMPT.h"
 					>
 				</File>
 			</Filter>
