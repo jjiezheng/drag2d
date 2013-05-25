@@ -53,7 +53,7 @@ wxSizer* AbstractEditCMPT::initChildrenLayout()
 		for (size_t i = 0, n = m_children.size(); i < n; ++i)
 			choices.Add(m_children[i]->m_name);
 
-		wxRadioBox* editChoice = new wxRadioBox(this, wxID_ANY, m_childrenName == wxEmptyString ? wxT("²Ù×÷Ñ¡Ôñ") : m_childrenName, 
+		wxRadioBox* editChoice = new wxRadioBox(this, wxID_ANY, m_childrenName == wxEmptyString ? wxT("Operation") : m_childrenName, 
 			wxDefaultPosition, wxDefaultSize, choices, 1, wxRA_SPECIFY_COLS);
 		Connect(editChoice->GetId(), wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler(AbstractEditCMPT::onChangeEditType));
 		m_childrenSizer->Add(editChoice, 0);

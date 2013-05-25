@@ -24,10 +24,7 @@
 #include "dataset/SymbolMgr.h"
 #include "dataset/ImageSymbol.h"
 #include "dataset/PolygonShape.h"
-#include "operator/EditPolylineOP.h"
 #include "operator/EditPolylineWithCopyNodeOP.h"
-#include "operator/DrawPolygonEdgeOP.h"
-#include "operator/SelectShapesOP.h"
 #include "operator/SelectNodesOP.h"
 #include "view/MultiShapesImpl.h"
 
@@ -38,7 +35,7 @@ using namespace d2d;
 DrawPolygonCMPT::DrawPolygonCMPT(wxWindow* parent, const wxString& name,
 								 EditPanel* editPanel, MultiShapesImpl* shapesImpl,
 								 wxColourData& colorData)
-	: DrawPolylineCMPT(parent, name, editPanel, shapesImpl, DrawPolylineCMPT::e_PenLine)
+	: NodeCaptureCMPT<EditPolylineOP<DrawPolygonEdgeOP, SelectShapesOP> >(parent, name, editPanel, shapesImpl)
 	, m_shapesImpl(shapesImpl)
 	, m_color(*wxBLACK)
 	, m_colorData(colorData)
@@ -46,7 +43,7 @@ DrawPolygonCMPT::DrawPolygonCMPT(wxWindow* parent, const wxString& name,
 	m_editOP = NULL;
 
 	addChild(new UniversalCMPT(this, wxT("直接画线"), editPanel, 
-		new EditPolylineOP<DrawPolygonEdgeOP, SelectShapesOP, DrawPolygonCMPT>(editPanel, shapesImpl, this)));
+		new EditPolylineOP<DrawPolygonEdgeOP, SelectShapesOP>(editPanel, shapesImpl, this)));
 	addChild(new UniversalCMPT(this, wxT("选节点画线"), editPanel, 
 		new EditPolylineWithCopyNodeOP<DrawPolygonEdgeOP>(editPanel, shapesImpl)));
 }
@@ -62,7 +59,7 @@ wxSizer* DrawPolygonCMPT::initLayout()
 {
 	wxSizer* sizer = new wxBoxSizer(wxVERTICAL);
 
-	sizer->Add(DrawPolylineCMPT::initLayout());
+	sizer->Add(NodeCaptureCMPT<EditPolylineOP<DrawPolygonEdgeOP, SelectShapesOP> >::initLayout());
 
 	sizer->AddSpacer(20);
 

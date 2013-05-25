@@ -21,7 +21,7 @@
 
 using namespace d2d;
 
-const wxString IPropertySetting::TYPE_NAME = wxT("¿‡–Õ");
+const wxString IPropertySetting::TYPE_NAME = wxT("Type");
 
 IPropertySetting::IPropertySetting(d2d::EditPanel* editPanel,
 								   const wxString& type)

@@ -26,9 +26,10 @@
 
 //using namespace d2d;
 
-template <typename TBase, typename TSelected, typename TCMPT>
-d2d::EditPolylineOP<TBase, TSelected, TCMPT>::
-EditPolylineOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl, TCMPT* cmpt)
+template <typename TBase, typename TSelected>
+d2d::EditPolylineOP<TBase, TSelected>::
+EditPolylineOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl,
+			   NodeCaptureCMPT<EditPolylineOP>* cmpt)
 	: TBase(editPanel, shapesImpl)
 {
 	m_shapesImpl = shapesImpl;
@@ -40,22 +41,22 @@ EditPolylineOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl, TCMPT* cmpt)
 	m_bSelectOpen = false;
 }
 
-template <typename TBase, typename TSelected, typename TCMPT>
-d2d::EditPolylineOP<TBase, TSelected, TCMPT>::
+template <typename TBase, typename TSelected>
+d2d::EditPolylineOP<TBase, TSelected>::
 ~EditPolylineOP() 
 {
 	delete m_selectOP;
 }
 
-template <typename TBase, typename TSelected, typename TCMPT>
-bool d2d::EditPolylineOP<TBase, TSelected, TCMPT>::
+template <typename TBase, typename TSelected>
+bool d2d::EditPolylineOP<TBase, TSelected>::
 onKeyDown(int keyCode) 
 {
 	return m_selectOP->onKeyDown(keyCode);
 }
 
-template <typename TBase, typename TSelected, typename TCMPT>
-bool d2d::EditPolylineOP<TBase, TSelected, TCMPT>::
+template <typename TBase, typename TSelected>
+bool d2d::EditPolylineOP<TBase, TSelected>::
 onMouseLeftDown(int x, int y) 
 {
 	bool bNotDeliver = false;
@@ -116,8 +117,8 @@ onMouseLeftDown(int x, int y)
 	return bNotDeliver;
 }
 
-template <typename TBase, typename TSelected, typename TCMPT>
-bool d2d::EditPolylineOP<TBase, TSelected, TCMPT>::
+template <typename TBase, typename TSelected>
+bool d2d::EditPolylineOP<TBase, TSelected>::
 onMouseLeftUp(int x, int y) 
 {
 	if (TBase::onMouseLeftUp(x, y)) return true;
@@ -155,8 +156,8 @@ onMouseLeftUp(int x, int y)
 	return false;
 }
 
-template <typename TBase, typename TSelected, typename TCMPT>
-bool d2d::EditPolylineOP<TBase, TSelected, TCMPT>::
+template <typename TBase, typename TSelected>
+bool d2d::EditPolylineOP<TBase, TSelected>::
 onMouseRightDown(int x, int y) 
 {
 	if (m_polyline.empty())
@@ -186,8 +187,8 @@ onMouseRightDown(int x, int y)
 	}
 }
 
-template <typename TBase, typename TSelected, typename TCMPT>
-bool d2d::EditPolylineOP<TBase, TSelected, TCMPT>::
+template <typename TBase, typename TSelected>
+bool d2d::EditPolylineOP<TBase, TSelected>::
 onMouseMove(int x, int y) 
 {
 	if (TBase::onMouseMove(x, y)) return true;
@@ -218,8 +219,8 @@ onMouseMove(int x, int y)
 	return false;
 }
 
-template <typename TBase, typename TSelected, typename TCMPT>
-bool d2d::EditPolylineOP<TBase, TSelected, TCMPT>::
+template <typename TBase, typename TSelected>
+bool d2d::EditPolylineOP<TBase, TSelected>::
 onMouseDrag(int x, int y) 
 {
 	if (TBase::onMouseDrag(x, y)) return true;
@@ -256,8 +257,8 @@ onMouseDrag(int x, int y)
 	return false;
 }
 
-template <typename TBase, typename TSelected, typename TCMPT>
-bool d2d::EditPolylineOP<TBase, TSelected, TCMPT>::
+template <typename TBase, typename TSelected>
+bool d2d::EditPolylineOP<TBase, TSelected>::
 onDraw() const 
 {
 	if (TBase::onDraw()) return true;
@@ -274,8 +275,8 @@ onDraw() const
 	return false;
 }
 
-template <typename TBase, typename TSelected, typename TCMPT>
-bool d2d::EditPolylineOP<TBase, TSelected, TCMPT>::
+template <typename TBase, typename TSelected>
+bool d2d::EditPolylineOP<TBase, TSelected>::
 clear() 
 {
 	if (TBase::clear()) return true;
@@ -291,8 +292,8 @@ clear()
 // class EditPolylineOP::InterruptChainVisitor
 //////////////////////////////////////////////////////////////////////////
 
-template <typename TBase, typename TSelected, typename TCMPT>
-d2d::EditPolylineOP<TBase, TSelected, TCMPT>::InterruptChainVisitor::
+template <typename TBase, typename TSelected>
+d2d::EditPolylineOP<TBase, TSelected>::InterruptChainVisitor::
 InterruptChainVisitor(const Vector& pos, int tol)
 	: m_pos(pos)
 	, m_tol(tol)
@@ -300,8 +301,8 @@ InterruptChainVisitor(const Vector& pos, int tol)
 {
 }
 
-template <typename TBase, typename TSelected, typename TCMPT>
-void d2d::EditPolylineOP<TBase, TSelected, TCMPT>::InterruptChainVisitor::
+template <typename TBase, typename TSelected>
+void d2d::EditPolylineOP<TBase, TSelected>::InterruptChainVisitor::
 visit(ICloneable* object, bool& bFetchNext) 
 {
 	Rect rect(m_pos, m_tol, m_tol);
@@ -342,8 +343,8 @@ visit(ICloneable* object, bool& bFetchNext)
 // class EditPolylineOP::NearestNodeVisitor
 //////////////////////////////////////////////////////////////////////////
 
-template <typename TBase, typename TSelected, typename TCMPT>
-d2d::EditPolylineOP<TBase, TSelected, TCMPT>::NearestNodeVisitor::
+template <typename TBase, typename TSelected>
+d2d::EditPolylineOP<TBase, TSelected>::NearestNodeVisitor::
 NearestNodeVisitor(const Vector& pos, int tol)
 	: m_pos(pos)
 	, m_tol(tol)
@@ -352,8 +353,8 @@ NearestNodeVisitor(const Vector& pos, int tol)
 	m_nearest.setInvalid();
 }
 
-template <typename TBase, typename TSelected, typename TCMPT>
-void d2d::EditPolylineOP<TBase, TSelected, TCMPT>::NearestNodeVisitor::
+template <typename TBase, typename TSelected>
+void d2d::EditPolylineOP<TBase, TSelected>::NearestNodeVisitor::
 visit(ICloneable* object, bool& bFetchNext)
 {
 	Rect rect(m_pos, m_tol, m_tol);
@@ -365,7 +366,6 @@ visit(ICloneable* object, bool& bFetchNext)
 		return;
 	}
 
-	size_t index;
 	const std::vector<Vector>& vertices = chain->getVertices();
 	for (size_t i = 0, n = vertices.size(); i < n; ++i)
 	{

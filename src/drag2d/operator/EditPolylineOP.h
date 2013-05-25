@@ -20,7 +20,7 @@
 #define D2D_EDIT_POLYLINE_OP_H
 
 #include "view/MultiShapesImpl.h"
-#include "component/DrawPolylineCMPT.h"
+#include "component/NodeCaptureCMPT.h"
 #include "dataset/ChainShape.h"
 #include "NodeCapture.h"
 
@@ -28,16 +28,16 @@ namespace d2d
 {
 	class EditPanel;
 	class MultiShapesImpl;
-	class DrawPolylineCMPT;
 	class ChainShape;
 	class SelectShapesOP;
 
-	template <typename TBase, typename TSelected, typename TCMPT>
+	template <typename TBase, typename TSelected>
 	class EditPolylineOP : public TBase
 	{
 	public:
 		EditPolylineOP(EditPanel* editPanel, 
-			MultiShapesImpl* shapesImpl, TCMPT* cmpt);
+			MultiShapesImpl* shapesImpl, 
+			NodeCaptureCMPT<EditPolylineOP>* cmpt);
 		virtual ~EditPolylineOP();
 
 		virtual bool onKeyDown(int keyCode);
@@ -93,7 +93,7 @@ namespace d2d
 	private:
 		MultiShapesImpl* m_shapesImpl;
 
-		TCMPT* m_cmpt;
+		NodeCaptureCMPT<EditPolylineOP>* m_cmpt;
 //		NodeAddr m_captured;
 		NodeAddr m_capturedEditable, m_captureSelectable;
 

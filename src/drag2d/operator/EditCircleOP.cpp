@@ -15,38 +15,3 @@
 * misrepresented as being the original software.
 * 3. This notice may not be removed or altered from any source distribution.
 */
-
-#ifndef D2D_DRAW_POLYLINE_CMPT_H
-#define D2D_DRAW_POLYLINE_CMPT_H
-
-#include "AbstractEditCMPT.h"
-
-namespace d2d
-{
-	class MultiShapesImpl;
-
-	class DrawPolylineCMPT : public AbstractEditCMPT
-	{
-	public:
-		enum Type
-		{
-			e_PenLine,
-			e_CosineCurve
-		};
-
-	public:
-		DrawPolylineCMPT(wxWindow* parent, const wxString& name,
-			EditPanel* editPanel, MultiShapesImpl* shapesImpl, Type type);
-
-		int getNodeCaptureDistance() const;
-
-	protected:
-		virtual wxSizer* initLayout();
-
-	private:
-		wxSlider* m_tolSlider;
-
-	}; // DrawPolylineCMPT
-}
-
-#endif // D2D_DRAW_POLYLINE_CMPT_H

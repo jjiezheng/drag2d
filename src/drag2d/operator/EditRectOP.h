@@ -22,17 +22,18 @@
 #include "ZoomViewOP.h"
 #include "NodeCapture.h"
 
+#include "component/NodeCaptureCMPT.h"
+
 namespace d2d
 {
 	class MultiShapesImpl;
-	class DrawRectCMPT;
 	class ChainShape;
 
 	class EditRectOP : public ZoomViewOP
 	{
 	public:
 		EditRectOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl,
-			DrawRectCMPT* cmpt);
+			NodeCaptureCMPT<EditRectOP>* cmpt);
 
 		virtual bool onMouseLeftDown(int x, int y);
 		virtual bool onMouseLeftUp(int x, int y);
@@ -48,7 +49,7 @@ namespace d2d
 	private:
 		MultiShapesImpl* m_shapesImpl;
 
-		DrawRectCMPT* m_cmpt;
+		NodeCaptureCMPT<EditRectOP>* m_cmpt;
 
 		Vector m_start, m_end;
 
@@ -56,4 +57,5 @@ namespace d2d
 
 	}; // EditRectOP
 }
+
 #endif // D2D_EDIT_RECT_OP_H
