@@ -20,6 +20,7 @@
 
 #include "view/MultiShapesImpl.h"
 #include "dataset/ChainShape.h"
+#include "dataset/CircleShape.h"
 #include "common/Math.h"
 
 using namespace d2d;
@@ -32,52 +33,82 @@ NodeCapture::NodeCapture(MultiShapesImpl* shapesImpl, int tol)
 
 void NodeCapture::captureEditable(const Vector& pos, NodeAddr& result)
 {
-	m_shapesImpl->traverseShapes(QueryChainVisitor(pos, m_tol, result), e_editable);
+	m_shapesImpl->traverseShapes(RectQueryVisitor(pos, m_tol, result), e_editable);
 }
 
 void NodeCapture::captureSelectable(const Vector& pos, NodeAddr& result)
 {
-	m_shapesImpl->traverseShapes(QueryChainVisitor(pos, m_tol, result), e_selectable);
+	m_shapesImpl->traverseShapes(RectQueryVisitor(pos, m_tol, result), e_selectable);
 }
 
-NodeCapture::QueryChainVisitor::
-QueryChainVisitor(const Vector& pos, float tolerance, NodeAddr& result)
+//////////////////////////////////////////////////////////////////////////
+// class NodeCapture::RectQueryVisitor
+//////////////////////////////////////////////////////////////////////////
+
+NodeCapture::RectQueryVisitor::
+RectQueryVisitor(const Vector& pos, float tolerance, NodeAddr& result)
 	: m_pos(pos)
 	, m_tolerance(tolerance)
 	, m_rect(pos, tolerance, tolerance)
 	, m_result(result)
 {
-	result.chain = NULL;
+	result.shape = NULL;
 }
 
-void NodeCapture::QueryChainVisitor::
+void NodeCapture::RectQueryVisitor::
 visit(ICloneable* object, bool& bFetchNext)
 {
-	ChainShape* chain = static_cast<ChainShape*>(object);
+	bFetchNext = true;
+	if (ChainShape* chain = dynamic_cast<ChainShape*>(object))
+		bFetchNext = !visit(chain);
+	else if (CircleShape* circle = dynamic_cast<CircleShape*>(object))
+		bFetchNext = !visit(circle);
+}
 
+bool NodeCapture::RectQueryVisitor::
+visit(ChainShape* chain)
+{
 	if (!Math::isAABBIntersectAABB(m_rect, chain->getRect()))
-	{
-		bFetchNext = true;
-		return;
-	}
+		return false;
 
 	if (!chain->isIntersect(m_rect)) 
-	{
-		bFetchNext = true;
-		return;
-	}
+		return false;
 
 	const std::vector<Vector>& vertices = chain->getVertices();
 	for (size_t i = 0, n = vertices.size(); i < n; ++i)
 	{
 		if (Math::getDistance(vertices[i], m_pos) < m_tolerance)
 		{
-			m_result.chain = chain;
+			m_result.shape = chain;
 			m_result.pos = vertices[i];
-			bFetchNext = false;
-			return;
+			return true;
 		}
 	}
 
-	bFetchNext = true;
+	return false;
+}
+
+bool NodeCapture::RectQueryVisitor::
+visit(CircleShape* circle)
+{
+	const float dis = Math::getDistance(circle->center, m_pos);
+
+	// capture center
+	if (dis < m_tolerance)
+	{
+		m_result.shape = circle;
+		m_result.pos = circle->center;
+		return true;
+	}
+	// capture ring
+	else if (dis < circle->radius + m_tolerance 
+		&& dis > circle->radius - m_tolerance)
+	{
+		m_result.shape = circle;
+		m_result.pos.setInvalid();
+	}
+	else
+	{
+		return false;
+	}
 }

@@ -53,7 +53,7 @@ bool EditRectOP::onMouseLeftDown(int x, int y)
 		capture.captureEditable(pos, m_captured);
 	}
 
-	if (m_captured.chain && isRect(m_captured.chain))
+	if (m_captured.shape && isRect(m_captured.shape))
 		;
 	else
 		m_start = pos;
@@ -96,9 +96,9 @@ bool EditRectOP::onMouseMove(int x, int y)
 	if (tolerance != 0)
 	{	
 		NodeCapture capture(m_shapesImpl, tolerance);
-		ChainShape* old = m_captured.chain;
+		const IShape* old = m_captured.shape;
 		capture.captureEditable(pos, m_captured);
-		if (old && !m_captured.chain || !old && m_captured.chain)
+		if (old && !m_captured.shape || !old && m_captured.shape)
 			m_editPanel->Refresh();
 	}
 
@@ -114,11 +114,12 @@ bool EditRectOP::onMouseDrag(int x, int y)
 		m_end = m_editPanel->transPosScreenToProject(x, y);
 		m_editPanel->Refresh();
 	}
-	else if (m_captured.chain)
+	else if (m_captured.shape)
 	{
 		Vector pos = m_editPanel->transPosScreenToProject(x, y);
 
-		std::vector<Vector> rect = m_captured.chain->getVertices();
+		ChainShape* chain = static_cast<ChainShape*>(m_captured.shape);
+		std::vector<Vector> rect = chain->getVertices();
 		assert(rect.size() == 4);
 		size_t i;
 		for (i = 0; i < 4 && rect[i] != m_captured.pos; ++i)
@@ -136,9 +137,9 @@ bool EditRectOP::onMouseDrag(int x, int y)
 			rect[last].y = pos.y;
 		}
 		rect[i] = pos;
-		m_captured.chain->setVertices(rect);
+		chain->setVertices(rect);
 
-		m_captured.chain->refresh();
+		chain->refresh();
 		m_captured.pos = pos;
 		m_editPanel->Refresh();
 	}
@@ -152,7 +153,7 @@ bool EditRectOP::onDraw() const
 	
 	if (m_start.isValid() && m_end.isValid())
 		PrimitiveDraw::drawSquareFrame(m_start, m_end);
-	if (m_cmpt && m_captured.chain)
+	if (m_cmpt && m_captured.shape)
 		PrimitiveDraw::drawCircle(m_captured.pos, m_cmpt->getNodeCaptureDistance(), Colorf(1.0f, 0.4f, 0.4f));
 
 	return false;
@@ -161,13 +162,19 @@ bool EditRectOP::onDraw() const
 bool EditRectOP::clear()
 {
 	if (ZoomViewOP::clear()) return true;
+
 	m_start.setInvalid();
 	m_end.setInvalid();
+
 	return false;
 }
 
-bool EditRectOP::isRect(const ChainShape* chain)
+bool EditRectOP::isRect(const IShape* shape)
 {
+	const ChainShape* chain = static_cast<const ChainShape*>(shape);
+
+	if (!chain) return false;
+
 	const std::vector<Vector>& vertices = chain->getVertices();
 	if (vertices.size() == 4)
 	{

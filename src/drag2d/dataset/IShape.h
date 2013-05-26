@@ -45,8 +45,8 @@ namespace d2d
 		//
 		virtual IShape* clone() { return NULL; }
 
-		virtual bool isContain(const Vector& pos) = 0;
-		virtual bool isIntersect(const Rect& rect) = 0;
+		virtual bool isContain(const Vector& pos) const = 0;
+		virtual bool isIntersect(const Rect& rect) const = 0;
 
 		virtual const Rect& getRect() const = 0;
 

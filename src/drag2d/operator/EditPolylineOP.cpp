@@ -75,18 +75,18 @@ onMouseLeftDown(int x, int y)
 			NodeCapture capture(m_shapesImpl, tolerance);
 			Vector pos = m_editPanel->transPosScreenToProject(x, y);
 			capture.captureEditable(pos, m_capturedEditable);
-			if (!m_capturedEditable.chain)
+			if (!m_capturedEditable.shape)
 				capture.captureSelectable(pos, m_captureSelectable);
 		}
 
-		if (m_capturedEditable.chain)
+		if (m_capturedEditable.shape)
 		{
 // 			Vector screen = m_editPanel->transPosProjectToScreen(m_capturedEditable.pos);
 // 			bNotDeliver = TBase::onMouseLeftDown(screen.x, screen.y);
 
 			m_polyline.push_back(m_capturedEditable.pos);
 		}
-		else if (m_captureSelectable.chain)
+		else if (m_captureSelectable.shape)
 		{
 			m_polyline.push_back(m_captureSelectable.pos);
 		}
@@ -102,7 +102,7 @@ onMouseLeftDown(int x, int y)
 				m_shapesImpl->traverseShapes(interrupt, e_editable);
 				if (interrupt.getInterruptedChain())
 				{
-					m_capturedEditable.chain = interrupt.getInterruptedChain();
+					m_capturedEditable.shape = interrupt.getInterruptedChain();
 					m_capturedEditable.pos = pos;
 					m_editPanel->Refresh();
 				}
@@ -136,10 +136,11 @@ onMouseLeftUp(int x, int y)
 		float dis = Math::getDistance(nearest.getNearestNode(), pos);
 		if (dis < tolerance)
 		{
-			if (m_capturedEditable.chain)
+			if (m_capturedEditable.shape)
 			{
-				m_capturedEditable.chain->changeVertices(m_capturedEditable.pos, nearest.getNearestNode());
-				m_capturedEditable.chain->refresh();
+				ChainShape* chain = dynamic_cast<ChainShape*>(m_capturedEditable.shape);
+				chain->changeVertices(m_capturedEditable.pos, nearest.getNearestNode());
+				chain->refresh();
 				m_capturedEditable.pos = nearest.getNearestNode();
 				m_editPanel->Refresh();
 			}
@@ -171,10 +172,10 @@ onMouseRightDown(int x, int y)
 		{
 			NodeCapture capture(m_shapesImpl, tolerance);
 			capture.captureEditable(m_editPanel->transPosScreenToProject(x, y), m_capturedEditable);
-			if (m_capturedEditable.chain)
+			if (m_capturedEditable.shape)
 			{
-				m_capturedEditable.chain->removeVertices(m_capturedEditable.pos);
-				m_capturedEditable.chain = NULL;
+				dynamic_cast<ChainShape*>(m_capturedEditable.shape)->removeVertices(m_capturedEditable.pos);
+				m_capturedEditable.shape = NULL;
 				m_editPanel->Refresh();
 			}
 		}
@@ -203,15 +204,15 @@ onMouseMove(int x, int y)
 		Vector pos = m_editPanel->transPosScreenToProject(x, y);
 		NodeCapture capture(m_shapesImpl, tolerance);
 		{
-			ChainShape* oldChain = m_capturedEditable.chain;
+			IShape* old = m_capturedEditable.shape;
 			capture.captureEditable(pos, m_capturedEditable);
-			if (oldChain && !m_capturedEditable.chain || !oldChain && m_capturedEditable.chain)
+			if (old && !m_capturedEditable.shape || !old && m_capturedEditable.shape)
 				m_editPanel->Refresh();
 		}
 		{
-			ChainShape* oldChain = m_captureSelectable.chain;
+			IShape* old = m_captureSelectable.shape;
 			capture.captureSelectable(pos, m_captureSelectable);
-			if (oldChain && !m_captureSelectable.chain || !oldChain && m_captureSelectable.chain)
+			if (old && !m_captureSelectable.shape || !old && m_captureSelectable.shape)
 				m_editPanel->Refresh();
 		}
 	}
@@ -227,11 +228,11 @@ onMouseDrag(int x, int y)
 
 	if (m_bSelectOpen)
 		m_selectOP->onMouseDrag(x, y);
-	else if (m_capturedEditable.chain)
+	else if (m_capturedEditable.shape)
 	{
 		if (m_polyline.size() > 1)
 		{
-			m_capturedEditable.chain = NULL;
+			m_capturedEditable.shape = NULL;
 			return false;
 		}
 
@@ -239,8 +240,9 @@ onMouseDrag(int x, int y)
 			m_polyline.clear();
 
 		Vector pos = m_editPanel->transPosScreenToProject(x, y);
-		m_capturedEditable.chain->changeVertices(m_capturedEditable.pos, pos);
-		m_capturedEditable.chain->refresh();
+		ChainShape* chain = dynamic_cast<ChainShape*>(m_capturedEditable.shape);
+		chain->changeVertices(m_capturedEditable.pos, pos);
+		chain->refresh();
 		m_capturedEditable.pos = pos;
 		m_editPanel->Refresh();
 	}
@@ -266,9 +268,9 @@ onDraw() const
 	m_selectOP->onDraw();
 	if (m_cmpt)
 	{
-		if (m_capturedEditable.chain)
+		if (m_capturedEditable.shape)
 			PrimitiveDraw::drawCircle(m_capturedEditable.pos, m_cmpt->getNodeCaptureDistance(), Colorf(1.0f, 0.4f, 0.4f));
-		else if (m_captureSelectable.chain)
+		else if (m_captureSelectable.shape)
 			PrimitiveDraw::drawCircle(m_captureSelectable.pos, m_cmpt->getNodeCaptureDistance(), Colorf(1.0f, 0.4f, 0.4f));
 	}
 
@@ -282,8 +284,8 @@ clear()
 	if (TBase::clear()) return true;
 
 	m_selectOP->clear();
-	m_capturedEditable.chain = NULL;
-	m_captureSelectable.chain = NULL;
+	m_capturedEditable.shape = NULL;
+	m_captureSelectable.shape = NULL;
 
 	return false;
 }

@@ -89,9 +89,9 @@ void ChainShape::storeToTextFile(std::ofstream& fout) const
 	fout << '\n';
 }
 
-bool ChainShape::isContain(const Vector& pos)
+bool ChainShape::isContain(const Vector& pos) const
 {
-	if (m_vertices.empty() || !Math::isPointInAABB(pos, m_rect))
+	if (m_vertices.empty() || !Math::isPointInRect(pos, m_rect))
 		return false;
 
 	size_t index;
@@ -109,14 +109,14 @@ bool ChainShape::isContain(const Vector& pos)
 	return false;
 }
 
-bool ChainShape::isIntersect(const Rect& rect)
+bool ChainShape::isIntersect(const Rect& rect) const
 {
 	if (m_vertices.empty() || !Math::isAABBIntersectAABB(rect, m_rect))	
 		return false;
 
 	for (size_t i = 0, n = m_vertices.size(); i < n; ++i)
 	{
-		if (Math::isPointInAABB(m_vertices[i], rect))
+		if (Math::isPointInRect(m_vertices[i], rect))
 			return true;
 	}
 

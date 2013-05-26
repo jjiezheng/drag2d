@@ -258,7 +258,7 @@ visit(ICloneable* object, bool& bFetchNext)
 		const std::vector<Vector>& vertices = chain->getVertices();
 		for (size_t i = 0, n = vertices.size(); i < n; ++i)
 		{
-			if (Math::isPointInAABB(vertices[i], m_rect))
+			if (Math::isPointInRect(vertices[i], m_rect))
 				result->selectedNodes.push_back(vertices[i]);
 		}
 

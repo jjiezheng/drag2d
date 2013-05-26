@@ -116,7 +116,7 @@ bool Math::isPolylineIntersectAABB(const std::vector<Vector>& polyline, bool isL
 
 bool Math::isCircleIntersectAABB(const Vector& center, float radius, const Rect& aabb)
 {
-	if (isPointInAABB(center, aabb))
+	if (isPointInRect(center, aabb))
 		return true;
 
 	std::vector<Vector> bounding;
@@ -166,6 +166,11 @@ bool Math::isPointInConvexHull(const Vector& pos, const std::vector<Vector>& hul
 		if (isPointAtSegmentLeft(pos, s, e)) ++count;
 	}
 	return count == hull.size() || count == 0;
+}
+
+bool Math::isPointInCircle(const Vector& pos, const Vector& center, float radius)
+{
+	return getDistance(pos, center) < radius;
 }
 
 int Math::checkPosInTriangle(const Vector& p, const Vector& t0, const Vector& t1, const Vector& t2)
@@ -327,8 +332,8 @@ int Math::testPointOnSection(const Vector& startPos, const Vector& endPos, const
 
 	int resultA = 0;
 	int resultB = 0;
-	if (isPointInAABB(startPos, aabb)) resultA = 1;
-	if (isPointInAABB(endPos, aabb)) resultB = 2;
+	if (isPointInRect(startPos, aabb)) resultA = 1;
+	if (isPointInRect(endPos, aabb)) resultB = 2;
 
 	return resultA + resultB;
 }

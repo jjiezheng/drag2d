@@ -97,6 +97,7 @@
 #include "operator/EditPolylineOP.h"
 #include "operator/EditPolylinesOP.h"
 #include "operator/EditRectOP.h"
+#include "operator/EditCircleOP.h"
 
 #include "history/AbstractAtomicOP.h"
 

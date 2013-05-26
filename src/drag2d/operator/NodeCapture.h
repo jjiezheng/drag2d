@@ -25,15 +25,22 @@
 
 namespace d2d
 {
+	class IShape;
 	class ChainShape;
+	class CircleShape;
 	class MultiShapesImpl;
 
 	struct NodeAddr
 	{
-		ChainShape* chain;
+		IShape* shape;
 		Vector pos;
 
-		NodeAddr() : chain(NULL) {}
+		NodeAddr() : shape(NULL) {}
+
+		void clear() {
+			shape = NULL;
+			pos.setInvalid();
+		}
 	};
 
 	class NodeCapture
@@ -45,12 +52,16 @@ namespace d2d
 		void captureSelectable(const Vector& pos, NodeAddr& result);
 
 	private:
-		class QueryChainVisitor : public IVisitor
+		class RectQueryVisitor : public IVisitor
 		{
 		public:
-			QueryChainVisitor(const Vector& pos, float tolerance, NodeAddr& result);
+			RectQueryVisitor(const Vector& pos, float tolerance, NodeAddr& result);
 
 			virtual void visit(ICloneable* object, bool& bFetchNext);
+
+		private:
+			bool visit(ChainShape* chain);
+			bool visit(CircleShape* circle);
 
 		private:
 			const Vector& m_pos;
@@ -59,7 +70,7 @@ namespace d2d
 			Rect m_rect;
 			NodeAddr& m_result;
 
-		}; // QueryChainVisitor
+		}; // RectQueryVisitor
 
 	private:
 		MultiShapesImpl* m_shapesImpl;
