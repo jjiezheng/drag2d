@@ -65,7 +65,7 @@ bool OBB::isContain(const Vector& pos) const
 {
 	const Vector center(m_rect.xCenter(), m_rect.yCenter());
 	const Vector trans = Math::rotateVector(pos - center, -m_angle) + center;
-	return Math::isPointInAABB(trans, m_rect);
+	return Math::isPointInRect(trans, m_rect);
 }
 
 bool OBB::isIntersect(const Rect& rect) const
@@ -77,16 +77,16 @@ bool OBB::isIntersect(const Rect& rect) const
 	Vector trans;
 	trans = Math::rotateVector(Vector(m_rect.xMin, m_rect.yMax) - center, m_angle) + center;
 	bound.push_back(trans);
-	if (Math::isPointInAABB(trans, rect)) return true;
+	if (Math::isPointInRect(trans, rect)) return true;
 	trans = Math::rotateVector(Vector(m_rect.xMin, m_rect.yMin) - center, m_angle) + center;
 	bound.push_back(trans);
-	if (Math::isPointInAABB(trans, rect)) return true;
+	if (Math::isPointInRect(trans, rect)) return true;
 	trans = Math::rotateVector(Vector(m_rect.xMax, m_rect.yMin) - center,		m_angle) + center;
 	bound.push_back(trans);
-	if (Math::isPointInAABB(trans, rect)) return true;
+	if (Math::isPointInRect(trans, rect)) return true;
 	trans = Math::rotateVector(Vector(m_rect.xMax, m_rect.yMax) - center, m_angle) + center;
 	bound.push_back(trans);
-	if (Math::isPointInAABB(trans, rect)) return true;
+	if (Math::isPointInRect(trans, rect)) return true;
 
 	if (Math::isPointInConvexHull(Vector(rect.xMin, rect.yMin), bound)) return true;
 	if (Math::isPointInConvexHull(Vector(rect.xMin, rect.yMax), bound)) return true;

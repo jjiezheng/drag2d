@@ -16,26 +16,28 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef D2D_EDIT_RECT_OP_H
-#define D2D_EDIT_RECT_OP_H
+#ifndef D2D_EDIT_CIRCLE_OP_H
+#define D2D_EDIT_CIRCLE_OP_H
 
 #include "ZoomViewOP.h"
 #include "NodeCapture.h"
 
+#include "component/NodeCaptureCMPT.h"
+
 namespace d2d
 {
 	class MultiShapesImpl;
-	class DrawRectCMPT;
 	class ChainShape;
 
-	class EditRectOP : public ZoomViewOP
+	class EditCircleOP : public ZoomViewOP
 	{
 	public:
-		EditRectOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl,
-			DrawRectCMPT* cmpt);
+		EditCircleOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl,
+			NodeCaptureCMPT<EditCircleOP>* cmpt);
 
 		virtual bool onMouseLeftDown(int x, int y);
 		virtual bool onMouseLeftUp(int x, int y);
+		virtual bool onMouseRightDown(int x, int y);
 		virtual bool onMouseMove(int x, int y);
 		virtual bool onMouseDrag(int x, int y);
 
@@ -43,16 +45,16 @@ namespace d2d
 		virtual bool clear();
 
 	private:
-		static bool isRect(const ChainShape* chain);
-
-	private:
 		MultiShapesImpl* m_shapesImpl;
 
-		DrawRectCMPT* m_cmpt;
+		NodeCaptureCMPT<EditCircleOP>* m_cmpt;
 
-		Vector m_start, m_end;
+		Vector m_firstPress;
+		Vector m_currPos;
 
 		NodeAddr m_captured;
 
-	}; // EditRectOP
+	}; // EditCircleOP
 }
+
+#endif // D2D_EDIT_CIRCLE_OP_H

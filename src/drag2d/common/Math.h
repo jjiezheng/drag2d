@@ -91,13 +91,13 @@ namespace d2d
 
 		static bool isPointInTriangle(const Vector& p, const Vector& a, const Vector& b, const Vector& c);
 
-		static bool isPointInAABB(const Vector& pos, const Vector& left_low, float w, float h)
+		static bool isPointInRect(const Vector& pos, const Vector& left_low, float w, float h)
 		{
 			return pos.x > left_low.x && pos.x < left_low.x + w 
 				&& pos.y > left_low.y && pos.y < left_low.y + h;
 		}
 
-		static bool isPointInAABB(const Vector& pos, const Rect& aabb)
+		static bool isPointInRect(const Vector& pos, const Rect& aabb)
 		{
 			return pos.x > aabb.xMin && pos.x < aabb.xMax
 				&& pos.y > aabb.yMin && pos.y < aabb.yMax;
@@ -106,6 +106,8 @@ namespace d2d
 		static bool isPointInArea(const Vector& pos, const std::vector<Vector>& area);
 
 		static bool isPointInConvexHull(const Vector& pos, const std::vector<Vector>& hull);
+
+		static bool isPointInCircle(const Vector& pos, const Vector& center, float radius);
 
 		// To check if the point in the triangle.
 		// return: [0] p is on the edge t0-t1		[1] p is on the edge t1-t2

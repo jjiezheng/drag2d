@@ -49,7 +49,7 @@ void AABB::storeToTextFile(std::ofstream& fout) const
 
 bool AABB::isContain(const Vector& pos) const
 {
-	return Math::isPointInAABB(pos, m_rect);
+	return Math::isPointInRect(pos, m_rect);
 }
 
 bool AABB::isIntersect(const Rect& rect) const

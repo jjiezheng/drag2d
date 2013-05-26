@@ -785,6 +785,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\src\drag2d\dataset\CircleShape.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\dataset\CircleShape.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\drag2d\dataset\CurveShape.cpp"
 					>
 				</File>

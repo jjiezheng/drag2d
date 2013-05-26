@@ -46,14 +46,10 @@ namespace d2d
 		virtual void storeToTextFile(std::ofstream& fout) const;
 
 		//
-		// f2Shape interface
-		//
-		virtual bool isContain(const Vector& pos);
-		virtual bool isIntersect(const Rect& rect);
-
-		//
 		// IShape interface
 		//
+		virtual bool isContain(const Vector& pos) const;
+		virtual bool isIntersect(const Rect& rect) const;
 		virtual const Rect& getRect() const { return m_rect; }
 		virtual void draw(const Colorf& color = Colorf(0, 0, 0)) const;
 

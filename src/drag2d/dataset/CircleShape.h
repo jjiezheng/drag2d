@@ -16,46 +16,51 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef D2D_EDIT_RECT_OP_H
-#define D2D_EDIT_RECT_OP_H
+#ifndef D2D_CIRCLE_SHAPE_H
+#define D2D_CIRCLE_SHAPE_H
 
-#include "ZoomViewOP.h"
-#include "NodeCapture.h"
+#include "IShape.h"
 
-#include "component/NodeCaptureCMPT.h"
+#include "common/Vector.h"
+#include "common/Rect.h"
 
 namespace d2d
 {
-	class MultiShapesImpl;
-	class IShape;
-
-	class EditRectOP : public ZoomViewOP
+	class CircleShape : public IShape
 	{
 	public:
-		EditRectOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl,
-			NodeCaptureCMPT<EditRectOP>* cmpt);
+		CircleShape();
+		CircleShape(const CircleShape& circle);
+		CircleShape(const Vector& center, float radius);
 
-		virtual bool onMouseLeftDown(int x, int y);
-		virtual bool onMouseLeftUp(int x, int y);
-		virtual bool onMouseMove(int x, int y);
-		virtual bool onMouseDrag(int x, int y);
+		//
+		// IObject interface
+		//
+		virtual CircleShape* clone();
 
-		virtual bool onDraw() const;
-		virtual bool clear();
+		//
+		// ISerializable interface
+		//
+		virtual void loadFromTextFile(std::ifstream& fin);
+		virtual void storeToTextFile(std::ofstream& fout) const;
+
+		//
+		// IShape interface
+		//
+		virtual bool isContain(const Vector& pos) const;
+		virtual bool isIntersect(const Rect& rect) const;
+		virtual const Rect& getRect() const { return m_rect; }
+		virtual void draw(const Colorf& color = Colorf(0, 0, 0)) const;
+
+	public:
+		Vector center;
+
+		float radius;
 
 	private:
-		static bool isRect(const IShape* shape);
+		Rect m_rect;
 
-	private:
-		MultiShapesImpl* m_shapesImpl;
-
-		NodeCaptureCMPT<EditRectOP>* m_cmpt;
-
-		Vector m_start, m_end;
-
-		NodeAddr m_captured;
-
-	}; // EditRectOP
+	}; // CircleShape
 }
 
-#endif // D2D_EDIT_RECT_OP_H
+#endif // D2D_CIRCLE_SHAPE_H
