@@ -31,7 +31,7 @@ DrawPencilLineCMPT::DrawPencilLineCMPT(wxWindow* parent, const wxString& name,
 
 wxSizer* DrawPencilLineCMPT::initLayout()
 {
-	wxStaticBox* bounding = new wxStaticBox(this, wxID_ANY, wxT("¼ò»¯¼¶±ð"));
+	wxStaticBox* bounding = new wxStaticBox(this, wxID_ANY, wxT("Simplify"));
 	wxBoxSizer* sizer = new wxStaticBoxSizer(bounding, wxVERTICAL);
 	m_thresholdSlider = new wxSlider(this, wxID_ANY, 30, 0, 100, wxDefaultPosition, wxDefaultSize, wxSL_LABELS);
 	sizer->Add(m_thresholdSlider);

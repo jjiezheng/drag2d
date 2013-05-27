@@ -69,6 +69,9 @@ wxString FileNameParser::getFileTag(Type type)
 	case e_circle:
 		extension = TAG_CIRCLE;
 		break;
+	case e_polygon:
+		extension = TAG_POLYGON;
+		break;
 	case e_mesh:
 		extension = TAG_MESH;
 		break;

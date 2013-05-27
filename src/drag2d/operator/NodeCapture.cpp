@@ -71,6 +71,16 @@ visit(ICloneable* object, bool& bFetchNext)
 bool NodeCapture::RectQueryVisitor::
 visit(ChainShape* chain)
 {
+	// capture center
+	const Rect& rect = chain->getRect();
+	if (Math::getDistance(Vector(rect.xCenter(), rect.yCenter()), m_pos) < m_tolerance)
+	{
+		m_result.shape = chain;
+		m_result.pos.setInvalid();
+		return true;
+	}
+
+	// capture control points
 	if (!Math::isRectIntersectRect(m_rect, chain->getRect()))
 		return false;
 

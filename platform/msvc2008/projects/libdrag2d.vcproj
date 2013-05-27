@@ -1381,6 +1381,14 @@
 				Name="property"
 				>
 				<File
+					RelativePath="..\..\..\src\drag2d\view\ChainPropertySetting.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\view\ChainPropertySetting.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\drag2d\view\CirclePropertySetting.cpp"
 					>
 				</File>

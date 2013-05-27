@@ -94,6 +94,7 @@
 #include "operator/PasteSpriteOP.h"
 #include "operator/DrawPencilLineOP.h"
 #include "operator/DrawPenLineOP.h"
+#include "operator/DrawCosineCurveOP.h"
 #include "operator/EditPolylineOP.h"
 #include "operator/EditPolylinesOP.h"
 #include "operator/EditRectOP.h"

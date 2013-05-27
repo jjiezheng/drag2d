@@ -36,6 +36,8 @@ namespace d2d
 		}
 		virtual ~ListItem() {}
 
+		virtual void refresh() {}
+
 		const wxString& getName() const { return m_name; }
 		void setName(const wxString& name) { m_name = name; }
 
