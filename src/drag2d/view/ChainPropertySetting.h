@@ -16,49 +16,30 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef D2D_EDIT_POLYLINES_CMPT_H
-#define D2D_EDIT_POLYLINES_CMPT_H
+#ifndef D2D_CHAIN_PROPERTY_SETTING_H
+#define D2D_CHAIN_PROPERTY_SETTING_H
 
-#include "AbstractEditCMPT.h"
+#include "IPropertySetting.h"
 
 namespace d2d
 {
-	class MultiShapesImpl;
-	class PropertySettingPanel;
+	class ChainShape;
 
-	class EditPolylinesCMPT : public AbstractEditCMPT
+	class ChainPropertySetting : public IPropertySetting
 	{
 	public:
-		EditPolylinesCMPT(wxWindow* parent, const wxString& name,
-			EditPanel* editPanel, MultiShapesImpl* shapesImpl,
-			PropertySettingPanel* propertyPanel);
+		ChainPropertySetting(EditPanel* editPanel, ChainShape* chain);
 
-		virtual void updateControlValue();
+		virtual void updatePanel(PropertySettingPanel* panel);
 
-		float getSimplifyThreshold() const;
-
-	protected:
-		virtual wxSizer* initLayout();
+		virtual void onPropertyGridChange(const wxString& name, const wxAny& value);
+		virtual void updatePropertyGrid(PropertySettingPanel* panel);
+		virtual void enablePropertyGrid(PropertySettingPanel* panel, bool bEnable);
 
 	private:
-		wxSizer* initSimplifyPanel();
-		wxSizer* initSmoothPanel();
-		wxSizer* initEditPanel();
+		ChainShape* m_chain;
 
-		void onSimplifyThresholdChanged(wxSpinEvent& event);
-		void onUpdateFromSimplified(wxCommandEvent& event);
-
-		void onMergeTwoChain(wxCommandEvent& event);
-		void onTranslate(wxCommandEvent& event);
-
-	private:
-		MultiShapesImpl* m_shapesImpl;
-
-		wxSpinCtrl* m_simplifySpin;
-
-		wxButton* m_btnMerge;
-
-	}; // EditPolylinesCMPT
+	}; // RectPropertySetting
 }
 
-#endif // D2D_EDIT_POLYLINES_CMPT_H
+#endif // D2D_CHAIN_PROPERTY_SETTING_H

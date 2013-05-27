@@ -24,6 +24,8 @@
 #include "component/NodeCaptureCMPT.h"
 #include "dataset/RectShape.h"
 #include "view/MultiShapesImpl.h"
+#include "view/PropertySettingPanel.h"
+#include "view/RectPropertySetting.h"
 #include "render/PrimitiveDraw.h"
 
 using namespace d2d;
@@ -32,6 +34,7 @@ EditRectOP::EditRectOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl,
 					   PropertySettingPanel* propertyPanel,
 					   NodeCaptureCMPT<EditRectOP>* cmpt)
 	: ZoomViewOP(editPanel, true)
+	, m_propertyPanel(propertyPanel)
 	, m_shapesImpl(shapesImpl)
 	, m_cmpt(cmpt)
 {
@@ -53,6 +56,9 @@ bool EditRectOP::onMouseLeftDown(int x, int y)
 	{	
 		NodeCapture capture(m_shapesImpl, tolerance);
 		capture.captureEditable(m_firstPress, m_captured);
+
+		if (RectShape* rect = dynamic_cast<RectShape*>(m_captured.shape))
+			m_propertyPanel->setPropertySetting(new RectPropertySetting(m_editPanel, rect));
 	}
 	else
 	{
@@ -73,6 +79,12 @@ bool EditRectOP::onMouseLeftUp(int x, int y)
 		const float radius = Math::getDistance(m_firstPress, m_currPos);
  		if (radius > 1)
  			m_shapesImpl->insertShape(new RectShape(m_firstPress, m_currPos));
+	}
+	else
+	{
+		m_propertyPanel->enablePropertyGrid(true);
+		if (RectShape* rect = dynamic_cast<RectShape*>(m_captured.shape))
+			m_propertyPanel->setPropertySetting(new RectPropertySetting(m_editPanel, rect));
 	}
 
 	clear();
@@ -102,6 +114,8 @@ bool EditRectOP::onMouseRightDown(int x, int y)
 			m_shapesImpl->removeShape(m_captured.shape);
 			m_captured.clear();
 			m_editPanel->Refresh();
+
+			m_propertyPanel->setPropertySetting(NULL);
 		}
 	}
 	else
@@ -165,6 +179,8 @@ bool EditRectOP::onMouseDrag(int x, int y)
 
 				m_captured.pos = m_currPos;
 			}
+
+			m_propertyPanel->enablePropertyGrid(false);
 		}
 	}
 

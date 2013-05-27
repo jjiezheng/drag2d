@@ -15,3 +15,31 @@
 * misrepresented as being the original software.
 * 3. This notice may not be removed or altered from any source distribution.
 */
+
+#ifndef D2D_RECT_PROPERTY_SETTING_H
+#define D2D_RECT_PROPERTY_SETTING_H
+
+#include "IPropertySetting.h"
+
+namespace d2d
+{
+	class RectShape;
+
+	class RectPropertySetting : public IPropertySetting
+	{
+	public:
+		RectPropertySetting(EditPanel* editPanel, RectShape* rect);
+
+		virtual void updatePanel(PropertySettingPanel* panel);
+
+		virtual void onPropertyGridChange(const wxString& name, const wxAny& value);
+		virtual void updatePropertyGrid(PropertySettingPanel* panel);
+		virtual void enablePropertyGrid(PropertySettingPanel* panel, bool bEnable);
+
+	private:
+		RectShape* m_rect;
+
+	}; // RectPropertySetting
+}
+
+#endif // D2D_RECT_PROPERTY_SETTING_H

@@ -20,6 +20,8 @@
 
 #include "common/Math.h"
 #include "view/MultiShapesImpl.h"
+#include "view/PropertySettingPanel.h"
+#include "view/CirclePropertySetting.h"
 #include "dataset/CircleShape.h"
 #include "render/PrimitiveDraw.h"
 
@@ -29,6 +31,7 @@ EditCircleOP::EditCircleOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl,
 						   PropertySettingPanel* propertyPanel,
 						   NodeCaptureCMPT<EditCircleOP>* cmpt)
 	: ZoomViewOP(editPanel, true)
+	, m_propertyPanel(propertyPanel)
 	, m_shapesImpl(shapesImpl)
 	, m_cmpt(cmpt)
 {
@@ -51,6 +54,9 @@ bool EditCircleOP::onMouseLeftDown(int x, int y)
 	{
 		NodeCapture capture(m_shapesImpl, tolerance);
 		capture.captureEditable(m_firstPress, m_captured);
+
+		if (CircleShape* circle = dynamic_cast<CircleShape*>(m_captured.shape))
+			m_propertyPanel->setPropertySetting(new CirclePropertySetting(m_editPanel, circle));
 	}
 	else
 	{
@@ -71,6 +77,12 @@ bool EditCircleOP::onMouseLeftUp(int x, int y)
 		const float radius = Math::getDistance(m_firstPress, m_currPos);
 		if (radius > 0)
 			m_shapesImpl->insertShape(new CircleShape(m_firstPress, radius));
+	}
+	else
+	{
+		m_propertyPanel->enablePropertyGrid(true);
+		if (CircleShape* circle = dynamic_cast<CircleShape*>(m_captured.shape))
+			m_propertyPanel->setPropertySetting(new CirclePropertySetting(m_editPanel, circle));
 	}
 
 	clear();
@@ -100,6 +112,8 @@ bool EditCircleOP::onMouseRightDown(int x, int y)
 			m_shapesImpl->removeShape(m_captured.shape);
 			m_captured.clear();
 			m_editPanel->Refresh();
+
+			m_propertyPanel->setPropertySetting(NULL);
 		}
 	}
 	else
@@ -148,6 +162,8 @@ bool EditCircleOP::onMouseDrag(int x, int y)
 			// change size
 			else
 				circle->radius = Math::getDistance(m_currPos, circle->center);
+
+			m_propertyPanel->enablePropertyGrid(false);
 		}
 	}
 
