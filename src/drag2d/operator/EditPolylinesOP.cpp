@@ -27,8 +27,8 @@
 using namespace d2d;
 
 EditPolylinesOP::EditPolylinesOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl,
-								 EditPolylinesCMPT* cmpt)
-	: SelectShapesOP(editPanel, shapesImpl, cmpt)
+								 PropertySettingPanel* propertyPanel, EditPolylinesCMPT* cmpt)
+	: SelectShapesOP(editPanel, shapesImpl, propertyPanel, cmpt)
 	, m_cmpt(cmpt)
 	, m_bDirty(false)
 {

@@ -25,11 +25,12 @@
 using namespace d2d;
 
 LayersMgrCMPT::LayersMgrCMPT(wxWindow* parent, const wxString& name, 
-							 EditPanel* editPanel, MultiShapesImpl* shapesImpl)
+							 EditPanel* editPanel, MultiShapesImpl* shapesImpl,
+							 PropertySettingPanel* propertyPanel)
 	: AbstractEditCMPT(parent, name, editPanel)
 	, m_layersMgr(NULL)
 {
-	m_editOP = new SelectShapesOP(editPanel, shapesImpl);
+	m_editOP = new SelectShapesOP(editPanel, shapesImpl, propertyPanel);
 
 	m_layersMgr = new LayersMgrWidget(this, editPanel);
 	m_sizer = new wxBoxSizer(wxVERTICAL);

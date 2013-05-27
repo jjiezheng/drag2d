@@ -16,39 +16,30 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef D2D_LAYERS_MGR_CMPT_H
-#define D2D_LAYERS_MGR_CMPT_H
+#ifndef D2D_CIRCLE_PROPERTY_SETTING_H
+#define D2D_CIRCLE_PROPERTY_SETTING_H
 
-#include "AbstractEditCMPT.h"
+#include "IPropertySetting.h"
 
 namespace d2d
 {
-	class MultiShapesImpl;
-	class MultiSpritesImpl;
-	class LayersMgrWidget;
-	class PropertySettingPanel;
+	class CircleShape;
 
-	class LayersMgrCMPT : public AbstractEditCMPT
+	class CirclePropertySetting : public IPropertySetting
 	{
 	public:
-		LayersMgrCMPT(wxWindow* parent, const wxString& name,
-			EditPanel* editPanel, MultiShapesImpl* shapesImpl,
-			PropertySettingPanel* propertyPanel);
-		LayersMgrCMPT(wxWindow* parent, const wxString& name,
-			EditPanel* editPanel, MultiSpritesImpl* spritesImpl,
-			PropertySettingPanel* propertyPanel);
+		CirclePropertySetting(EditPanel* editPanel, CircleShape* circle);
 
-		LayersMgrWidget* getLayersMgr() { return m_layersMgr; }
+		virtual void updatePanel(PropertySettingPanel* panel);
 
-	protected:
-		virtual wxSizer* initLayout();
+		virtual void onPropertyGridChange(const wxString& name, const wxAny& value);
+		virtual void updatePropertyGrid(PropertySettingPanel* panel);
+		virtual void enablePropertyGrid(PropertySettingPanel* panel, bool bEnable);
 
 	private:
-		LayersMgrWidget* m_layersMgr;
+		CircleShape* m_circle;
 
-		wxSizer* m_sizer;
-
-	}; // LayersMgrCMPT
+	}; // CirclePropertySetting
 }
 
-#endif // D2D_LAYERS_MGR_CMPT_H
+#endif // D2D_CIRCLE_PROPERTY_SETTING_H

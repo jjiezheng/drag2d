@@ -26,6 +26,7 @@
 using namespace d2d;
 
 EditCircleOP::EditCircleOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl, 
+						   PropertySettingPanel* propertyPanel,
 						   NodeCaptureCMPT<EditCircleOP>* cmpt)
 	: ZoomViewOP(editPanel, true)
 	, m_shapesImpl(shapesImpl)

@@ -32,7 +32,7 @@ namespace d2d
 	{
 	public:
 		EditPolylinesOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl,
-			EditPolylinesCMPT* cmpt);
+			PropertySettingPanel* propertyPanel, EditPolylinesCMPT* cmpt);
 
 		virtual bool onMouseLeftDown(int x, int y);
 		virtual bool onMouseLeftUp(int x, int y);

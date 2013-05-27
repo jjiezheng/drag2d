@@ -35,6 +35,7 @@ namespace d2d
 	public:
 		DrawPolygonCMPT(wxWindow* parent, const wxString& name,
 			EditPanel* editPanel, MultiShapesImpl* shapesImpl,
+			PropertySettingPanel* propertyPanel,
 			wxColourData& colorData);
 
 		virtual void updateControlValue();

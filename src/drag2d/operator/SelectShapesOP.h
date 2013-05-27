@@ -29,12 +29,14 @@ namespace d2d
 {
 	class MultiShapesImpl;
 	class AbstractEditCMPT;
+	class PropertySettingPanel;
+	class IPropertySetting;
 
 	class SelectShapesOP : public DrawRectangleOP
 	{
 	public:
 		SelectShapesOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl, 
-			AbstractEditCMPT* callback = NULL);
+			PropertySettingPanel* propertyPanel, AbstractEditCMPT* callback = NULL);
 		virtual ~SelectShapesOP();
 
 		virtual bool onKeyDown(int keyCode);
@@ -44,6 +46,8 @@ namespace d2d
 		virtual bool onDraw() const;
 		virtual bool clear();
 
+		virtual IPropertySetting* createPropertySetting(IShape* shape) const;
+
 	private:
 		void clearClipboard();
 
@@ -51,6 +55,8 @@ namespace d2d
 		Vector m_firstPos;
 
 		ShapeSelection* m_selection;
+
+		PropertySettingPanel* m_propertyPanel;
 
 	private:
 		AbstractEditCMPT* m_callback;

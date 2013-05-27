@@ -28,6 +28,7 @@
 using namespace d2d;
 
 SelectNodesOP::SelectNodesOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl,
+							 PropertySettingPanel* propertyPanel, 
 							 AbstractEditCMPT* callback /*= NULL*/)
 	: DrawRectangleOP(editPanel)
 	, m_shapeImpl(shapesImpl)
