@@ -24,13 +24,15 @@
 namespace d2d
 {
 	class MultiShapesImpl;
+	class PropertySettingPanel;
 
 	template<class T>
 	class NodeCaptureCMPT : public AbstractEditCMPT
 	{
 	public:
 		NodeCaptureCMPT(wxWindow* parent, const wxString& name,
-			EditPanel* editPanel, MultiShapesImpl* shapesImpl);
+			EditPanel* editPanel, MultiShapesImpl* shapesImpl,
+			PropertySettingPanel* propertyPanel);
 
 		int getNodeCaptureDistance() const;
 
@@ -43,11 +45,11 @@ namespace d2d
 	}; // NodeCaptureCMPT
 
 	template<class T>
-	inline NodeCaptureCMPT<T>::NodeCaptureCMPT(wxWindow* parent, 
-		const wxString& name, EditPanel* editPanel, MultiShapesImpl* shapesImpl)
+	inline NodeCaptureCMPT<T>::NodeCaptureCMPT(wxWindow* parent, const wxString& name, 
+		EditPanel* editPanel, MultiShapesImpl* shapesImpl, PropertySettingPanel* propertyPanel)
 		: AbstractEditCMPT(parent, name, editPanel)
 	{
-		m_editOP = new T(editPanel, shapesImpl, this);
+		m_editOP = new T(editPanel, shapesImpl, propertyPanel, this);
 	}
 
 	template<class T>

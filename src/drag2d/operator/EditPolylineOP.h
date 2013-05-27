@@ -30,6 +30,7 @@ namespace d2d
 	class MultiShapesImpl;
 	class ChainShape;
 	class SelectShapesOP;
+	class PropertySettingPanel;
 
 	template <typename TBase, typename TSelected>
 	class EditPolylineOP : public TBase
@@ -37,6 +38,7 @@ namespace d2d
 	public:
 		EditPolylineOP(EditPanel* editPanel, 
 			MultiShapesImpl* shapesImpl, 
+			PropertySettingPanel* propertyPanel,
 			NodeCaptureCMPT<EditPolylineOP>* cmpt);
 		virtual ~EditPolylineOP();
 

@@ -28,7 +28,7 @@
 using namespace d2d;
 
 EditNodesOP::EditNodesOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl)
-	: SelectNodesOP(editPanel, shapesImpl)
+	: SelectNodesOP(editPanel, shapesImpl, NULL)
 {
 	m_lastPos.setInvalid();
 }

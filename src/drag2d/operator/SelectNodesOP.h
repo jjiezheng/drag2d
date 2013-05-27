@@ -29,13 +29,15 @@
 namespace d2d
 {
 	class MultiShapesImpl;
+	class PropertySettingPanel;
 	class AbstractEditCMPT;
 	class ChainShape;
 
 	class SelectNodesOP : public DrawRectangleOP
 	{
 	public:
-		SelectNodesOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl, AbstractEditCMPT* callback = NULL);
+		SelectNodesOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl, 
+			PropertySettingPanel* propertyPanel, AbstractEditCMPT* callback = NULL);
 		virtual ~SelectNodesOP();
 
 		virtual bool onKeyDown(int keyCode);

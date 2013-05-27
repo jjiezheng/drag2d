@@ -20,17 +20,22 @@
 
 #include "common/visitors.h"
 #include "dataset/PolygonShape.h"
+#include "dataset/CircleShape.h"
 #include "component/AbstractEditCMPT.h"
+#include "view/PropertySettingPanel.h"
+#include "view/CirclePropertySetting.h"
 #include "view/MultiShapesImpl.h"
 #include "render/DrawSelectedShapeVisitor.h"
 
 using namespace d2d;
 
 SelectShapesOP::SelectShapesOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl,
+							   PropertySettingPanel* propertyPanel, 
 							   AbstractEditCMPT* callback/* = NULL*/)
 	: DrawRectangleOP(editPanel)
 	, m_callback(callback)
 	, m_shapeImpl(shapesImpl)
+	, m_propertyPanel(propertyPanel)
 	, m_lastCtrlPress(false)
 {
 	m_selection = shapesImpl->getShapeSelection();
@@ -97,7 +102,13 @@ bool SelectShapesOP::onMouseLeftDown(int x, int y)
 			if (m_selection->isExist(selected))
 				m_selection->erase(selected);
 			else
+			{
 				m_selection->insert(selected);
+				if (m_selection->size() == 1)
+					m_propertyPanel->setPropertySetting(createPropertySetting(selected));
+				else
+					m_propertyPanel->setPropertySetting(NULL);
+			}
 		}
 		else
 		{
@@ -105,6 +116,8 @@ bool SelectShapesOP::onMouseLeftDown(int x, int y)
 			{
 				m_selection->clear();
 				m_selection->insert(selected);
+				if (m_propertyPanel)
+					m_propertyPanel->setPropertySetting(createPropertySetting(selected));
 			}
 		}
 		m_firstPos.setInvalid();
@@ -135,6 +148,14 @@ bool SelectShapesOP::onMouseLeftUp(int x, int y)
 		for (size_t i = 0, n = shapes.size(); i < n; ++i)
 			m_selection->insert(shapes[i]);
 
+		if (m_propertyPanel)
+		{
+			if (m_selection->size() == 1)
+				m_propertyPanel->setPropertySetting(createPropertySetting(shapes[0]));
+			else
+				m_propertyPanel->setPropertySetting(NULL);
+		}
+
 		m_firstPos.setInvalid();
 
 		if (m_callback)
@@ -162,6 +183,14 @@ bool SelectShapesOP::clear()
 	m_firstPos.setInvalid();
 
 	return false;
+}
+
+IPropertySetting* SelectShapesOP::createPropertySetting(IShape* shape) const
+{
+	if (CircleShape* circle = dynamic_cast<CircleShape*>(shape))
+		return new CirclePropertySetting(m_editPanel, circle);
+	else
+		return NULL;
 }
 
 void SelectShapesOP::clearClipboard()

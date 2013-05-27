@@ -29,6 +29,7 @@
 template <typename TBase, typename TSelected>
 d2d::EditPolylineOP<TBase, TSelected>::
 EditPolylineOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl,
+			   PropertySettingPanel* propertyPanel,
 			   NodeCaptureCMPT<EditPolylineOP>* cmpt)
 	: TBase(editPanel, shapesImpl)
 {
@@ -36,7 +37,7 @@ EditPolylineOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl,
 
 	m_cmpt = cmpt;
 
-	m_selectOP = new TSelected(editPanel, shapesImpl, cmpt);
+	m_selectOP = new TSelected(editPanel, shapesImpl, propertyPanel, cmpt);
 	m_lastLeftDownPos.setInvalid();
 	m_bSelectOpen = false;
 }
@@ -359,9 +360,15 @@ template <typename TBase, typename TSelected>
 void d2d::EditPolylineOP<TBase, TSelected>::NearestNodeVisitor::
 visit(ICloneable* object, bool& bFetchNext)
 {
+	ChainShape* chain = dynamic_cast<ChainShape*>(object);
+	if (!chain) 
+	{
+		bFetchNext = true;
+		return;
+	}
+
 	Rect rect(m_pos, m_tol, m_tol);
 
-	ChainShape* chain = static_cast<ChainShape*>(object);
 	if (!chain->isIntersect(rect)) 
 	{
 		bFetchNext = true;

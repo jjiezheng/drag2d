@@ -1381,6 +1381,14 @@
 				Name="property"
 				>
 				<File
+					RelativePath="..\..\..\src\drag2d\view\CirclePropertySetting.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\view\CirclePropertySetting.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\drag2d\view\IPropertySetting.cpp"
 					>
 				</File>
@@ -1402,6 +1410,14 @@
 				</File>
 				<File
 					RelativePath="..\..\..\src\drag2d\view\PropertySettingPanel.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\view\RectPropertySetting.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\view\RectPropertySetting.h"
 					>
 				</File>
 				<File

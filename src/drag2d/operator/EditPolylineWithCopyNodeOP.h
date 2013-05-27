@@ -28,8 +28,9 @@ namespace d2d
 	class EditPolylineWithCopyNodeOP : public EditPolylineOP<T, SelectNodesOP>
 	{
  	public:
- 		EditPolylineWithCopyNodeOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl)
- 			: EditPolylineOP<T, SelectNodesOP>(editPanel, shapesImpl, NULL)
+ 		EditPolylineWithCopyNodeOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl,
+			PropertySettingPanel* propertyPanel)
+ 			: EditPolylineOP<T, SelectNodesOP>(editPanel, shapesImpl, propertyPanel, NULL)
  		{}
  
  		virtual bool onKeyDown(int keyCode)

@@ -34,8 +34,9 @@ using namespace d2d;
 
 DrawPolygonCMPT::DrawPolygonCMPT(wxWindow* parent, const wxString& name,
 								 EditPanel* editPanel, MultiShapesImpl* shapesImpl,
+								 PropertySettingPanel* propertyPanel,
 								 wxColourData& colorData)
-	: NodeCaptureCMPT<EditPolylineOP<DrawPolygonEdgeOP, SelectShapesOP> >(parent, name, editPanel, shapesImpl)
+	: NodeCaptureCMPT<EditPolylineOP<DrawPolygonEdgeOP, SelectShapesOP> >(parent, name, editPanel, shapesImpl, propertyPanel)
 	, m_shapesImpl(shapesImpl)
 	, m_color(*wxBLACK)
 	, m_colorData(colorData)
@@ -43,9 +44,9 @@ DrawPolygonCMPT::DrawPolygonCMPT(wxWindow* parent, const wxString& name,
 	m_editOP = NULL;
 
 	addChild(new UniversalCMPT(this, wxT("直接画线"), editPanel, 
-		new EditPolylineOP<DrawPolygonEdgeOP, SelectShapesOP>(editPanel, shapesImpl, this)));
+		new EditPolylineOP<DrawPolygonEdgeOP, SelectShapesOP>(editPanel, shapesImpl, propertyPanel, this)));
 	addChild(new UniversalCMPT(this, wxT("选节点画线"), editPanel, 
-		new EditPolylineWithCopyNodeOP<DrawPolygonEdgeOP>(editPanel, shapesImpl)));
+		new EditPolylineWithCopyNodeOP<DrawPolygonEdgeOP>(editPanel, shapesImpl, propertyPanel)));
 }
 
 void DrawPolygonCMPT::updateControlValue()

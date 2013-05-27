@@ -29,6 +29,7 @@
 using namespace d2d;
 
 EditRectOP::EditRectOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl,
+					   PropertySettingPanel* propertyPanel,
 					   NodeCaptureCMPT<EditRectOP>* cmpt)
 	: ZoomViewOP(editPanel, true)
 	, m_shapesImpl(shapesImpl)

@@ -33,7 +33,7 @@ namespace d2d
 	{
 	public:
 		EditCircleOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl,
-			NodeCaptureCMPT<EditCircleOP>* cmpt);
+			PropertySettingPanel* propertyPanel, NodeCaptureCMPT<EditCircleOP>* cmpt);
 
 		virtual bool onMouseLeftDown(int x, int y);
 		virtual bool onMouseLeftUp(int x, int y);

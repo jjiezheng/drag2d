@@ -26,11 +26,12 @@
 
 using namespace d2d;
 
-DrawLineCMPT::DrawLineCMPT(wxWindow* parent, const wxString& name,
-						   EditPanel* editPanel, MultiShapesImpl* shapesImpl)
+DrawLineCMPT::DrawLineCMPT(wxWindow* parent, const wxString& name, EditPanel* editPanel, 
+						   MultiShapesImpl* shapesImpl, PropertySettingPanel* propertyPanel)
 	: AbstractEditCMPT(parent, name, editPanel, wxT("Tools"))
 {
-	addChild(new NodeCaptureCMPT<EditPolylineOP<DrawPenLineOP, SelectShapesOP> >(this, wxT("pen"), editPanel, shapesImpl));
+	addChild(new NodeCaptureCMPT<EditPolylineOP<DrawPenLineOP, SelectShapesOP> >
+		(this, wxT("pen"), editPanel, shapesImpl, propertyPanel));
 	addChild(new DrawPencilLineCMPT(this, wxT("pencil"), editPanel, shapesImpl));
 }
 
