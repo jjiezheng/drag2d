@@ -28,6 +28,7 @@ namespace d2d
 	class IShape;
 	class ChainShape;
 	class CircleShape;
+	class RectShape;
 	class MultiShapesImpl;
 
 	struct NodeAddr
@@ -62,6 +63,7 @@ namespace d2d
 		private:
 			bool visit(ChainShape* chain);
 			bool visit(CircleShape* circle);
+			bool visit(RectShape* rect);
 
 		private:
 			const Vector& m_pos;

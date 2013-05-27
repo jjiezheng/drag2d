@@ -102,7 +102,7 @@ bool EditNodesOP::onDraw() const
 	for (size_t i = 0, n = m_buffer.size(); i < n; ++i)
 	{
 		PrimitiveDraw::drawPolyline(m_buffer[i].dst, Colorf(0.8f, 0.2f, 0.2f), false);
-		PrimitiveDraw::drawCircles(m_buffer[i].dst, radius, Colorf(0.2f, 0.2f, 0.8f));
+		PrimitiveDraw::drawCircles(m_buffer[i].dst, radius, true, 2, Colorf(0.2f, 0.2f, 0.8f));
 	}
 
 	return false;

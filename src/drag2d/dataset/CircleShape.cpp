@@ -98,6 +98,5 @@ bool CircleShape::isIntersect(const Rect& rect) const
 
 void CircleShape::draw(const Colorf& color/* = Colorf(0, 0, 0)*/) const
 {
-	PrimitiveDraw::drawRing(center, radius, color, 3, 32);
-//	PrimitiveDraw::drawCircle(center, 1, color);
+	PrimitiveDraw::drawCircle(center, radius, false, 3, color, 32);
 }

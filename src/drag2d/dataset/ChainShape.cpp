@@ -111,7 +111,7 @@ bool ChainShape::isContain(const Vector& pos) const
 
 bool ChainShape::isIntersect(const Rect& rect) const
 {
-	if (m_vertices.empty() || !Math::isAABBIntersectAABB(rect, m_rect))	
+	if (m_vertices.empty() || !Math::isRectIntersectRect(rect, m_rect))	
 		return false;
 
 	for (size_t i = 0, n = m_vertices.size(); i < n; ++i)
@@ -123,11 +123,11 @@ bool ChainShape::isIntersect(const Rect& rect) const
 	if (m_vertices.size() < 2) return false;
 	for (size_t i = 0, n = m_vertices.size() - 1; i < n; ++i)
 	{
-		if (Math::isSegmentIntersectAABB(m_vertices[i], m_vertices[i + 1], rect))
+		if (Math::isSegmentIntersectRect(m_vertices[i], m_vertices[i + 1], rect))
 			return true;
 	}
 
-	if (m_isLoop && Math::isSegmentIntersectAABB(m_vertices.front(), m_vertices.back(), rect))
+	if (m_isLoop && Math::isSegmentIntersectRect(m_vertices.front(), m_vertices.back(), rect))
 		return true;
 
 	return false;
@@ -141,7 +141,7 @@ void ChainShape::draw(const Colorf& color/* = Colorf(0, 0, 0)*/) const
 
 	PrimitiveDraw::drawPolyline(m_vertices, color, m_isLoop);
 	if (Settings::ctlPosSize != 0)
-		PrimitiveDraw::drawCircles(m_vertices, Settings::ctlPosSize, Colorf(0.4f, 0.8f, 0.4f));
+		PrimitiveDraw::drawCircles(m_vertices, Settings::ctlPosSize, true, 2, Colorf(0.4f, 0.8f, 0.4f));
 }
 
 void ChainShape::insertVertices(size_t index, const Vector& pos)

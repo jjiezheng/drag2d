@@ -22,7 +22,7 @@
 
 #include "common/Math.h"
 #include "component/NodeCaptureCMPT.h"
-#include "dataset/ChainShape.h"
+#include "dataset/RectShape.h"
 #include "view/MultiShapesImpl.h"
 #include "render/PrimitiveDraw.h"
 
@@ -41,7 +41,8 @@ bool EditRectOP::onMouseLeftDown(int x, int y)
 {
 	if (ZoomViewOP::onMouseLeftDown(x, y)) return true;
 
-	Vector pos = m_editPanel->transPosScreenToProject(x, y);
+	m_firstPress = m_currPos = m_editPanel->transPosScreenToProject(x, y);
+
 	int tolerance;
 	if (m_cmpt)
 		tolerance = m_cmpt->getNodeCaptureDistance();
@@ -50,13 +51,12 @@ bool EditRectOP::onMouseLeftDown(int x, int y)
 	if (tolerance != 0)
 	{	
 		NodeCapture capture(m_shapesImpl, tolerance);
-		capture.captureEditable(pos, m_captured);
+		capture.captureEditable(m_firstPress, m_captured);
 	}
-
-	if (m_captured.shape && isRect(m_captured.shape))
-		;
 	else
-		m_start = pos;
+	{
+		m_captured.clear();
+	}
 
 	return false;
 }
@@ -65,19 +65,47 @@ bool EditRectOP::onMouseLeftUp(int x, int y)
 {
 	if (ZoomViewOP::onMouseLeftUp(x, y)) return true;
 
-	if (m_start.isValid())
+	if (!m_captured.shape)
 	{
-		m_end = m_editPanel->transPosScreenToProject(x, y);
-		if (Math::getDistance(m_start, m_end) > 1)
+		m_currPos = m_editPanel->transPosScreenToProject(x, y);
+
+		const float radius = Math::getDistance(m_firstPress, m_currPos);
+ 		if (radius > 1)
+ 			m_shapesImpl->insertShape(new RectShape(m_firstPress, m_currPos));
+	}
+
+	clear();
+
+	m_editPanel->Refresh();
+
+	return false;
+}
+
+bool EditRectOP::onMouseRightDown(int x, int y)
+{
+	if (ZoomViewOP::onMouseRightDown(x, y)) return true;
+
+	int tolerance;
+	if (m_cmpt)
+		tolerance = m_cmpt->getNodeCaptureDistance();
+	else
+		tolerance = 0;
+	if (tolerance != 0)
+	{
+		m_currPos = m_editPanel->transPosScreenToProject(x, y);
+
+		NodeCapture capture(m_shapesImpl, tolerance);
+		capture.captureEditable(m_currPos, m_captured);
+		if (m_captured.shape)
 		{
-			std::vector<Vector> rect(4);
-			rect[0] = m_start;
-			rect[1].set(m_start.x, m_end.y);
-			rect[2] = m_end;
-			rect[3].set(m_end.x, m_start.y);
-			m_shapesImpl->insertShape(new ChainShape(rect, true));
+			m_shapesImpl->removeShape(m_captured.shape);
+			m_captured.clear();
+			m_editPanel->Refresh();
 		}
-		clear();
+	}
+	else
+	{
+		m_captured.clear();
 	}
 
 	return false;
@@ -96,7 +124,7 @@ bool EditRectOP::onMouseMove(int x, int y)
 	if (tolerance != 0)
 	{	
 		NodeCapture capture(m_shapesImpl, tolerance);
-		const IShape* old = m_captured.shape;
+		IShape* old = m_captured.shape;
 		capture.captureEditable(pos, m_captured);
 		if (old && !m_captured.shape || !old && m_captured.shape)
 			m_editPanel->Refresh();
@@ -109,40 +137,37 @@ bool EditRectOP::onMouseDrag(int x, int y)
 {
 	if (ZoomViewOP::onMouseDrag(x, y)) return true;
 
-	if (m_start.isValid())
-	{
-		m_end = m_editPanel->transPosScreenToProject(x, y);
-		m_editPanel->Refresh();
-	}
-	else if (m_captured.shape)
-	{
-		Vector pos = m_editPanel->transPosScreenToProject(x, y);
+	m_currPos = m_editPanel->transPosScreenToProject(x, y);
 
-		ChainShape* chain = static_cast<ChainShape*>(m_captured.shape);
-		std::vector<Vector> rect = chain->getVertices();
-		assert(rect.size() == 4);
-		size_t i;
-		for (i = 0; i < 4 && rect[i] != m_captured.pos; ++i)
-			;
-		size_t last = (i - 1 + 4) % 4,
-			next = (i + 1 + 4) % 4;
-		if (rect[last].x == rect[i].x)
+	if (m_captured.shape)
+	{
+		if (RectShape* rect = dynamic_cast<RectShape*>(m_captured.shape))
 		{
-			rect[last].x = pos.x;
-			rect[next].y = pos.y;
-		}
-		else
-		{
-			rect[next].x = pos.x;
-			rect[last].y = pos.y;
-		}
-		rect[i] = pos;
-		chain->setVertices(rect);
+			Vector center(rect->m_rect.xCenter(), rect->m_rect.yCenter());
 
-		chain->refresh();
-		m_captured.pos = pos;
-		m_editPanel->Refresh();
+			// move
+			if (!m_captured.pos.isValid())
+			{
+				rect->m_rect.translate(m_currPos - center);
+			}
+			// change size
+			else 
+			{
+				if (m_captured.pos.x > center.x)
+					rect->m_rect.xMax = m_currPos.x;
+				else
+					rect->m_rect.xMin = m_currPos.x;
+				if (m_captured.pos.y > center.y)
+					rect->m_rect.yMax = m_currPos.y;
+				else
+					rect->m_rect.yMin = m_currPos.y;
+
+				m_captured.pos = m_currPos;
+			}
+		}
 	}
+
+	m_editPanel->Refresh();
 
 	return false;
 }
@@ -150,11 +175,21 @@ bool EditRectOP::onMouseDrag(int x, int y)
 bool EditRectOP::onDraw() const
 {
 	if (ZoomViewOP::onDraw()) return true;
-	
-	if (m_start.isValid() && m_end.isValid())
-		PrimitiveDraw::drawSquareFrame(m_start, m_end);
-	if (m_cmpt && m_captured.shape)
-		PrimitiveDraw::drawCircle(m_captured.pos, m_cmpt->getNodeCaptureDistance(), Colorf(1.0f, 0.4f, 0.4f));
+
+	if (m_captured.shape)
+	{
+		if (m_cmpt)
+		{
+			if (RectShape* rect = dynamic_cast<RectShape*>(m_captured.shape))
+				PrimitiveDraw::drawCircle(Vector(rect->m_rect.xCenter(), rect->m_rect.yCenter()), 
+					m_cmpt->getNodeCaptureDistance(), true, 2, Colorf(1.0f, 0.4f, 0.4f));
+		}
+	}
+	else
+	{
+		if (m_firstPress.isValid() && m_currPos.isValid())
+			PrimitiveDraw::drawRect(m_firstPress, m_currPos);
+	}
 
 	return false;
 }
@@ -163,28 +198,8 @@ bool EditRectOP::clear()
 {
 	if (ZoomViewOP::clear()) return true;
 
-	m_start.setInvalid();
-	m_end.setInvalid();
+	m_firstPress.setInvalid();
+	m_currPos.setInvalid();
 
-	return false;
-}
-
-bool EditRectOP::isRect(const IShape* shape)
-{
-	const ChainShape* chain = static_cast<const ChainShape*>(shape);
-
-	if (!chain) return false;
-
-	const std::vector<Vector>& vertices = chain->getVertices();
-	if (vertices.size() == 4)
-	{
-		if (vertices[1].x == vertices[0].x && vertices[1].y == vertices[2].y && 
-			vertices[3].x == vertices[2].x && vertices[3].y == vertices[0].y)
-			return true;
-
-		if (vertices[1].x == vertices[2].x && vertices[1].y == vertices[0].y && 
-			vertices[3].x == vertices[0].x && vertices[3].y == vertices[2].y)
-			return true;
-	}
 	return false;
 }

@@ -16,45 +16,46 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef D2D_EDIT_RECT_OP_H
-#define D2D_EDIT_RECT_OP_H
+#ifndef D2D_RECT_SHAPE_H
+#define D2D_RECT_SHAPE_H
 
-#include "ZoomViewOP.h"
-#include "NodeCapture.h"
+#include "IShape.h"
 
-#include "component/NodeCaptureCMPT.h"
+#include "common/Rect.h"
 
 namespace d2d
 {
-	class MultiShapesImpl;
-	class IShape;
-
-	class EditRectOP : public ZoomViewOP
+	class RectShape : public IShape
 	{
 	public:
-		EditRectOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl,
-			NodeCaptureCMPT<EditRectOP>* cmpt);
+		RectShape();
+		RectShape(const RectShape& rect);
+		RectShape(const Vector& p0, const Vector& p1);
+		RectShape(const Vector& center, float hWidth, float hHeight);
 
-		virtual bool onMouseLeftDown(int x, int y);
-		virtual bool onMouseLeftUp(int x, int y);
-		virtual bool onMouseRightDown(int x, int y);
-		virtual bool onMouseMove(int x, int y);
-		virtual bool onMouseDrag(int x, int y);
+		//
+		// IObject interface
+		//
+		virtual RectShape* clone();
 
-		virtual bool onDraw() const;
-		virtual bool clear();
+		//
+		// ISerializable interface
+		//
+		virtual void loadFromTextFile(std::ifstream& fin);
+		virtual void storeToTextFile(std::ofstream& fout) const;
 
-	private:
-		MultiShapesImpl* m_shapesImpl;
+		//
+		// IShape interface
+		//
+		virtual bool isContain(const Vector& pos) const;
+		virtual bool isIntersect(const Rect& rect) const;
+		virtual const Rect& getRect() const { return m_rect; }
+		virtual void draw(const Colorf& color = Colorf(0, 0, 0)) const;
 
-		NodeCaptureCMPT<EditRectOP>* m_cmpt;
+	public:
+		Rect m_rect;
 
-		Vector m_firstPress;
-		Vector m_currPos;
-
-		NodeAddr m_captured;
-
-	}; // EditRectOP
+	}; // RectShape
 }
 
-#endif // D2D_EDIT_RECT_OP_H
+#endif // D2D_RECT_SHAPE_H

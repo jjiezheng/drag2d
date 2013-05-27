@@ -72,22 +72,22 @@ namespace d2d
 		// To check if angle a-center-b is acute.
 		static bool isAcuteAngle(const Vector& a, const Vector& center, const Vector& b);
 
-		static bool isAABBIntersectAABB(const Rect& r0, const Rect& r1)
+		static bool isRectIntersectRect(const Rect& r0, const Rect& r1)
 		{
 			return !(r0.xMin > r1.xMax || r0.xMax < r1.xMin || r0.yMin > r1.yMax || r0.yMax < r1.yMin);
 		}
 
 		// To check if the segment intersect with the Rect.
-		static bool isSegmentIntersectAABB(float lx1, float ly1, float lx2, float ly2,
+		static bool isSegmentIntersectRect(float lx1, float ly1, float lx2, float ly2,
 			float ax1, float ay1, float ax2, float ay2);
-		static bool isSegmentIntersectAABB(const Vector& b, const Vector& e, const Rect& aabb)
+		static bool isSegmentIntersectRect(const Vector& b, const Vector& e, const Rect& aabb)
 		{
-			return isSegmentIntersectAABB(b.x, b.y, e.x, e.y, aabb.xMin, aabb.yMin, aabb.xMax, aabb.yMax);
+			return isSegmentIntersectRect(b.x, b.y, e.x, e.y, aabb.xMin, aabb.yMin, aabb.xMax, aabb.yMax);
 		}
 
-		static bool isPolylineIntersectAABB(const std::vector<Vector>& polyline, bool isLoop, const Rect& aabb);
+		static bool isPolylineIntersectRect(const std::vector<Vector>& polyline, bool isLoop, const Rect& aabb);
 
-		static bool isCircleIntersectAABB(const Vector& center, float radius, const Rect& aabb);
+		static bool isCircleIntersectRect(const Vector& center, float radius, const Rect& aabb);
 
 		static bool isPointInTriangle(const Vector& p, const Vector& a, const Vector& b, const Vector& c);
 

@@ -808,6 +808,14 @@
 					RelativePath="..\..\..\src\drag2d\dataset\PolygonShape.h"
 					>
 				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\dataset\RectShape.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\dataset\RectShape.h"
+					>
+				</File>
 				<Filter
 					Name="base"
 					>

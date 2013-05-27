@@ -269,9 +269,9 @@ onDraw() const
 	if (m_cmpt)
 	{
 		if (m_capturedEditable.shape)
-			PrimitiveDraw::drawCircle(m_capturedEditable.pos, m_cmpt->getNodeCaptureDistance(), Colorf(1.0f, 0.4f, 0.4f));
+			PrimitiveDraw::drawCircle(m_capturedEditable.pos, m_cmpt->getNodeCaptureDistance(), true, 2, Colorf(1.0f, 0.4f, 0.4f));
 		else if (m_captureSelectable.shape)
-			PrimitiveDraw::drawCircle(m_captureSelectable.pos, m_cmpt->getNodeCaptureDistance(), Colorf(1.0f, 0.4f, 0.4f));
+			PrimitiveDraw::drawCircle(m_captureSelectable.pos, m_cmpt->getNodeCaptureDistance(), true, 2, Colorf(1.0f, 0.4f, 0.4f));
 	}
 
 	return false;

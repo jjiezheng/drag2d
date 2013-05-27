@@ -34,7 +34,7 @@ bool Math::isAcuteAngle(const Vector& a, const Vector& center, const Vector& b)
 	return squareLenAC + squareLenBC - squareLenAB > 0;
 }
 
-bool Math::isSegmentIntersectAABB(float lx1, float ly1, float lx2, float ly2,
+bool Math::isSegmentIntersectRect(float lx1, float ly1, float lx2, float ly2,
 									float ax1, float ay1, float ax2, float ay2)
 {
 	unsigned char typeS, typeE;
@@ -98,23 +98,23 @@ bool Math::isSegmentIntersectAABB(float lx1, float ly1, float lx2, float ly2,
 	return false;
 }
 
-bool Math::isPolylineIntersectAABB(const std::vector<Vector>& polyline, bool isLoop, const Rect& aabb)
+bool Math::isPolylineIntersectRect(const std::vector<Vector>& polyline, bool isLoop, const Rect& aabb)
 {
 	if (polyline.size() < 2) return false;
 
 	for (size_t i = 0, n = polyline.size() - 1; i < n; ++i)
 	{
-		if (isSegmentIntersectAABB(polyline[i], polyline[i+1], aabb))
+		if (isSegmentIntersectRect(polyline[i], polyline[i+1], aabb))
 			return true;
 	}
 
-	if (isLoop && isSegmentIntersectAABB(polyline[polyline.size() - 1], polyline[0], aabb))
+	if (isLoop && isSegmentIntersectRect(polyline[polyline.size() - 1], polyline[0], aabb))
 		return true;
 
 	return false;
 }
 
-bool Math::isCircleIntersectAABB(const Vector& center, float radius, const Rect& aabb)
+bool Math::isCircleIntersectRect(const Vector& center, float radius, const Rect& aabb)
 {
 	if (isPointInRect(center, aabb))
 		return true;
@@ -328,7 +328,7 @@ int Math::testPointOnSection(const Vector& startPos, const Vector& endPos, const
 	aabb.yMin = thdPos.y - tolerance / 2.0f;
 	aabb.yMax = thdPos.y + tolerance / 2.0f;
 
-	if (!isSegmentIntersectAABB(startPos, endPos, aabb)) return -1;
+	if (!isSegmentIntersectRect(startPos, endPos, aabb)) return -1;
 
 	int resultA = 0;
 	int resultB = 0;
