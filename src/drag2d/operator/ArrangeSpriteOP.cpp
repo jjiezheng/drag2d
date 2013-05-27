@@ -246,7 +246,7 @@ namespace d2d
 				m_scaling->getBounding()->height() / m_scaling->getScale(), quad);
 
 			for (size_t i = 0; i < 4; ++i)
-				PrimitiveDraw::drawRing(quad[i], SCALE_NODE_RADIUS, Colorf(0.2f, 0.8f, 0.2f));
+				PrimitiveDraw::drawCircle(quad[i], SCALE_NODE_RADIUS, false, 2, Colorf(0.2f, 0.8f, 0.2f));
 		}
 
 		return false;

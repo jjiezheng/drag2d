@@ -155,7 +155,7 @@ bool SelectNodesOP::onDraw() const
 		copy(selectedNodes.begin(), selectedNodes.end(), back_inserter(nodes));
 	}
 
-	PrimitiveDraw::drawCircles(nodes, getThreshold(), Colorf(0.8f, 0.4f, 0.4f));
+	PrimitiveDraw::drawCircles(nodes, getThreshold(), true, 2, Colorf(0.8f, 0.4f, 0.4f));
 
 	return false;
 }
@@ -213,7 +213,7 @@ visit(ICloneable* object, bool& bFetchNext)
 {
 	ChainShape* chain = static_cast<ChainShape*>(object);
 
-	if (Math::isAABBIntersectAABB(chain->getRect(), m_rect))
+	if (Math::isRectIntersectRect(chain->getRect(), m_rect))
 	{
 		const std::vector<Vector>& vertices = chain->getVertices();
 		for (size_t i = 0, n = vertices.size(); i < n; ++i)
@@ -250,7 +250,7 @@ visit(ICloneable* object, bool& bFetchNext)
 {
 	ChainShape* chain = static_cast<ChainShape*>(object);
 
-	if (Math::isAABBIntersectAABB(chain->getRect(), m_rect))
+	if (Math::isRectIntersectRect(chain->getRect(), m_rect))
 	{
 		ChainSelectedNodes* result = new ChainSelectedNodes;
 		result->chain = chain;

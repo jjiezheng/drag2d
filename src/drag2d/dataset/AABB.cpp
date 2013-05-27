@@ -54,7 +54,7 @@ bool AABB::isContain(const Vector& pos) const
 
 bool AABB::isIntersect(const Rect& rect) const
 {
-	return Math::isAABBIntersectAABB(m_rect, rect);
+	return Math::isRectIntersectRect(m_rect, rect);
 }
 
 float AABB::area() const

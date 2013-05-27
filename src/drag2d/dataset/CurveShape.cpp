@@ -59,9 +59,9 @@ void CurveShape::draw(const Colorf& color/* = Colorf(0, 0, 0)*/) const
 
 	PrimitiveDraw::drawPolyline(m_midPoints, color, m_isLoop);
 	if (Settings::ctlPosSize != 0)
-		PrimitiveDraw::drawCircles(m_vertices, Settings::ctlPosSize, Colorf(0.4f, 0.8f, 0.4f));
+		PrimitiveDraw::drawCircles(m_vertices, Settings::ctlPosSize, true, 2, Colorf(0.4f, 0.8f, 0.4f));
 	if (Settings::ctlPosSize != 0)
-		PrimitiveDraw::drawCircles(m_midPoints, Settings::ctlPosSize * 0.5f, Colorf(0.8f, 0.8f, 0.4f));
+		PrimitiveDraw::drawCircles(m_midPoints, Settings::ctlPosSize * 0.5f, true, 2, Colorf(0.8f, 0.8f, 0.4f));
 }
 
 void CurveShape::insertVertices(size_t index, const Vector& pos)

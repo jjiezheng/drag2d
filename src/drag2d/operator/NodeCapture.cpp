@@ -21,6 +21,7 @@
 #include "view/MultiShapesImpl.h"
 #include "dataset/ChainShape.h"
 #include "dataset/CircleShape.h"
+#include "dataset/RectShape.h"
 #include "common/Math.h"
 
 using namespace d2d;
@@ -63,12 +64,14 @@ visit(ICloneable* object, bool& bFetchNext)
 		bFetchNext = !visit(chain);
 	else if (CircleShape* circle = dynamic_cast<CircleShape*>(object))
 		bFetchNext = !visit(circle);
+	else if (RectShape* rect = dynamic_cast<RectShape*>(object))
+		bFetchNext = !visit(rect);
 }
 
 bool NodeCapture::RectQueryVisitor::
 visit(ChainShape* chain)
 {
-	if (!Math::isAABBIntersectAABB(m_rect, chain->getRect()))
+	if (!Math::isRectIntersectRect(m_rect, chain->getRect()))
 		return false;
 
 	if (!chain->isIntersect(m_rect)) 
@@ -106,9 +109,46 @@ visit(CircleShape* circle)
 	{
 		m_result.shape = circle;
 		m_result.pos.setInvalid();
+		return true;
 	}
-	else
+
+	return false;
+}
+
+bool NodeCapture::RectQueryVisitor::
+visit(RectShape* rect)
+{
+	// capture center
+	if (Math::getDistance(m_pos, Vector(rect->m_rect.xCenter(), rect->m_rect.yCenter())) < m_tolerance)
 	{
-		return false;
+		m_result.shape = rect;
+		m_result.pos.setInvalid();
+		return true;
 	}
+	// capture edge
+	else if (Math::getDistance(m_pos, Vector(rect->m_rect.xMin, rect->m_rect.yMin)) < m_tolerance)
+	{
+		m_result.shape = rect;
+		m_result.pos = Vector(rect->m_rect.xMin, rect->m_rect.yMin);
+		return true;
+	}
+	else if (Math::getDistance(m_pos, Vector(rect->m_rect.xMin, rect->m_rect.yMax)) < m_tolerance)
+	{
+		m_result.shape = rect;
+		m_result.pos = Vector(rect->m_rect.xMin, rect->m_rect.yMax);
+		return true;
+	}
+	else if (Math::getDistance(m_pos, Vector(rect->m_rect.xMax, rect->m_rect.yMax)) < m_tolerance)
+	{
+		m_result.shape = rect;
+		m_result.pos = Vector(rect->m_rect.xMax, rect->m_rect.yMax);
+		return true;
+	}
+	else if (Math::getDistance(m_pos, Vector(rect->m_rect.xMax, rect->m_rect.yMin)) < m_tolerance)
+	{
+		m_result.shape = rect;
+		m_result.pos = Vector(rect->m_rect.xMax, rect->m_rect.yMin);
+		return true;
+	}
+	return false;
 }

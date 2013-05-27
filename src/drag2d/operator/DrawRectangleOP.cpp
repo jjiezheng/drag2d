@@ -70,7 +70,7 @@ bool DrawRectangleOP::onDraw() const
 	if (ZoomViewOP::onDraw()) return true;
 
 	if (m_firstPos.isValid() && m_currPos.isValid())
-		PrimitiveDraw::drawSquareFrame(m_firstPos, m_currPos, 2, m_color);
+		PrimitiveDraw::drawRect(m_firstPos, m_currPos, false, 2, m_color);
 
 	return false;
 }

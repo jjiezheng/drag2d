@@ -93,10 +93,10 @@ bool OBB::isIntersect(const Rect& rect) const
 	if (Math::isPointInConvexHull(Vector(rect.xMax, rect.yMin), bound)) return true;
 	if (Math::isPointInConvexHull(Vector(rect.xMax, rect.yMax), bound)) return true;
 
-	if (Math::isSegmentIntersectAABB(bound[0], bound[1], rect)) return true;
-	if (Math::isSegmentIntersectAABB(bound[1], bound[2], rect)) return true;
-	if (Math::isSegmentIntersectAABB(bound[2], bound[3], rect)) return true;
-	if (Math::isSegmentIntersectAABB(bound[3], bound[0], rect)) return true;
+	if (Math::isSegmentIntersectRect(bound[0], bound[1], rect)) return true;
+	if (Math::isSegmentIntersectRect(bound[1], bound[2], rect)) return true;
+	if (Math::isSegmentIntersectRect(bound[2], bound[3], rect)) return true;
+	if (Math::isSegmentIntersectRect(bound[3], bound[0], rect)) return true;
 
 	return false;
 }

@@ -88,7 +88,7 @@ bool EditPolylinesOP::onDraw() const
 	for ( ; itr != m_simplifyBuffer.end(); ++itr)
 	{
 		itr->second->draw(Colorf(0.8f, 0.8f, 0.2f));
-		PrimitiveDraw::drawCircles(itr->second->getVertices(), Settings::ctlPosSize, Colorf(0.2f, 0.2f, 0.8f));
+		PrimitiveDraw::drawCircles(itr->second->getVertices(), Settings::ctlPosSize, true, 2, Colorf(0.2f, 0.2f, 0.8f));
 	}
 
 	return false;

@@ -164,13 +164,13 @@ bool EditCircleOP::onDraw() const
 		if (m_cmpt)
 		{
 			if (CircleShape* circle = dynamic_cast<CircleShape*>(m_captured.shape))
-				PrimitiveDraw::drawCircle(circle->center, m_cmpt->getNodeCaptureDistance(), Colorf(1.0f, 0.4f, 0.4f));
+				PrimitiveDraw::drawCircle(circle->center, m_cmpt->getNodeCaptureDistance(), true, 2, Colorf(1.0f, 0.4f, 0.4f));
 		}
 	}
 	else
 	{
 		if (m_firstPress.isValid() && m_currPos.isValid())
-			PrimitiveDraw::drawRing(m_firstPress, Math::getDistance(m_firstPress, m_currPos), Colorf(0, 0, 0), 3, 32);
+			PrimitiveDraw::drawCircle(m_firstPress, Math::getDistance(m_firstPress, m_currPos), false, 3, Colorf(0, 0, 0), 32);
 	}
 
 	return false;
