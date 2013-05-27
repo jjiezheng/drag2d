@@ -45,6 +45,7 @@ namespace d2d
 		virtual const FontSymbol& getSymbol() const;
 		virtual void setSymbol(ISymbol* symbol);
 		virtual void loadBodyFromFile();
+		virtual void setTransform(const Vector& position, float angle);
 
 		void setText(const std::string& text);
 		const std::string& getText() const {

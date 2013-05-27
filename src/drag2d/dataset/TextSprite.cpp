@@ -68,6 +68,15 @@ void TextSprite::loadBodyFromFile()
 {
 }
 
+void TextSprite::setTransform(const Vector& position, float angle)
+{
+	Vector fixed(position);
+	fixed.x -= m_symbol->getWidth(this) * 0.5f;
+	fixed.y -= m_symbol->getHeight(this) * 0.5f;
+
+	ISprite::setTransform(fixed, angle);
+}
+
 void TextSprite::setText(const std::string& text)
 {
 	m_text = text;

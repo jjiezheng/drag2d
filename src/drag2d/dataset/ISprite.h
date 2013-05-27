@@ -53,7 +53,7 @@ namespace d2d
 		virtual void setSymbol(ISymbol* symbol) = 0;
 		virtual void loadBodyFromFile() = 0;
 
-		void setTransform(const Vector& position, float angle);
+		virtual void setTransform(const Vector& position, float angle);
 		void setScale(float scale);
 
 		bool isContain(const Vector& pos) const;
