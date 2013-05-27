@@ -22,7 +22,10 @@
 #include "EditPolylineOP.h"
 
 #include "common/Math.h"
+#include "dataset/ChainShape.h"
 #include "render/PrimitiveDraw.h"
+#include "view/PropertySettingPanel.h"
+#include "view/ChainPropertySetting.h"
 
 //using namespace d2d;
 
@@ -34,6 +37,8 @@ EditPolylineOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl,
 	: TBase(editPanel, shapesImpl)
 {
 	m_shapesImpl = shapesImpl;
+
+	m_propertyPanel = propertyPanel;
 
 	m_cmpt = cmpt;
 
@@ -86,10 +91,16 @@ onMouseLeftDown(int x, int y)
 // 			bNotDeliver = TBase::onMouseLeftDown(screen.x, screen.y);
 
 			m_polyline.push_back(m_capturedEditable.pos);
+
+			if (ChainShape* chain = dynamic_cast<ChainShape*>(m_capturedEditable.shape))
+				m_propertyPanel->setPropertySetting(new ChainPropertySetting(m_editPanel, chain));
 		}
 		else if (m_captureSelectable.shape)
 		{
 			m_polyline.push_back(m_captureSelectable.pos);
+
+			if (ChainShape* chain = dynamic_cast<ChainShape*>(m_captureSelectable.shape))
+				m_propertyPanel->setPropertySetting(new ChainPropertySetting(m_editPanel, chain));
 		}
 		else
 		{
@@ -106,6 +117,9 @@ onMouseLeftDown(int x, int y)
 					m_capturedEditable.shape = interrupt.getInterruptedChain();
 					m_capturedEditable.pos = pos;
 					m_editPanel->Refresh();
+
+					if (ChainShape* chain = dynamic_cast<ChainShape*>(m_capturedEditable.shape))
+						m_propertyPanel->setPropertySetting(new ChainPropertySetting(m_editPanel, chain));
 				}
 				else
 					bNotDeliver = TBase::onMouseLeftDown(x, y);
@@ -146,6 +160,10 @@ onMouseLeftUp(int x, int y)
 				m_editPanel->Refresh();
 			}
 		}
+
+		m_propertyPanel->enablePropertyGrid(true);
+		m_propertyPanel->setPropertySetting(new ChainPropertySetting(m_editPanel, 
+			dynamic_cast<ChainShape*>(m_capturedEditable.shape)));
 	}
 
 	if (m_bSelectOpen)
@@ -175,7 +193,13 @@ onMouseRightDown(int x, int y)
 			capture.captureEditable(m_editPanel->transPosScreenToProject(x, y), m_capturedEditable);
 			if (m_capturedEditable.shape)
 			{
-				dynamic_cast<ChainShape*>(m_capturedEditable.shape)->removeVertices(m_capturedEditable.pos);
+				if (m_capturedEditable.pos.isValid())
+					dynamic_cast<ChainShape*>(m_capturedEditable.shape)->removeVertices(m_capturedEditable.pos);
+				else
+				{
+					m_shapesImpl->removeShape(m_capturedEditable.shape);
+					m_propertyPanel->setPropertySetting(NULL);
+				}
 				m_capturedEditable.shape = NULL;
 				m_editPanel->Refresh();
 			}
@@ -242,10 +266,27 @@ onMouseDrag(int x, int y)
 
 		Vector pos = m_editPanel->transPosScreenToProject(x, y);
 		ChainShape* chain = dynamic_cast<ChainShape*>(m_capturedEditable.shape);
-		chain->changeVertices(m_capturedEditable.pos, pos);
-		chain->refresh();
-		m_capturedEditable.pos = pos;
+		if (m_capturedEditable.pos.isValid())
+		{
+			chain->changeVertices(m_capturedEditable.pos, pos);
+			chain->refresh();
+			m_capturedEditable.pos = pos;
+		}
+		else
+		{
+			Vector old;
+			old.x = chain->getRect().xCenter();
+			old.y = chain->getRect().yCenter();
+			Vector offset = pos - old;
+
+			std::vector<Vector> ctlpos = chain->getVertices();
+			for (size_t i = 0, n = ctlpos.size(); i < n; ++i)
+				ctlpos[i] += offset;
+			chain->setVertices(ctlpos);
+		}
 		m_editPanel->Refresh();
+
+		m_propertyPanel->enablePropertyGrid(false);
 	}
 	else if (m_lastLeftDownPos.isValid() 
 		&& Math::getDistance(m_lastLeftDownPos, Vector(x, y)) < DRAG_SELECT_TOL)
@@ -270,9 +311,9 @@ onDraw() const
 	if (m_cmpt)
 	{
 		if (m_capturedEditable.shape)
-			PrimitiveDraw::drawCircle(m_capturedEditable.pos, m_cmpt->getNodeCaptureDistance(), true, 2, Colorf(1.0f, 0.4f, 0.4f));
+			drawCaptured(m_capturedEditable);
 		else if (m_captureSelectable.shape)
-			PrimitiveDraw::drawCircle(m_captureSelectable.pos, m_cmpt->getNodeCaptureDistance(), true, 2, Colorf(1.0f, 0.4f, 0.4f));
+			drawCaptured(m_captureSelectable);
 	}
 
 	return false;
@@ -289,6 +330,22 @@ clear()
 	m_captureSelectable.shape = NULL;
 
 	return false;
+}
+
+template <typename TBase, typename TSelected>
+void d2d::EditPolylineOP<TBase, TSelected>::
+drawCaptured(const NodeAddr& captured) const
+{
+	if (ChainShape* chain = dynamic_cast<ChainShape*>(captured.shape))
+	{
+		if (captured.pos.isValid())
+			PrimitiveDraw::drawCircle(captured.pos, m_cmpt->getNodeCaptureDistance(), true, 2, Colorf(1.0f, 0.4f, 0.4f));
+
+		Vector center;
+		center.x = chain->getRect().xCenter();
+		center.y = chain->getRect().yCenter();
+		PrimitiveDraw::drawCircle(center, m_cmpt->getNodeCaptureDistance() * 1.5f, true, 2, Colorf(0.4f, 1.0f, 0.4f));
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////

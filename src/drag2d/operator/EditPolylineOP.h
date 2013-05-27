@@ -53,6 +53,9 @@ namespace d2d
 		virtual bool clear();
 
 	private:
+		void drawCaptured(const NodeAddr& captured) const;
+
+	private:
 		class InterruptChainVisitor : public IVisitor
 		{
 		public:
@@ -94,6 +97,8 @@ namespace d2d
 
 	private:
 		MultiShapesImpl* m_shapesImpl;
+
+		PropertySettingPanel* m_propertyPanel;
 
 		NodeCaptureCMPT<EditPolylineOP>* m_cmpt;
 //		NodeAddr m_captured;

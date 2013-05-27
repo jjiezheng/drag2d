@@ -29,13 +29,14 @@
 using namespace d2d;
 
 EditPolylinesCMPT::EditPolylinesCMPT(wxWindow* parent, const wxString& name,
-									 EditPanel* editPanel, MultiShapesImpl* shapesImpl)
+									 EditPanel* editPanel, MultiShapesImpl* shapesImpl,
+									 PropertySettingPanel* propertyPanel)
 	: AbstractEditCMPT(parent, name, editPanel)
 	, m_shapesImpl(shapesImpl)
 	, m_simplifySpin(NULL)
 	, m_btnMerge(NULL)
 {
-	m_editOP = new EditPolylinesOP(editPanel, shapesImpl, this);
+	m_editOP = new EditPolylinesOP(editPanel, shapesImpl, propertyPanel, this);
 }
 
 void EditPolylinesCMPT::updateControlValue()

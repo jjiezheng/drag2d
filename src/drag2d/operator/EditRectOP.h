@@ -47,6 +47,8 @@ namespace d2d
 	private:
 		MultiShapesImpl* m_shapesImpl;
 
+		PropertySettingPanel* m_propertyPanel;
+
 		NodeCaptureCMPT<EditRectOP>* m_cmpt;
 
 		Vector m_firstPress;
