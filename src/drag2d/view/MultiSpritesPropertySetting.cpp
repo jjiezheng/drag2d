@@ -21,6 +21,7 @@
 
 #include <algorithm>
 
+#include "dataset/AbstractBV.h"
 #include "dataset/ISprite.h"
 #include "dataset/ISymbol.h"
 #include "view/EditPanel.h"
@@ -51,7 +52,7 @@ void MultiSpritesPropertySetting::updatePanel(PropertySettingPanel* panel)
 		pg->Append(new wxEnumProperty(wxT("Align"), wxPG_LABEL, align_labels));
 
 		static const wxChar* center_labels[] = { wxT("none"), 
-			wxT("horizontal"), wxT("vertical"), NULL };
+			wxT("horizontal"), wxT("vertical"), wxT("relative"), NULL };
 		pg->Append(new wxEnumProperty(wxT("Center"), wxPG_LABEL, center_labels));
 	}
 }
@@ -212,6 +213,29 @@ void MultiSpritesPropertySetting::onPropertyGridChange(const wxString& name, con
 			{
 				ISprite* sprite = sorted[i];
 				sprite->setTransform(Vector(sprite->getPosition().x, down + space * i), sprite->getAngle());
+			}
+
+			m_editPanel->Refresh();
+		}
+		else if (type == 3)
+		{
+			ISprite* base = NULL;
+			float maxArea = 0;
+			for (size_t i = 0, n = m_sprites.size(); i < n; ++i)
+			{
+				float area = m_sprites[i]->getBounding()->area();
+				if (area > maxArea)
+				{
+					maxArea = area;
+					base = m_sprites[i];
+				}
+			}
+
+			for (size_t i = 0, n = m_sprites.size(); i < n; ++i)
+			{
+				ISprite* sprite = m_sprites[i];
+				if (sprite != base)
+					sprite->setTransform(base->getPosition(), sprite->getAngle());
 			}
 
 			m_editPanel->Refresh();
