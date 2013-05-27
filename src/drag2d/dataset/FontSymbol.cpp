@@ -67,7 +67,10 @@ void FontSymbol::draw(const ISprite* sprite/* = NULL*/) const
 float FontSymbol::getWidth(const ISprite* sprite/* = NULL*/) const
 {
 	TextSprite* text = static_cast<TextSprite*>(const_cast<ISprite*>(sprite));
-	return m_font->h * 0.5f * text->getText().size();
+	if (text)
+		return m_font->h * 0.5f * text->getText().size();
+	else
+		return 0;
 }
 
 float FontSymbol::getHeight(const ISprite* sprite/* = NULL*/) const
