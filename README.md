@@ -19,4 +19,6 @@ This library is tool for making game editors such as [texture packer](https://gi
 
 ##Example 
 
+[Shoot Bubble scene editor](https://github.com/xzrunner/shootbubble/wiki/Create-by-drag2d-step-by-step)
+
 ***
