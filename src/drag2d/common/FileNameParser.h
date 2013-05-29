@@ -33,6 +33,7 @@ namespace d2d
 			e_polyline,
 			e_circle,
 			e_polygon,
+			e_shape,
 			// symbol
 			e_image,
 			e_mesh,

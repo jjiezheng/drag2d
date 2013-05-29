@@ -668,6 +668,14 @@
 					RelativePath="..\..\..\src\drag2d\dataset\PolygonBody.h"
 					>
 				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\dataset\ShapesBody.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\dataset\ShapesBody.h"
+					>
+				</File>
 				<Filter
 					Name="base"
 					>
@@ -1218,6 +1226,14 @@
 				</File>
 				<File
 					RelativePath="..\..\..\src\drag2d\common\CombinationFileAdapter.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\common\EShapeFileAdapter.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\common\EShapeFileAdapter.h"
 					>
 				</File>
 				<File

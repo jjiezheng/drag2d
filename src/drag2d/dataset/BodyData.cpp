@@ -16,6 +16,8 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
+#include <json/json.h>
+
 #include "BodyData.h"
 #include "ChainShape.h"
 
@@ -23,7 +25,10 @@
 #include "common/FileNameParser.h"
 #include "common/PolylineFileAdapter.h"
 #include "common/CircleFileAdapter.h"
+#include "common/EShapeFileAdapter.h"
 #include "dataset/MeshSymbol.h"
+#include "dataset/CircleShape.h"
+#include "dataset/RectShape.h"
 
 using namespace d2d;
 
@@ -60,6 +65,8 @@ bool BodyData::loadFromFile(const wxString& filename)
 	case FileNameParser::e_circle:
 		loadFromCircleFile(filename);
 		break;
+	case FileNameParser::e_shape:
+		loadFromShapeFile(filename);
 	default:
 		return false;
 	}
@@ -118,4 +125,38 @@ void BodyData::loadFromCircleFile(const wxString& filename)
 	FixtureData* fd = new FixtureData;
 	fd->vertices.push_back(Vector(fa.m_width, fa.m_height));
 	m_fixtures.push_back(fd);
+}
+
+void BodyData::loadFromShapeFile(const wxString& filename)
+{
+	m_type = e_shapes;
+
+	std::vector<IShape*> shapes;
+	EShapeFileAdapter adapter(shapes);
+	adapter.load(filename.c_str());
+	for (size_t i = 0, n = shapes.size();  i< n; ++i)
+	{
+		if (ChainShape* chain = dynamic_cast<ChainShape*>(shapes[i]))
+		{
+			FixtureData* fd = new FixtureData;
+			fd->vertices = chain->getVertices();
+			m_fixtures.push_back(fd);
+		}
+		else if (RectShape* rect = dynamic_cast<RectShape*>(shapes[i]))
+		{
+			FixtureData* fd = new FixtureData;
+			fd->vertices.resize(4);
+			fd->vertices[0] = d2d::Vector(rect->m_rect.xMin, rect->m_rect.yMin);
+			fd->vertices[1] = d2d::Vector(rect->m_rect.xMax, rect->m_rect.yMin);
+			fd->vertices[2] = d2d::Vector(rect->m_rect.xMax, rect->m_rect.yMax);
+			fd->vertices[3] = d2d::Vector(rect->m_rect.xMin, rect->m_rect.yMax);
+			m_fixtures.push_back(fd);
+		}
+		else if (CircleShape* circle = dynamic_cast<CircleShape*>( shapes[i]))
+		{
+			FixtureData* fd = new FixtureData;
+			fd->vertices.push_back(Vector(circle->radius*2, circle->radius*2));
+			m_fixtures.push_back(fd);
+		}
+	}
 }

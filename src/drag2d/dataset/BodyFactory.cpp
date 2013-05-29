@@ -21,6 +21,7 @@
 #include "PolygonBody.h"
 #include "CircleBody.h"
 #include "ComplexBody.h"
+#include "ShapesBody.h"
 
 using namespace d2d;
 
@@ -37,6 +38,10 @@ IBody* BodyFactory::createBody(const wxString& filename, float scale/* = 1.0f*/)
 		break;
 	case BodyData::e_circle:
 		body = new CircleBody(m_world, *bd, scale);
+		break;
+	case BodyData::e_shapes:
+		body = new ShapesBody(m_world, *bd, scale);
+		break;
 	}
 	return body;
 }
