@@ -36,10 +36,11 @@ namespace d2d
 	public:
 		enum Type
 		{
-			e_chain		= 0,
-			e_polygon	= 1,
-			e_circle	= 2,
-			e_mesh		= 3,
+			e_chain	= 0,
+			e_polygon,
+			e_circle,
+			e_shapes,
+			e_mesh
 		};
 
 		struct FixtureData
@@ -83,6 +84,7 @@ namespace d2d
 		void loadFromMeshFile(const wxString& filename);
 		void loadFromPolygonFile(const wxString& filename);
 		void loadFromCircleFile(const wxString& filename);
+		void loadFromShapeFile(const wxString& filename);
 
 	private:
 		wxString m_filename;

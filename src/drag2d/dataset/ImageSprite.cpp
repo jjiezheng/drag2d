@@ -68,6 +68,7 @@ void ImageSprite::loadBodyFromFile()
 	wxString path = FilenameTools::getFilePathExceptExtension(m_symbol->getFilepath());
 	wxString polygonPath = path + "_" + FileNameParser::getFileTag(FileNameParser::e_polyline) + ".txt";
 	wxString circlePath = path + "_" + FileNameParser::getFileTag(FileNameParser::e_circle) + ".txt";
+	wxString shapePath = path + "_" + FileNameParser::getFileTag(FileNameParser::e_shape) + ".json";
 	if (FilenameTools::isExist(polygonPath))
 	{
 		if (m_body) delete m_body;
@@ -77,6 +78,11 @@ void ImageSprite::loadBodyFromFile()
 	{
 		if (m_body) delete m_body;
 		m_body = BodyFactory::createBody(circlePath, m_scale);
+	}
+	else if (FilenameTools::isExist(shapePath))
+	{
+		if (m_body) delete m_body;
+		m_body = BodyFactory::createBody(shapePath, m_scale);
 	}
 	m_body->getBody()->SetTransform(b2Vec2(m_pos.x / BOX2D_SCALE_FACTOR, m_pos.y / BOX2D_SCALE_FACTOR), m_angle);
 }

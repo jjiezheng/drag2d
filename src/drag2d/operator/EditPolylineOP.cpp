@@ -161,9 +161,12 @@ onMouseLeftUp(int x, int y)
 			}
 		}
 
-		m_propertyPanel->enablePropertyGrid(true);
-		m_propertyPanel->setPropertySetting(new ChainPropertySetting(m_editPanel, 
-			dynamic_cast<ChainShape*>(m_capturedEditable.shape)));
+		if (m_capturedEditable.shape)
+		{
+			m_propertyPanel->enablePropertyGrid(true);
+			m_propertyPanel->setPropertySetting(new ChainPropertySetting(m_editPanel, 
+				dynamic_cast<ChainShape*>(m_capturedEditable.shape)));
+		}
 	}
 
 	if (m_bSelectOpen)
@@ -344,7 +347,7 @@ drawCaptured(const NodeAddr& captured) const
 		Vector center;
 		center.x = chain->getRect().xCenter();
 		center.y = chain->getRect().yCenter();
-		PrimitiveDraw::drawCircle(center, m_cmpt->getNodeCaptureDistance() * 1.5f, true, 2, Colorf(0.4f, 1.0f, 0.4f));
+		PrimitiveDraw::drawCircle(center, m_cmpt->getNodeCaptureDistance(), true, 2, Colorf(0.4f, 1.0f, 0.4f));
 	}
 }
 

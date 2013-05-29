@@ -25,6 +25,7 @@ using namespace d2d;
 static const wxString TAG_POLYLINE = "polyline";
 static const wxString TAG_CIRCLE = "circle";
 static const wxString TAG_POLYGON = "surface";
+static const wxString TAG_SHAPE = "shape";
 
 static const wxString TAG_MESH = "mesh";
 static const wxString TAG_COMBINATION = "combination";
@@ -50,6 +51,15 @@ FileNameParser::Type FileNameParser::getFileType(const wxString& filename)
 		else if (txtExtension == TAG_COMBINATION) return e_combination;
 		else return e_unknown;
 	}
+	else if (extension == ".json")
+	{
+		const wxString jsonName = filename.substr(0, filename.find_last_of('.'));
+		if (jsonName.find('_') == -1) return e_unknown;
+
+		const wxString jsonExtension = jsonName.substr(jsonName.find_last_of('_') + 1);
+		if (jsonExtension == TAG_SHAPE) return e_shape;
+		else return e_unknown;
+	}
 	else
 	{
 		StringTools::toLower(extension);
@@ -71,6 +81,9 @@ wxString FileNameParser::getFileTag(Type type)
 		break;
 	case e_polygon:
 		extension = TAG_POLYGON;
+		break;
+	case e_shape:
+		extension = TAG_SHAPE;
 		break;
 	case e_mesh:
 		extension = TAG_MESH;

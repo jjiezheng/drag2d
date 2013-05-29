@@ -198,8 +198,13 @@ bool EditRectOP::onDraw() const
 		if (m_cmpt)
 		{
 			if (RectShape* rect = dynamic_cast<RectShape*>(m_captured.shape))
+			{
 				PrimitiveDraw::drawCircle(Vector(rect->m_rect.xCenter(), rect->m_rect.yCenter()), 
-					m_cmpt->getNodeCaptureDistance(), true, 2, Colorf(1.0f, 0.4f, 0.4f));
+					m_cmpt->getNodeCaptureDistance(), true, 2, Colorf(0.4f, 1.0f, 0.4f));
+				if (m_captured.pos.isValid())
+					PrimitiveDraw::drawCircle(m_captured.pos, m_cmpt->getNodeCaptureDistance(), 
+						true, 2, Colorf(1.0f, 0.4f, 0.4f));
+			}
 		}
 	}
 	else
