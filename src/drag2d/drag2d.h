@@ -19,6 +19,8 @@
 #ifndef _WX_GUI_H_
 #define _WX_GUI_H_
 
+#include "algorithms/DelaunayTriangulation.h"
+
 #include "dataset/Bitmap.h"
 #include "dataset/Image.h"
 #include "dataset/RawPixels.h"
@@ -49,6 +51,7 @@
 #include "dataset/JointDef.h"
 #include "dataset/Joint.h"
 #include "dataset/Layer.h"
+#include "dataset/BVFactory.h"
 
 #include "view/GLCanvas.h"
 #include "view/Camera.h"
@@ -57,6 +60,7 @@
 #include "view/LibraryList.h"
 #include "view/LibraryImagePage.h"
 #include "view/LibraryShapePage.h"
+#include "view/LibraryEShapePage.h"
 #include "view/LibraryMeshPage.h"
 #include "view/LibraryCombinationPage.h"
 #include "view/PropertySettingPanel.h"

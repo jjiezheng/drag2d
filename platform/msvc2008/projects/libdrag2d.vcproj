@@ -909,6 +909,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\src\drag2d\dataset\EShapeSymbol.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\dataset\EShapeSymbol.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\drag2d\dataset\FontSymbol.cpp"
 					>
 				</File>
@@ -1229,14 +1237,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\drag2d\common\EShapeFileAdapter.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\drag2d\common\EShapeFileAdapter.h"
-					>
-				</File>
-				<File
 					RelativePath="..\..\..\src\drag2d\common\IFileAdapter.h"
 					>
 				</File>
@@ -1264,6 +1264,18 @@
 					RelativePath="..\..\..\src\drag2d\common\ShapeFileAdapter.h"
 					>
 				</File>
+				<Filter
+					Name="new"
+					>
+					<File
+						RelativePath="..\..\..\src\drag2d\common\EShapeFileAdapter.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\common\EShapeFileAdapter.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="filename"
@@ -1371,6 +1383,14 @@
 				<Filter
 					Name="shape"
 					>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\LibraryEShapePage.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\LibraryEShapePage.h"
+						>
+					</File>
 					<File
 						RelativePath="..\..\..\src\drag2d\view\LibraryShapePage.cpp"
 						>
