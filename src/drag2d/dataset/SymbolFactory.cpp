@@ -19,6 +19,7 @@
 #include "SymbolFactory.h"
 #include "ImageSymbol.h"
 #include "ShapeSymbol.h"
+#include "EShapeSymbol.h"
 #include "MeshSymbol.h"
 #include "CombinationSymbol.h"
 #include "FontSymbol.h"
@@ -44,13 +45,17 @@ ISymbol* SymbolFactory::create(const wxString& filepath)
 	}
 	else if (ext == "txt")
 	{
-		wxString tag = FilenameTools::getFilenameTag(filepath);
 		if (FileNameParser::isType(filepath, FileNameParser::e_polygon))
 			symbol = new ShapeSymbol;
 		else if (FileNameParser::isType(filepath, FileNameParser::e_mesh))
 			symbol = new MeshSymbol;
 		else if (FileNameParser::isType(filepath, FileNameParser::e_combination))
 			symbol = new CombinationSymbol;
+	}
+	else if (ext == "json")
+	{
+		if (FileNameParser::isType(filepath, FileNameParser::e_shape))
+			symbol = new EShapeSymbol;
 	}
 
 	return symbol;

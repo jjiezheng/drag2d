@@ -16,18 +16,18 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "ShapeSymbol.h"
+#include "EShapeSymbol.h"
 
-#include "dataset/PolygonShape.h"
-#include "common/ShapeFileAdapter.h"
+#include "common/EShapeFileAdapter.h"
+#include "dataset/IShape.h"
 
 using namespace d2d;
 
-ShapeSymbol::ShapeSymbol()
+EShapeSymbol::EShapeSymbol()
 {
 }
 
-ShapeSymbol::ShapeSymbol(const ShapeSymbol& symbol)
+EShapeSymbol::EShapeSymbol(const EShapeSymbol& symbol)
 {
 	m_filepath = symbol.m_filepath;
 	m_shapes.reserve(symbol.m_shapes.size());
@@ -35,65 +35,58 @@ ShapeSymbol::ShapeSymbol(const ShapeSymbol& symbol)
 		m_shapes.push_back(symbol.m_shapes[i]->clone());
 }
 
-ShapeSymbol::~ShapeSymbol()
+EShapeSymbol::~EShapeSymbol()
 {
 	clear();
 }
 
-ShapeSymbol* ShapeSymbol::clone()
+EShapeSymbol* EShapeSymbol::clone()
 {
-	return new ShapeSymbol(*this); 
+	return new EShapeSymbol(*this); 
 }
 
-void ShapeSymbol::loadFromTextFile(std::ifstream& fin)
-{
-
-}
-
-void ShapeSymbol::storeToTextFile(std::ofstream& fout) const
+void EShapeSymbol::loadFromTextFile(std::ifstream& fin)
 {
 
 }
 
-void ShapeSymbol::reloadTexture() const
+void EShapeSymbol::storeToTextFile(std::ofstream& fout) const
 {
 
 }
 
-void ShapeSymbol::draw(const ISprite* sprite/* = NULL*/) const
+void EShapeSymbol::reloadTexture() const
+{
+
+}
+
+void EShapeSymbol::draw(const ISprite* sprite/* = NULL*/) const
 {
 	for (size_t i = 0, n = m_shapes.size(); i < n; ++i)
 		m_shapes[i]->draw();
 }
 
-float ShapeSymbol::getWidth(const ISprite* sprite/* = NULL*/) const
+float EShapeSymbol::getWidth(const ISprite* sprite/* = NULL*/) const
 {
 	return 0;
 }
 
-float ShapeSymbol::getHeight(const ISprite* sprite/* = NULL*/) const
+float EShapeSymbol::getHeight(const ISprite* sprite/* = NULL*/) const
 {
 	return 0;
 }
 
-void ShapeSymbol::loadResources()
+void EShapeSymbol::loadResources()
 {
 	clear();
 
- 	ShapeFileAdapter adapter;
- 	adapter.load(m_filepath.c_str());
- 
- 	for (size_t i = 0, n = adapter.m_layers.size(); i < n; ++i)
- 	{
- 		for (size_t j = 0, m = adapter.m_layers[i]->polys.size(); j < m; ++j)
- 		{
- 			adapter.m_layers[i]->polys[j]->retain();
- 			m_shapes.push_back(adapter.m_layers[i]->polys[j]);
- 		}
- 	}
+	EShapeFileAdapter adpater(m_shapes);
+	adpater.load(m_filepath.c_str());
+	for (size_t i = 0, n = m_shapes.size(); i < n; ++i)
+		m_shapes[i]->retain();
 }
 
-void ShapeSymbol::clear()
+void EShapeSymbol::clear()
 {
 	for (size_t i = 0, n = m_shapes.size(); i < n; ++i)
 		m_shapes[i]->release();

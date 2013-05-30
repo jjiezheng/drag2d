@@ -38,7 +38,7 @@ namespace d2d
 
 	template <typename TBase>
 	ArrangeSpriteOP<TBase>::ArrangeSpriteOP(EditPanel* editPanel, MultiSpritesImpl* spritesImpl, 
-		PropertySettingPanel* propertyPanel, AbstractEditCMPT* callback/* = NULL*/, bool scaleOpen/* = true*/)
+		PropertySettingPanel* propertyPanel/* = NULL*/, AbstractEditCMPT* callback/* = NULL*/, bool scaleOpen/* = true*/)
 		: TBase(editPanel, spritesImpl, propertyPanel, callback)
 		, m_scaleOpen(scaleOpen)
 		, m_spritesImpl(spritesImpl)

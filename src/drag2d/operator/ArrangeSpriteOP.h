@@ -33,7 +33,7 @@ namespace d2d
 	{
 	public:
 		ArrangeSpriteOP(EditPanel* editPanel, MultiSpritesImpl* spritesImpl, 
-			PropertySettingPanel* propertyPanel, AbstractEditCMPT* callback = NULL,
+			PropertySettingPanel* propertyPanel = NULL, AbstractEditCMPT* callback = NULL,
 			bool scaleOpen = true);
 		virtual ~ArrangeSpriteOP();
 

@@ -16,30 +16,30 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "LibraryShapePage.h"
+#include "LibraryEShapePage.h"
 #include "LibraryList.h"
 
 #include "dataset/SymbolMgr.h"
 #include "dataset/ISymbol.h"
-#include "dataset/ShapeSymbol.h"
+#include "dataset/EShapeSymbol.h"
 #include "common/FileNameParser.h"
 
 using namespace d2d;
 
-LibraryShapePage::LibraryShapePage(wxWindow* parent)
-	: ILibraryPage(parent, wxT("Shape"))
+LibraryEShapePage::LibraryEShapePage(wxWindow* parent)
+	: ILibraryPage(parent, wxT("EShape"))
 {
 	initLayout();
 }
 
-bool LibraryShapePage::isHandleSymbol(ISymbol* symbol) const
+bool LibraryEShapePage::isHandleSymbol(ISymbol* symbol) const
 {
-	return dynamic_cast<ShapeSymbol*>(symbol) != NULL;
+	return dynamic_cast<EShapeSymbol*>(symbol) != NULL;
 }
 
-void LibraryShapePage::onAddPress(wxCommandEvent& event)
+void LibraryEShapePage::onAddPress(wxCommandEvent& event)
 {
-	wxString filter = "*_" + FileNameParser::getFileTag(FileNameParser::e_polygon) + ".txt";
+	wxString filter = "*_" + FileNameParser::getFileTag(FileNameParser::e_shape) + ".json";
 	wxFileDialog dlg(this, wxT("choose shape files"), wxEmptyString, 
 		wxEmptyString, filter, wxFD_OPEN | wxFD_MULTIPLE);
 	if (dlg.ShowModal() == wxID_OK)
