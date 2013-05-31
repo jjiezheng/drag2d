@@ -66,7 +66,11 @@ void ILibraryPage::reloadTexture() const
 
 void ILibraryPage::initLayout(bool draggable/* = true*/)
 {
-	wxSizer* sizer = new wxBoxSizer(wxVERTICAL);
+	wxSizer* sizer = GetSizer();
+	if (sizer)
+		sizer->DeleteWindows();
+	else
+		sizer = new wxBoxSizer(wxVERTICAL);
 
 	initButtons(sizer);
 
