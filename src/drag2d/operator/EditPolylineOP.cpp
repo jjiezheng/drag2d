@@ -163,9 +163,12 @@ onMouseLeftUp(int x, int y)
 
 		if (m_capturedEditable.shape)
 		{
-			m_propertyPanel->enablePropertyGrid(true);
-			m_propertyPanel->setPropertySetting(new ChainPropertySetting(m_editPanel, 
-				dynamic_cast<ChainShape*>(m_capturedEditable.shape)));
+			ChainShape* chain = dynamic_cast<ChainShape*>(m_capturedEditable.shape);
+			if (chain)
+			{
+				m_propertyPanel->enablePropertyGrid(true);
+				m_propertyPanel->setPropertySetting(new ChainPropertySetting(m_editPanel, chain));
+			}
 		}
 	}
 
@@ -270,28 +273,31 @@ onMouseDrag(int x, int y)
 			m_polyline.clear();
 
 		Vector pos = m_editPanel->transPosScreenToProject(x, y);
-		ChainShape* chain = dynamic_cast<ChainShape*>(m_capturedEditable.shape);
-		if (m_capturedEditable.pos.isValid())
+		if (ChainShape* chain = dynamic_cast<ChainShape*>(m_capturedEditable.shape))
 		{
-			chain->changeVertices(m_capturedEditable.pos, pos);
-			chain->refresh();
-			m_capturedEditable.pos = pos;
-		}
-		else
-		{
-			Vector old;
-			old.x = chain->getRect().xCenter();
-			old.y = chain->getRect().yCenter();
-			Vector offset = pos - old;
+			if (m_capturedEditable.pos.isValid())
+			{
+				chain->changeVertices(m_capturedEditable.pos, pos);
+				chain->refresh();
+				m_capturedEditable.pos = pos;
+			}
+			else
+			{
+				Vector old;
+				old.x = chain->getRect().xCenter();
+				old.y = chain->getRect().yCenter();
+				Vector offset = pos - old;
 
-			std::vector<Vector> ctlpos = chain->getVertices();
-			for (size_t i = 0, n = ctlpos.size(); i < n; ++i)
-				ctlpos[i] += offset;
-			chain->setVertices(ctlpos);
-		}
-		m_editPanel->Refresh();
+				std::vector<Vector> ctlpos = chain->getVertices();
+				for (size_t i = 0, n = ctlpos.size(); i < n; ++i)
+					ctlpos[i] += offset;
+				chain->setVertices(ctlpos);
+			}
 
-		m_propertyPanel->enablePropertyGrid(false);
+			m_editPanel->Refresh();
+
+			m_propertyPanel->enablePropertyGrid(false);
+		}
 	}
 	else if (m_lastLeftDownPos.isValid() 
 		&& Math::getDistance(m_lastLeftDownPos, Vector(x, y)) < DRAG_SELECT_TOL)
