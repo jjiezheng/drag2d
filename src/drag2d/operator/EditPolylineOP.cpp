@@ -176,6 +176,8 @@ onMouseLeftUp(int x, int y)
 		m_lastLeftDownPos.setInvalid();
 	}
 
+	m_editPanel->Refresh();
+
 	return false;
 }
 

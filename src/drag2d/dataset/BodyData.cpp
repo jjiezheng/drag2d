@@ -152,11 +152,13 @@ void BodyData::loadFromShapeFile(const wxString& filename)
 			fd->vertices[3] = d2d::Vector(rect->m_rect.xMin, rect->m_rect.yMax);
 			m_fixtures.push_back(fd);
 		}
-		else if (CircleShape* circle = dynamic_cast<CircleShape*>( shapes[i]))
+		else if (CircleShape* circle = dynamic_cast<CircleShape*>(shapes[i]))
 		{
 			FixtureData* fd = new FixtureData;
 			fd->vertices.push_back(Vector(circle->radius*2, circle->radius*2));
 			m_fixtures.push_back(fd);
 		}
+
+		shapes[i]->release();
 	}
 }

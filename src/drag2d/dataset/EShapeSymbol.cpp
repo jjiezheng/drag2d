@@ -82,8 +82,6 @@ void EShapeSymbol::loadResources()
 
 	EShapeFileAdapter adpater(m_shapes);
 	adpater.load(m_filepath.c_str());
-	for (size_t i = 0, n = m_shapes.size(); i < n; ++i)
-		m_shapes[i]->retain();
 }
 
 void EShapeSymbol::clear()
