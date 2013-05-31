@@ -30,13 +30,6 @@ EShapeFileAdapter::EShapeFileAdapter(std::vector<IShape*>& shapes)
 {
 }
 
-EShapeFileAdapter::~EShapeFileAdapter()
-{
-	for (size_t i = 0, n = m_shapes.size(); i < n; ++i)
-		m_shapes[i]->release();
-	m_shapes.clear();
-}
-
 void EShapeFileAdapter::load(const char* filename)
 {
 	Json::Value value;

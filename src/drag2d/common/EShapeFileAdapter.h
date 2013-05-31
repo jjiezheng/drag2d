@@ -34,7 +34,6 @@ namespace d2d
 	{
 	public:
 		EShapeFileAdapter(std::vector<IShape*>& shapes);
-		~EShapeFileAdapter();
 
 		virtual void load(const char* filename);
 		virtual void store(const char* filename);
