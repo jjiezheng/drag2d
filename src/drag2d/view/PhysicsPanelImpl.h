@@ -47,6 +47,9 @@ namespace d2d
 	protected:
 		b2World* m_world;
 
+		int m_velocityIterations;
+		int m_positionIterations;
+
 	private:
 		b2GLRender m_debugDraw;
 
