@@ -118,14 +118,14 @@ public:
 	}
 };
 
-/// Callback class for f2AABB queries.
+/// Callback class for AABB queries.
 /// See b2World::Query
 class b2QueryCallback
 {
 public:
 	virtual ~b2QueryCallback() {}
 
-	/// Called for each fixture found in the query f2AABB.
+	/// Called for each fixture found in the query AABB.
 	/// @return false to terminate the query.
 	virtual bool ReportFixture(b2Fixture* fixture) = 0;
 };

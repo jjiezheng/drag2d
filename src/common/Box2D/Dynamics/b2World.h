@@ -108,7 +108,7 @@ public:
 	void DrawDebugData();
 
 	/// Query the world for all fixtures that potentially overlap the
-	/// provided f2AABB.
+	/// provided AABB.
 	/// @param callback a user implemented callback class.
 	/// @param aabb the query box.
 	void QueryAABB(b2QueryCallback* callback, const b2AABB& aabb) const;
@@ -193,6 +193,11 @@ public:
 
 	/// Get the flag that controls automatic clearing of forces after each time step.
 	bool GetAutoClearForces() const;
+
+	/// Shift the world origin. Useful for large worlds.
+	/// The body shift formula is: position -= newOrigin
+	/// @param newOrigin the new origin with respect to the old origin
+	void ShiftOrigin(const b2Vec2& newOrigin);
 
 	/// Get the contact manager for testing.
 	const b2ContactManager& GetContactManager() const;

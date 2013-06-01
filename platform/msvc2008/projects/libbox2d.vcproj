@@ -468,6 +468,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\src\common\Box2D\Dynamics\Joints\b2MotorJoint.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\common\Box2D\Dynamics\Joints\b2MotorJoint.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\common\Box2D\Dynamics\Joints\b2MouseJoint.cpp"
 					>
 				</File>

@@ -28,7 +28,6 @@ struct b2Pair
 {
 	int32 proxyIdA;
 	int32 proxyIdB;
-	int32 next;
 };
 
 /// The broad-phase is used for computing pairs and performing volume queries and ray casts.
@@ -46,7 +45,7 @@ public:
 	b2BroadPhase();
 	~b2BroadPhase();
 
-	/// Create a proxy with an initial f2AABB. Pairs are not reported until
+	/// Create a proxy with an initial AABB. Pairs are not reported until
 	/// UpdatePairs is called.
 	int32 CreateProxy(const b2AABB& aabb, void* userData);
 
@@ -60,7 +59,7 @@ public:
 	/// Call to trigger a re-processing of it's pairs on the next call to UpdatePairs.
 	void TouchProxy(int32 proxyId);
 
-	/// Get the fat f2AABB for a proxy.
+	/// Get the fat AABB for a proxy.
 	const b2AABB& GetFatAABB(int32 proxyId) const;
 
 	/// Get user data from a proxy. Returns NULL if the id is invalid.
@@ -76,8 +75,8 @@ public:
 	template <typename T>
 	void UpdatePairs(T* callback);
 
-	/// Query an f2AABB for overlapping proxies. The callback class
-	/// is called for each proxy that overlaps the supplied f2AABB.
+	/// Query an AABB for overlapping proxies. The callback class
+	/// is called for each proxy that overlaps the supplied AABB.
 	template <typename T>
 	void Query(T* callback, const b2AABB& aabb) const;
 
@@ -99,6 +98,11 @@ public:
 
 	/// Get the quality metric of the embedded tree.
 	float32 GetTreeQuality() const;
+
+	/// Shift the world origin. Useful for large worlds.
+	/// The shift formula is: position -= newOrigin
+	/// @param newOrigin the new origin with respect to the old origin
+	void ShiftOrigin(const b2Vec2& newOrigin);
 
 private:
 
@@ -192,7 +196,7 @@ void b2BroadPhase::UpdatePairs(T* callback)
 			continue;
 		}
 
-		// We have to query the tree with the fat f2AABB so that
+		// We have to query the tree with the fat AABB so that
 		// we don't fail to create a pair that may touch later.
 		const b2AABB& fatAABB = m_tree.GetFatAABB(m_queryProxyId);
 
@@ -243,6 +247,11 @@ template <typename T>
 inline void b2BroadPhase::RayCast(T* callback, const b2RayCastInput& input) const
 {
 	m_tree.RayCast(callback, input);
+}
+
+inline void b2BroadPhase::ShiftOrigin(const b2Vec2& newOrigin)
+{
+	m_tree.ShiftOrigin(newOrigin);
 }
 
 #endif
