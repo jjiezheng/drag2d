@@ -21,9 +21,12 @@
 #include "common/visitors.h"
 #include "dataset/PolygonShape.h"
 #include "dataset/CircleShape.h"
+#include "dataset/RectShape.h"
 #include "component/AbstractEditCMPT.h"
 #include "view/PropertySettingPanel.h"
+#include "view/ChainPropertySetting.h"
 #include "view/CirclePropertySetting.h"
+#include "view/RectPropertySetting.h"
 #include "view/MultiShapesImpl.h"
 #include "render/DrawSelectedShapeVisitor.h"
 
@@ -107,7 +110,7 @@ bool SelectShapesOP::onMouseLeftDown(int x, int y)
 				if (m_selection->size() == 1)
 					m_propertyPanel->setPropertySetting(createPropertySetting(selected));
 				else
-					m_propertyPanel->setPropertySetting(NULL);
+					m_propertyPanel->setPropertySetting(createPropertySetting(NULL));
 			}
 		}
 		else
@@ -153,7 +156,7 @@ bool SelectShapesOP::onMouseLeftUp(int x, int y)
 			if (m_selection->size() == 1)
 				m_propertyPanel->setPropertySetting(createPropertySetting(shapes[0]));
 			else
-				m_propertyPanel->setPropertySetting(NULL);
+				m_propertyPanel->setPropertySetting(createPropertySetting(NULL));
 		}
 
 		m_firstPos.setInvalid();
@@ -187,8 +190,12 @@ bool SelectShapesOP::clear()
 
 IPropertySetting* SelectShapesOP::createPropertySetting(IShape* shape) const
 {
-	if (CircleShape* circle = dynamic_cast<CircleShape*>(shape))
+	if (ChainShape* chain = dynamic_cast<ChainShape*>(shape))
+		return new ChainPropertySetting(m_editPanel, chain);
+	else if (CircleShape* circle = dynamic_cast<CircleShape*>(shape))
 		return new CirclePropertySetting(m_editPanel, circle);
+	else if (RectShape* rect = dynamic_cast<RectShape*>(shape))
+		return new RectPropertySetting(m_editPanel, rect);
 	else
 		return NULL;
 }
