@@ -160,7 +160,7 @@ void b2Fixture::Synchronize(b2BroadPhase* broadPhase, const b2Transform& transfo
 	{
 		b2FixtureProxy* proxy = m_proxies + i;
 
-		// Compute an f2AABB that covers the swept shape (may miss some rotation effect).
+		// Compute an AABB that covers the swept shape (may miss some rotation effect).
 		b2AABB aabb1, aabb2;
 		m_shape->ComputeAABB(&aabb1, transform1, proxy->childIndex);
 		m_shape->ComputeAABB(&aabb2, transform2, proxy->childIndex);
@@ -267,11 +267,11 @@ void b2Fixture::Dump(int32 bodyIndex)
 			b2PolygonShape* s = (b2PolygonShape*)m_shape;
 			b2Log("    b2PolygonShape shape;\n");
 			b2Log("    b2Vec2 vs[%d];\n", b2_maxPolygonVertices);
-			for (int32 i = 0; i < s->m_vertexCount; ++i)
+			for (int32 i = 0; i < s->m_count; ++i)
 			{
 				b2Log("    vs[%d].Set(%.15lef, %.15lef);\n", i, s->m_vertices[i].x, s->m_vertices[i].y);
 			}
-			b2Log("    shape.Set(vs, %d);\n", s->m_vertexCount);
+			b2Log("    shape.Set(vs, %d);\n", s->m_count);
 		}
 		break;
 

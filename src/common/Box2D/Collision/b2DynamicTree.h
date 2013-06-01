@@ -32,7 +32,7 @@ struct b2TreeNode
 		return child1 == b2_nullNode;
 	}
 
-	/// Enlarged f2AABB
+	/// Enlarged AABB
 	b2AABB aabb;
 
 	void* userData;
@@ -50,11 +50,11 @@ struct b2TreeNode
 	int32 height;
 };
 
-/// A dynamic f2AABB tree broad-phase, inspired by Nathanael Presson's btDbvt.
+/// A dynamic AABB tree broad-phase, inspired by Nathanael Presson's btDbvt.
 /// A dynamic tree arranges data in a binary tree to accelerate
 /// queries such as volume queries and ray casts. Leafs are proxies
-/// with an f2AABB. In the tree we expand the proxy f2AABB by b2_fatAABBFactor
-/// so that the proxy f2AABB is bigger than the client object. This allows the client
+/// with an AABB. In the tree we expand the proxy AABB by b2_fatAABBFactor
+/// so that the proxy AABB is bigger than the client object. This allows the client
 /// object to move by small amounts without triggering a tree update.
 ///
 /// Nodes are pooled and relocatable, so we use node indices rather than pointers.
@@ -67,13 +67,13 @@ public:
 	/// Destroy the tree, freeing the node pool.
 	~b2DynamicTree();
 
-	/// Create a proxy. Provide a tight fitting f2AABB and a userData pointer.
+	/// Create a proxy. Provide a tight fitting AABB and a userData pointer.
 	int32 CreateProxy(const b2AABB& aabb, void* userData);
 
 	/// Destroy a proxy. This asserts if the id is invalid.
 	void DestroyProxy(int32 proxyId);
 
-	/// Move a proxy with a swepted f2AABB. If the proxy has moved outside of its fattened f2AABB,
+	/// Move a proxy with a swepted AABB. If the proxy has moved outside of its fattened AABB,
 	/// then the proxy is removed from the tree and re-inserted. Otherwise
 	/// the function returns immediately.
 	/// @return true if the proxy was re-inserted.
@@ -83,11 +83,11 @@ public:
 	/// @return the proxy user data or 0 if the id is invalid.
 	void* GetUserData(int32 proxyId) const;
 
-	/// Get the fat f2AABB for a proxy.
+	/// Get the fat AABB for a proxy.
 	const b2AABB& GetFatAABB(int32 proxyId) const;
 
-	/// Query an f2AABB for overlapping proxies. The callback class
-	/// is called for each proxy that overlaps the supplied f2AABB.
+	/// Query an AABB for overlapping proxies. The callback class
+	/// is called for each proxy that overlaps the supplied AABB.
 	template <typename T>
 	void Query(T* callback, const b2AABB& aabb) const;
 
@@ -117,6 +117,11 @@ public:
 
 	/// Build an optimal tree. Very expensive. For testing.
 	void RebuildBottomUp();
+
+	/// Shift the world origin. Useful for large worlds.
+	/// The shift formula is: position -= newOrigin
+	/// @param newOrigin the new origin with respect to the old origin
+	void ShiftOrigin(const b2Vec2& newOrigin);
 
 private:
 

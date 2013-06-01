@@ -163,13 +163,13 @@ struct b2AABB
 	/// Verify that the bounds are sorted.
 	bool IsValid() const;
 
-	/// Get the center of the f2AABB.
+	/// Get the center of the AABB.
 	b2Vec2 GetCenter() const
 	{
 		return 0.5f * (lowerBound + upperBound);
 	}
 
-	/// Get the extents of the f2AABB (half-widths).
+	/// Get the extents of the AABB (half-widths).
 	b2Vec2 GetExtents() const
 	{
 		return 0.5f * (upperBound - lowerBound);
@@ -183,7 +183,7 @@ struct b2AABB
 		return 2.0f * (wx + wy);
 	}
 
-	/// Combine an f2AABB into this one.
+	/// Combine an AABB into this one.
 	void Combine(const b2AABB& aabb)
 	{
 		lowerBound = b2Min(lowerBound, aabb.lowerBound);
@@ -197,7 +197,7 @@ struct b2AABB
 		upperBound = b2Max(aabb1.upperBound, aabb2.upperBound);
 	}
 
-	/// Does this aabb contain the provided f2AABB.
+	/// Does this aabb contain the provided AABB.
 	bool Contains(const b2AABB& aabb) const
 	{
 		bool result = true;

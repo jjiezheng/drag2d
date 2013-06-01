@@ -187,8 +187,8 @@ public:
 	/// existing contacts.
 	void SetRestitution(float32 restitution);
 
-	/// Get the fixture's f2AABB. This f2AABB may be enlarge and/or stale.
-	/// If you need a more accurate f2AABB, compute it using the shape and
+	/// Get the fixture's AABB. This AABB may be enlarge and/or stale.
+	/// If you need a more accurate AABB, compute it using the shape and
 	/// the body transform.
 	const b2AABB& GetAABB(int32 childIndex) const;
 

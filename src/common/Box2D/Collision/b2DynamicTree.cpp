@@ -143,13 +143,13 @@ bool b2DynamicTree::MoveProxy(int32 proxyId, const b2AABB& aabb, const b2Vec2& d
 
 	RemoveLeaf(proxyId);
 
-	// Extend f2AABB.
+	// Extend AABB.
 	b2AABB b = aabb;
 	b2Vec2 r(b2_aabbExtension, b2_aabbExtension);
 	b.lowerBound = b.lowerBound - r;
 	b.upperBound = b.upperBound + r;
 
-	// Predict f2AABB displacement.
+	// Predict AABB displacement.
 	b2Vec2 d = b2_aabbMultiplier * displacement;
 
 	if (d.x < 0.0f)
@@ -768,4 +768,14 @@ void b2DynamicTree::RebuildBottomUp()
 	b2Free(nodes);
 
 	Validate();
+}
+
+void b2DynamicTree::ShiftOrigin(const b2Vec2& newOrigin)
+{
+	// Build array of leaves. Free the rest.
+	for (int32 i = 0; i < m_nodeCapacity; ++i)
+	{
+		m_nodes[i].aabb.lowerBound -= newOrigin;
+		m_nodes[i].aabb.upperBound -= newOrigin;
+	}
 }
