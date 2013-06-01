@@ -48,7 +48,16 @@ void PrimitiveDraw::drawRect(const Vector& p0, const Vector& p1, bool isFill/* =
 {
 	int type = isFill ? GL10::GL_QUADS : GL10::GL_LINE_LOOP;
 
-	GL10::LineWidth(size);
+	if (isFill)
+	{
+		GL10::Enable(GL10::GL_BLEND);
+		GL10::BlendFunc(GL10::GL_SRC_ALPHA, GL10::GL_ONE_MINUS_SRC_ALPHA);
+	}
+	else
+	{
+		GL10::LineWidth(size);
+	}
+
 	GL10::Color4f(color.r, color.g, color.b, color.a);
 	GL10::Begin(type);
 		GL10::Vertex2f(p0.x, p0.y);
@@ -56,7 +65,11 @@ void PrimitiveDraw::drawRect(const Vector& p0, const Vector& p1, bool isFill/* =
 		GL10::Vertex2f(p1.x, p1.y);
 		GL10::Vertex2f(p1.x, p0.y);
 	GL10::End();
-	GL10::LineWidth(1.0f);
+
+	if (isFill)
+		GL10::Disable(GL10::GL_BLEND);
+	else
+		GL10::LineWidth(1.0f);
 }
 
 void PrimitiveDraw::drawCircle(const Vector& center, float radius, bool isFill/* = false*/, 
