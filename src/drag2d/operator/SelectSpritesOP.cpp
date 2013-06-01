@@ -84,7 +84,7 @@ bool SelectSpritesOP::onMouseLeftDown(int x, int y)
 						m_propertyPanel->setPropertySetting(createPropertySetting(sprites));
 					}
 					else
-						m_propertyPanel->setPropertySetting(NULL);
+						m_propertyPanel->setPropertySetting(createPropertySetting(NULL));
 				}
 			}
 		}
@@ -133,7 +133,7 @@ bool SelectSpritesOP::onMouseLeftUp(int x, int y)
 			else if (m_selection->size() > 1)
 				m_propertyPanel->setPropertySetting(createPropertySetting(sprites));
 			else
-				m_propertyPanel->setPropertySetting(NULL);
+				m_propertyPanel->setPropertySetting(createPropertySetting(NULL));
 		}
 
 		m_firstPos.setInvalid();
