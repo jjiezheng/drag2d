@@ -26,6 +26,8 @@ using namespace d2d;
 
 PhysicsPanelImpl::PhysicsPanelImpl()
 	: m_debugDraw(BOX2D_SCALE_FACTOR)
+	, m_velocityIterations(8)
+	, m_positionIterations(3)
 {
 	m_world = createWorld(Vector(0.0f, -10.0f));
 
@@ -51,7 +53,7 @@ PhysicsPanelImpl::~PhysicsPanelImpl()
 void PhysicsPanelImpl::update(wxCommandEvent& event)
 {
 	const float timeStep = 1.0f / 60;
-	m_world->Step(timeStep, 8, 3);
+	m_world->Step(timeStep, m_velocityIterations, m_positionIterations);
 }
 
 void PhysicsPanelImpl::drawPhysics()
