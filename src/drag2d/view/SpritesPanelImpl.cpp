@@ -35,7 +35,7 @@ SpritesPanelImpl::SpritesPanelImpl(EditPanel* editPanel, LibraryPanel* libraryPa
 
 SpritesPanelImpl::~SpritesPanelImpl()
 {
-	clear();
+	clearSprites();
 }
 
 void SpritesPanelImpl::traverseSprites(IVisitor& visitor, TraverseType type/* = e_allExisting*/,
@@ -83,7 +83,7 @@ void SpritesPanelImpl::insertSprite(ISprite* sprite)
 	m_wnd->Refresh();
 }
 
-void SpritesPanelImpl::clear()
+void SpritesPanelImpl::clearSprites()
 {
 	for (size_t i = 0, n = m_sprites.size(); i < n; ++i)
 		m_sprites[i]->release();

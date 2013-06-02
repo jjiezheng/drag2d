@@ -35,7 +35,7 @@ namespace d2d
 			TraverseType type = e_allExisting) const;
 		virtual void removeShape(IShape* shape);
 		virtual void insertShape(IShape* shape);
-		virtual void clear();
+		virtual void clearShapes();
 
 	private:
 		std::vector<IShape*> m_shapes;

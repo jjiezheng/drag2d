@@ -43,6 +43,8 @@ namespace d2d
  		//
  		virtual void onCameraChanged();
 
+		virtual void clear();
+
 		Vector transPosScreenToProject(int x, int y) const;
 //		Vector transPosProjectToScreen(const Vector& proj) const;
 
@@ -69,8 +71,6 @@ namespace d2d
 		void undo();
 		void redo();
 		void addHistoryOP(AbstractAtomicOP* op);
-
-		void clear();
 
 	protected:
 		void onSize(wxSizeEvent& event);

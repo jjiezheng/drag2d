@@ -57,6 +57,11 @@ void EditPanel::onCameraChanged()
 		m_canvas->resetViewport();
 }
 
+void EditPanel::clear()
+{
+	m_editOP->clear();
+}
+
 Vector EditPanel::transPosScreenToProject(int x, int y) const
 {
 	return m_camera->transPosScreenToProject(x, y, GetSize().GetWidth(), GetSize().GetHeight());
@@ -168,11 +173,6 @@ void EditPanel::addHistoryOP(AbstractAtomicOP* op)
 {
 	m_undoStack.push(op);
 	clearAtomicOPStack(m_redoStack);
-}
-
-void EditPanel::clear()
-{
-	m_editOP->clear();
 }
 
 void EditPanel::onSize(wxSizeEvent& event)
