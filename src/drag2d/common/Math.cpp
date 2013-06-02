@@ -209,7 +209,7 @@ float Math::getDisPointToSegment(const Vector& p, const Vector& s, const Vector&
 		return fabs((s.x - p.x) * (e.y - p.y) - (s.y - p.y) * (e.x - p.x)) / getDistance(s, e);
 }
 
-float Math::getDisPointToPolyline(const Vector& p, const std::vector<Vector>& polyline, size_t* iPos)
+float Math::getDisPointToPolyline(const Vector& p, const std::vector<Vector>& polyline, size_t* iPos/* = NULL*/)
 {
 	if (polyline.size() < 2) return FLT_MAX;
 
@@ -228,7 +228,7 @@ float Math::getDisPointToPolyline(const Vector& p, const std::vector<Vector>& po
 	return nearest;
 }
 
-float Math::getDisPointToMultiLines(const Vector& p, const std::vector<std::vector<Vector> >& multiLines, size_t* iLine, size_t* iPos)
+float Math::getDisPointToMultiLines(const Vector& p, const std::vector<std::vector<Vector> >& multiLines, size_t* iLine/* = NULL*/, size_t* iPos/* = NULL*/)
 {
 	float nearest = FLT_MAX;
 	size_t iNearest0 = -1, iNearest1 = -1;
@@ -251,7 +251,7 @@ float Math::getDisPointToMultiLines(const Vector& p, const std::vector<std::vect
 	return nearest;
 }
 
-float Math::getDisPointToMultiPos(const Vector& p, const std::vector<Vector>& pos, size_t* index)
+float Math::getDisPointToMultiPos(const Vector& p, const std::vector<Vector>& pos, size_t* index/* = NULL*/)
 {
 	float nearest = FLT_MAX;
 	size_t iNearest = -1;
@@ -268,7 +268,7 @@ float Math::getDisPointToMultiPos(const Vector& p, const std::vector<Vector>& po
 	return nearest;
 }
 
-float Math::getDisPointToMultiPos(const Vector& p, const std::vector<std::vector<Vector> >& pos, size_t* index0, size_t* index1)
+float Math::getDisPointToMultiPos(const Vector& p, const std::vector<std::vector<Vector> >& pos, size_t* index0/* = NULL*/, size_t* index1/* = NULL*/)
 {
 	float nearest = FLT_MAX;
 	size_t iNearest0 = -1, iNearest1 = -1;

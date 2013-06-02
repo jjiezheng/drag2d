@@ -161,13 +161,13 @@ namespace d2d
 
 		static float getDisPointToSegment(const Vector& p, const Vector& s, const Vector& e);
 
-		static float getDisPointToPolyline(const Vector& p, const std::vector<Vector>& polyline, size_t* iPos);
+		static float getDisPointToPolyline(const Vector& p, const std::vector<Vector>& polyline, size_t* iPos = NULL);
 
-		static float getDisPointToMultiLines(const Vector& p, const std::vector<std::vector<Vector> >& multiLines, size_t* iLine, size_t* iPos);
+		static float getDisPointToMultiLines(const Vector& p, const std::vector<std::vector<Vector> >& multiLines, size_t* iLine = NULL, size_t* iPos = NULL);
 
-		static float getDisPointToMultiPos(const Vector& p, const std::vector<Vector>& pos, size_t* index);
+		static float getDisPointToMultiPos(const Vector& p, const std::vector<Vector>& pos, size_t* index = NULL);
 
-		static float getDisPointToMultiPos(const Vector& p, const std::vector<std::vector<Vector> >& pos, size_t* index0, size_t* index1);
+		static float getDisPointToMultiPos(const Vector& p, const std::vector<std::vector<Vector> >& pos, size_t* index0 = NULL, size_t* index1 = NULL);
 
 		static float getAngle(const Vector& center, const Vector& pa, const Vector& pb);
 
