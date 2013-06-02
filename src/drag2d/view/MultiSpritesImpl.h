@@ -38,7 +38,7 @@ namespace d2d
 			TraverseType type = e_allExisting, bool order = true) const = 0;
 		virtual void removeSprite(ISprite* sprite) = 0;
 		virtual void insertSprite(ISprite* sprite) = 0;
-		virtual void clear() = 0;
+		virtual void clearSprites() = 0;
 
 		virtual ISprite* querySpriteByPos(const Vector& pos) const;
 		virtual void querySpritesByRect(const Rect& rect, std::vector<ISprite*>& result) const;		

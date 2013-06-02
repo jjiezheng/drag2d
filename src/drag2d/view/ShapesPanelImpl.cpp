@@ -29,7 +29,7 @@ ShapesPanelImpl::ShapesPanelImpl(wxWindow* wnd)
 
 ShapesPanelImpl::~ShapesPanelImpl()
 {
-	clear();
+	clearShapes();
 }
 
 void ShapesPanelImpl::traverseShapes(IVisitor& visitor, 
@@ -64,7 +64,7 @@ void ShapesPanelImpl::insertShape(IShape* shape)
 	m_wnd->Refresh();
 }
 
-void ShapesPanelImpl::clear()
+void ShapesPanelImpl::clearShapes()
 {
 	for_each(m_shapes.begin(), m_shapes.end(), DeletePointerFunctor<IShape>());
 	m_shapes.clear();

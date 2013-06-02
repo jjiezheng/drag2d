@@ -39,7 +39,7 @@ namespace d2d
 			TraverseType type = e_allExisting, bool order = true) const;
 		virtual void removeSprite(ISprite* sprite);
 		virtual void insertSprite(ISprite* sprite);
-		virtual void clear();
+		virtual void clearSprites();
 
 	private:
 		class DragSymbolTarget : public wxTextDropTarget
