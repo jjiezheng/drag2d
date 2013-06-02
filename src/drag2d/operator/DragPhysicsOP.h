@@ -38,7 +38,10 @@ namespace d2d
 		b2World* m_world;
 		b2Body* m_ground;
 
+	public:
 		b2MouseJoint* m_mouseJoint;
+
+		d2d::Vector currPos;
 
 	}; // DragPhysicsOP
 }
