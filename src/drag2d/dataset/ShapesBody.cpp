@@ -82,7 +82,7 @@ void ShapesBody::getRect(Rect& rect, const Vector& position, float angle) const
 		if (b2PolygonShape* poly = dynamic_cast<b2PolygonShape*>(f->GetShape()))
 		{
 			assert(poly);
-			for (size_t i = 0; i < poly->m_vertexCount; ++i)
+			for (size_t i = 0; i < poly->GetVertexCount(); ++i)
 			{
 				const b2Vec2& p = poly->m_vertices[i];
 				Vector transform = Math::rotateVector(Vector(p.x, p.y), angle) + position;
