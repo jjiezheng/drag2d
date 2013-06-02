@@ -34,7 +34,6 @@ namespace d2d
 		{
 			e_Color = 0,
 			e_Texture,
-			e_Null
 		};
 
 	public:
@@ -51,6 +50,11 @@ namespace d2d
 		// IShape interface
 		//
 		virtual void draw(const Colorf& color = Colorf(0, 0, 0)) const;
+
+		//
+		// ChainShape interface
+		//
+		virtual void refresh();
 
 	public:
 		void buildFillingTris();

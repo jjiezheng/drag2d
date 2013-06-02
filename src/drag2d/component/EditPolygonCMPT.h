@@ -16,30 +16,27 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef D2D_CHAIN_PROPERTY_SETTING_H
-#define D2D_CHAIN_PROPERTY_SETTING_H
+#ifndef D2D_EDIT_POLYGON_CMPT_H
+#define D2D_EDIT_POLYGON_CMPT_H
 
-#include "IPropertySetting.h"
+#include "NodeCaptureCMPT.h"
+
+#include "operator/EditPolylineOP.h"
+#include "operator/DrawPolygonEdgeOP.h"
+#include "operator/SelectShapesOP.h"
 
 namespace d2d
 {
-	class ChainShape;
-
-	class ChainPropertySetting : public IPropertySetting
+	class EditPolygonCMPT : public NodeCaptureCMPT<EditPolylineOP<DrawPolygonEdgeOP, SelectShapesOP> >
 	{
 	public:
-		ChainPropertySetting(EditPanel* editPanel, ChainShape* chain);
+		EditPolygonCMPT(wxWindow* parent, const wxString& name,
+			EditPanel* editPanel, MultiShapesImpl* shapesImpl,
+			PropertySettingPanel* propertyPanel);
 
-		virtual void updatePanel(PropertySettingPanel* panel);
+//		virtual void updateControlValue();
 
-		virtual void onPropertyGridChange(const wxString& name, const wxAny& value);
-		virtual void updatePropertyGrid(PropertySettingPanel* panel);
-		virtual void enablePropertyGrid(PropertySettingPanel* panel, bool bEnable);
-
-	private:
-		ChainShape* m_chain;
-
-	}; // ChainPropertySetting
+	}; // EditPolygonCMPT
 }
 
-#endif // D2D_CHAIN_PROPERTY_SETTING_H
+#endif // D2D_EDIT_POLYGON_CMPT_H

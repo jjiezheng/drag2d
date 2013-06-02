@@ -57,9 +57,9 @@ namespace d2d
 
 		MultiSpritesImpl* m_spritesImpl;
 
-	private:
 		AbstractEditCMPT* m_callback;
 
+	private:
 		Vector m_firstPos;
 
 	}; // SelectSpritesOP

@@ -121,6 +121,7 @@
 #include "component/NodeCaptureCMPT.h"
 #include "component/EditNodesCMPT.h"
 #include "component/EditPolylinesCMPT.h"
+#include "component/EditPolygonCMPT.h"
 #include "component/LayersMgrCMPT.h"
 #include "component/MousePositionCMPT.h"
 #include "component/UniversalArrangeCMPT.h"

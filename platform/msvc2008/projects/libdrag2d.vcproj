@@ -553,6 +553,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\src\drag2d\component\EditPolygonCMPT.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\component\EditPolygonCMPT.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\drag2d\component\EditPolylinesCMPT.cpp"
 					>
 				</File>
@@ -1446,6 +1454,14 @@
 				</File>
 				<File
 					RelativePath="..\..\..\src\drag2d\view\MultiSpritesPropertySetting.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\view\PolygonPropertySetting.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\view\PolygonPropertySetting.h"
 					>
 				</File>
 				<File

@@ -23,9 +23,11 @@
 
 #include "common/Math.h"
 #include "dataset/ChainShape.h"
+#include "dataset/PolygonShape.h"
 #include "render/PrimitiveDraw.h"
 #include "view/PropertySettingPanel.h"
 #include "view/ChainPropertySetting.h"
+#include "view/PolygonPropertySetting.h"
 
 //using namespace d2d;
 
@@ -92,14 +94,18 @@ onMouseLeftDown(int x, int y)
 
 			m_polyline.push_back(m_capturedEditable.pos);
 
-			if (ChainShape* chain = dynamic_cast<ChainShape*>(m_capturedEditable.shape))
+			if (PolygonShape* poly = dynamic_cast<PolygonShape*>(m_capturedEditable.shape))
+				m_propertyPanel->setPropertySetting(new PolygonPropertySetting(m_editPanel, poly));
+			else if (ChainShape* chain = dynamic_cast<ChainShape*>(m_capturedEditable.shape))
 				m_propertyPanel->setPropertySetting(new ChainPropertySetting(m_editPanel, chain));
 		}
 		else if (m_captureSelectable.shape)
 		{
 			m_polyline.push_back(m_captureSelectable.pos);
 
-			if (ChainShape* chain = dynamic_cast<ChainShape*>(m_captureSelectable.shape))
+			if (PolygonShape* poly = dynamic_cast<PolygonShape*>(m_captureSelectable.shape))
+				m_propertyPanel->setPropertySetting(new PolygonPropertySetting(m_editPanel, poly));
+			else if (ChainShape* chain = dynamic_cast<ChainShape*>(m_captureSelectable.shape))
 				m_propertyPanel->setPropertySetting(new ChainPropertySetting(m_editPanel, chain));
 		}
 		else
@@ -118,7 +124,9 @@ onMouseLeftDown(int x, int y)
 					m_capturedEditable.pos = pos;
 					m_editPanel->Refresh();
 
-					if (ChainShape* chain = dynamic_cast<ChainShape*>(m_capturedEditable.shape))
+					if (PolygonShape* poly = dynamic_cast<PolygonShape*>(m_capturedEditable.shape))
+						m_propertyPanel->setPropertySetting(new PolygonPropertySetting(m_editPanel, poly));
+					else if (ChainShape* chain = dynamic_cast<ChainShape*>(m_capturedEditable.shape))
 						m_propertyPanel->setPropertySetting(new ChainPropertySetting(m_editPanel, chain));
 				}
 				else
@@ -163,8 +171,12 @@ onMouseLeftUp(int x, int y)
 
 		if (m_capturedEditable.shape)
 		{
-			ChainShape* chain = dynamic_cast<ChainShape*>(m_capturedEditable.shape);
-			if (chain)
+			if (PolygonShape* poly = dynamic_cast<PolygonShape*>(m_capturedEditable.shape))
+			{
+				m_propertyPanel->enablePropertyGrid(true);
+				m_propertyPanel->setPropertySetting(new PolygonPropertySetting(m_editPanel, poly));
+			}
+			else if (ChainShape* chain = dynamic_cast<ChainShape*>(m_capturedEditable.shape))
 			{
 				m_propertyPanel->enablePropertyGrid(true);
 				m_propertyPanel->setPropertySetting(new ChainPropertySetting(m_editPanel, chain));
@@ -278,7 +290,6 @@ onMouseDrag(int x, int y)
 			if (m_capturedEditable.pos.isValid())
 			{
 				chain->changeVertices(m_capturedEditable.pos, pos);
-				chain->refresh();
 				m_capturedEditable.pos = pos;
 			}
 			else
@@ -294,6 +305,7 @@ onMouseDrag(int x, int y)
 				chain->setVertices(ctlpos);
 			}
 
+			chain->refresh();
 			m_editPanel->Refresh();
 
 			m_propertyPanel->enablePropertyGrid(false);

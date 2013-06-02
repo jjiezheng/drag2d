@@ -16,19 +16,19 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef D2D_CHAIN_PROPERTY_SETTING_H
-#define D2D_CHAIN_PROPERTY_SETTING_H
+#ifndef D2D_POLYGON_PROPERTY_SETTING_H
+#define D2D_POLYGON_PROPERTY_SETTING_H
 
 #include "IPropertySetting.h"
 
 namespace d2d
 {
-	class ChainShape;
+	class PolygonShape;
 
-	class ChainPropertySetting : public IPropertySetting
+	class PolygonPropertySetting : public IPropertySetting
 	{
 	public:
-		ChainPropertySetting(EditPanel* editPanel, ChainShape* chain);
+		PolygonPropertySetting(EditPanel* editPanel, PolygonShape* poly);
 
 		virtual void updatePanel(PropertySettingPanel* panel);
 
@@ -37,9 +37,9 @@ namespace d2d
 		virtual void enablePropertyGrid(PropertySettingPanel* panel, bool bEnable);
 
 	private:
-		ChainShape* m_chain;
+		PolygonShape* m_poly;
 
-	}; // ChainPropertySetting
+	}; // PolygonPropertySetting
 }
 
-#endif // D2D_CHAIN_PROPERTY_SETTING_H
+#endif // D2D_POLYGON_PROPERTY_SETTING_H
