@@ -39,9 +39,11 @@ PolygonShape::PolygonShape(const PolygonShape& polygon)
 
 PolygonShape::PolygonShape(const std::vector<Vector>& vertices)
 	: ChainShape(vertices, true)
-	, m_fillingType(e_Null)
+	, m_fillingType(e_Color)
+	, m_fillingColor(0.8f, 0.8f, 0.8f, 0.8f)
 	, m_fillingTexture(NULL)
 {
+	buildFillingTris();
 }
 
 PolygonShape::~PolygonShape()
@@ -79,6 +81,11 @@ void PolygonShape::draw(const Colorf& color/* = Colorf(0, 0, 0)*/) const
 
 	if (Settings::bDisplayPolyBound)
 		ChainShape::draw(color);
+}
+
+void PolygonShape::refresh()
+{
+	buildFillingTris();
 }
 
 void PolygonShape::buildFillingTris()

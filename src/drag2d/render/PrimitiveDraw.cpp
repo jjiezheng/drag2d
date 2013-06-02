@@ -326,6 +326,9 @@ void PrimitiveDraw::drawTriangles(const std::vector<Vector>& triangles, const Co
 {
 	if (triangles.empty()) return;
 
+	GL10::Enable(GL10::GL_BLEND);
+	GL10::BlendFunc(GL10::GL_SRC_ALPHA, GL10::GL_ONE_MINUS_SRC_ALPHA);
+
 	std::vector<Colorf> colors;
 	colors.resize(triangles.size(), color);
 
@@ -339,6 +342,8 @@ void PrimitiveDraw::drawTriangles(const std::vector<Vector>& triangles, const Co
 
  	GL10::DisableClientState(GL10::GL_COLOR_ARRAY);
  	GL10::DisableClientState(GL10::GL_VERTEX_ARRAY);
+
+	GL10::Disable(GL10::GL_BLEND);
 }
 
 //void PrimitiveDraw::drawTriangles(const std::vector<Vector>& triangles, const wxString& filepath)

@@ -102,6 +102,8 @@ namespace d2d
 
 		NodeCaptureCMPT<EditPolylineOP>* m_cmpt;
 //		NodeAddr m_captured;
+
+	protected:
 		NodeAddr m_capturedEditable, m_captureSelectable;
 
 	protected:

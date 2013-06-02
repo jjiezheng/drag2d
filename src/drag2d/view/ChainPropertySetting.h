@@ -39,7 +39,7 @@ namespace d2d
 	private:
 		ChainShape* m_chain;
 
-	}; // RectPropertySetting
+	}; // ChainPropertySetting
 }
 
 #endif // D2D_CHAIN_PROPERTY_SETTING_H

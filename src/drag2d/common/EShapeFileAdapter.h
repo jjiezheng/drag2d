@@ -26,6 +26,7 @@
 namespace d2d
 {
 	class IShape;
+	class PolygonShape;
 	class ChainShape;
 	class RectShape;
 	class CircleShape;
@@ -42,10 +43,12 @@ namespace d2d
 		static Json::Value store(IShape* shape);
 
 	private:
+		static IShape* loadPolygon(const Json::Value& value);
 		static IShape* loadChain(const Json::Value& value);
 		static IShape* loadRect(const Json::Value& value);
 		static IShape* loadCircle(const Json::Value& value);
 
+		static Json::Value store(const PolygonShape* poly);
 		static Json::Value store(const ChainShape* chain);
 		static Json::Value store(const RectShape* rect);
 		static Json::Value store(const CircleShape* circle);
