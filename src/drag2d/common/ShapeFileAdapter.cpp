@@ -63,6 +63,11 @@ void ShapeFileAdapter::load(const char* filename)
 				fin >> color;
 			else if (type == PolygonShape::e_Texture)
 				texPath = StringTools::getLine(fin);
+			else 
+			{
+				StringTools::getLine(fin);
+				continue;
+			}
 
 			std::vector<Vector> bound;
 			size_t boundSize;
