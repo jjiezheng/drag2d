@@ -53,10 +53,10 @@ wxSizer* AbstractEditCMPT::initChildrenLayout()
 		for (size_t i = 0, n = m_children.size(); i < n; ++i)
 			choices.Add(m_children[i]->m_name);
 
-		wxRadioBox* editChoice = new wxRadioBox(this, wxID_ANY, m_childrenName == wxEmptyString ? wxT("Operation") : m_childrenName, 
+		m_editChoice = new wxRadioBox(this, wxID_ANY, m_childrenName == wxEmptyString ? wxT("Operation") : m_childrenName, 
 			wxDefaultPosition, wxDefaultSize, choices, 1, wxRA_SPECIFY_COLS);
-		Connect(editChoice->GetId(), wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler(AbstractEditCMPT::onChangeEditType));
-		m_childrenSizer->Add(editChoice, 0);
+		Connect(m_editChoice->GetId(), wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler(AbstractEditCMPT::onChangeEditType));
+		m_childrenSizer->Add(m_editChoice, 0);
 
 		m_childrenSizer->AddSpacer(20);
 
@@ -84,6 +84,15 @@ wxSizer* AbstractEditCMPT::initChildrenLayout()
 	return m_childrenSizer;
 }
 
+void AbstractEditCMPT::setChoice(size_t index)
+{
+	if (index >= 0 && index < m_children.size())
+	{
+		m_editChoice->SetSelection(index);
+		onChangeEditType(wxCommandEvent());
+	}
+}
+
 void AbstractEditCMPT::loadEditOP()
 {
 	m_editPanel->setEditOP(m_editOP);
@@ -106,7 +115,7 @@ void AbstractEditCMPT::loadEditOP(AbstractEditCMPT* cmpt)
 
 void AbstractEditCMPT::onChangeEditType(wxCommandEvent& event)
 {
-	int index = event.GetInt();
+	int index = m_editChoice->GetSelection();
 
 	for (size_t i = 0, n = m_children.size(); i < n; ++i)
 	{

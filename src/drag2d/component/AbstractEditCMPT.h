@@ -45,6 +45,8 @@ namespace d2d
 
 		wxSizer* initChildrenLayout();
 
+		void setChoice(size_t index);
+
 	private:
 		void loadEditOP();
 		void loadEditOP(AbstractEditCMPT* cmpt);
@@ -66,6 +68,8 @@ namespace d2d
 		wxString m_childrenName;
 		std::vector<AbstractEditCMPT*> m_children;
 		wxSizer* m_childrenSizer;
+
+		wxRadioBox* m_editChoice;
 
 	}; // AbstractEditCMPT
 }
