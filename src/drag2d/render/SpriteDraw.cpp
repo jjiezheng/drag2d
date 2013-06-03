@@ -31,7 +31,7 @@ void SpriteDraw::drawSprite(const ISprite* sprite)
 {
 	GL10::PushMatrix();
 
-	GL10::Translatef(sprite->getPosition().x, sprite->getPosition().y, 1.0f);
+	GL10::Translatef(sprite->getPosition().x, sprite->getPosition().y, 0.0f);
 
 	GL10::Rotatef(sprite->getAngle() * TRANS_RAD_TO_DEG, 0, 0, 1);
 
@@ -50,7 +50,7 @@ void SpriteDraw::drawSprite(const ISymbol* symbol, const Vector& pos,
 							float angle/* = 0.0f*/, float scale/* = 1.0f*/)
 {
 	GL10::PushMatrix();
-	GL10::Translatef(pos.x, pos.y, 1.0f);
+	GL10::Translatef(pos.x, pos.y, 0.0f);
 	GL10::Scalef(scale, scale, 1.0f);
 	GL10::Rotatef(angle * TRANS_RAD_TO_DEG, 0, 0, 1);
 	symbol->draw();
@@ -80,7 +80,7 @@ void SpriteDraw::drawSprites(const std::vector<ISprite*>& sprites,
 void SpriteDraw::begin(const ISprite* sprite)
 {
 	GL10::PushMatrix();
-	GL10::Translatef(sprite->getPosition().x, sprite->getPosition().y, 1.0f);
+	GL10::Translatef(sprite->getPosition().x, sprite->getPosition().y, 0.0f);
 	GL10::Rotatef(sprite->getAngle() * TRANS_RAD_TO_DEG, 0, 0, 1);
 }
 
