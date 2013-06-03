@@ -72,11 +72,14 @@ bool EditCircleOP::onMouseLeftUp(int x, int y)
 
 	if (!m_captured.shape)
 	{
-		m_currPos = m_editPanel->transPosScreenToProject(x, y);
+		if (m_firstPress.isValid())
+		{
+			m_currPos = m_editPanel->transPosScreenToProject(x, y);
 
-		const float radius = Math::getDistance(m_firstPress, m_currPos);
-		if (radius > 0)
-			m_shapesImpl->insertShape(new CircleShape(m_firstPress, radius));
+			const float radius = Math::getDistance(m_firstPress, m_currPos);
+			if (radius > 0)
+				m_shapesImpl->insertShape(new CircleShape(m_firstPress, radius));
+		}
 	}
 	else
 	{
