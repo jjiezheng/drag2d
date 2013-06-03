@@ -40,6 +40,7 @@ SelectShapesOP::SelectShapesOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl
 	, m_shapeImpl(shapesImpl)
 	, m_propertyPanel(propertyPanel)
 	, m_lastCtrlPress(false)
+	, m_bDraggable(true)
 {
 	m_selection = shapesImpl->getShapeSelection();
 	m_selection->retain();
@@ -96,6 +97,8 @@ bool SelectShapesOP::onKeyDown(int keyCode)
 
 bool SelectShapesOP::onMouseLeftDown(int x, int y)
 {
+	m_bDraggable = true;
+
 	Vector pos = m_editPanel->transPosScreenToProject(x, y);
 	IShape* selected = m_shapeImpl->queryShapeByPos(pos);
 	if (selected)
@@ -132,7 +135,10 @@ bool SelectShapesOP::onMouseLeftDown(int x, int y)
 	{
 		DrawRectangleOP::onMouseLeftDown(x, y);
 		m_firstPos = pos;
-		m_selection->clear();
+		if (wxGetKeyState(WXK_CONTROL))
+			m_bDraggable = false;
+		else
+			m_selection->clear();
 		m_editPanel->Refresh();
 	}
 
@@ -142,6 +148,8 @@ bool SelectShapesOP::onMouseLeftDown(int x, int y)
 bool SelectShapesOP::onMouseLeftUp(int x, int y)
 {
 	if (DrawRectangleOP::onMouseLeftUp(x, y)) return true;
+
+	m_bDraggable = true;
 
 	if (m_firstPos.isValid())
 	{
@@ -166,6 +174,13 @@ bool SelectShapesOP::onMouseLeftUp(int x, int y)
 	}
 
 	return false;
+}
+
+bool SelectShapesOP::onMouseDrag(int x, int y)
+{
+	if (DrawRectangleOP::onMouseDrag(x, y)) return true;
+
+	return !m_bDraggable;
 }
 
 bool SelectShapesOP::onDraw() const

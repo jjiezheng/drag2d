@@ -37,6 +37,7 @@ SelectSpritesOP::SelectSpritesOP(EditPanel* editPanel, MultiSpritesImpl* sprites
 	, m_callback(callback)
 	, m_spritesImpl(spritesImpl)
 	, m_propertyPanel(propertyPanel)
+	, m_bDraggable(true)
 {
 	m_selection = spritesImpl->getSpriteSelection();
 	m_selection->retain();
@@ -62,6 +63,8 @@ bool SelectSpritesOP::onKeyDown(int keyCode)
 
 bool SelectSpritesOP::onMouseLeftDown(int x, int y)
 {
+	m_bDraggable = true;
+
 	Vector pos = m_editPanel->transPosScreenToProject(x, y);
 	ISprite* selected = m_spritesImpl->querySpriteByPos(pos);
 	if (selected)
@@ -107,7 +110,10 @@ bool SelectSpritesOP::onMouseLeftDown(int x, int y)
 	{
 		DrawRectangleOP::onMouseLeftDown(x, y);
 		m_firstPos = pos;
-		m_selection->clear();
+		if (wxGetKeyState(WXK_CONTROL))
+			m_bDraggable = false;
+		else
+			m_selection->clear();
 		m_editPanel->Refresh();
 	}
 
@@ -117,6 +123,8 @@ bool SelectSpritesOP::onMouseLeftDown(int x, int y)
 bool SelectSpritesOP::onMouseLeftUp(int x, int y)
 {
 	if (DrawRectangleOP::onMouseLeftUp(x, y)) return true;
+
+	m_bDraggable = true;
 
 	if (m_firstPos.isValid())
 	{
@@ -145,6 +153,13 @@ bool SelectSpritesOP::onMouseLeftUp(int x, int y)
 	return false;
 }
 
+bool SelectSpritesOP::onMouseDrag(int x, int y)
+{
+	if (DrawRectangleOP::onMouseDrag(x, y)) return true;
+
+	return !m_bDraggable;
+}
+
 bool SelectSpritesOP::onDraw() const
 {
 	if (DrawRectangleOP::onDraw()) return true;
@@ -168,8 +183,10 @@ IPropertySetting* SelectSpritesOP::createPropertySetting(ISprite* sprite) const
 {
 	if (TextSprite* text = dynamic_cast<TextSprite*>(sprite))
 		return new TextPropertySetting(m_editPanel, text);
-	else
+	else if (sprite)
 		return new SpritePropertySetting(m_editPanel, sprite);
+	else 
+		return NULL;
 }
 
 IPropertySetting* SelectSpritesOP::createPropertySetting(const std::vector<ISprite*>& sprites) const
