@@ -78,8 +78,8 @@ bool EditRectOP::onMouseLeftUp(int x, int y)
 		{
 			m_currPos = m_editPanel->transPosScreenToProject(x, y);
 
-			const float radius = Math::getDistance(m_firstPress, m_currPos);
-			if (radius > 1)
+			const float dis = Math::getDistance(m_firstPress, m_currPos);
+			if (dis > 1)
 				m_shapesImpl->insertShape(new RectShape(m_firstPress, m_currPos));
 		}
 	}
