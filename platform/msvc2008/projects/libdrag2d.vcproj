@@ -1288,6 +1288,14 @@
 					RelativePath="..\..\..\src\drag2d\common\ShapeFileAdapter.h"
 					>
 				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\common\TexPackerAdapter.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\common\TexPackerAdapter.h"
+					>
+				</File>
 				<Filter
 					Name="new"
 					>
