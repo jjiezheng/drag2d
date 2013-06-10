@@ -16,24 +16,24 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef D2D_CURVE_SHAPE_H
-#define D2D_CURVE_SHAPE_H
+#ifndef D2D_COSINE_SHAPE_H
+#define D2D_COSINE_SHAPE_H
 
 #include "ChainShape.h"
 
 namespace d2d
 {
-	class CurveShape : public ChainShape
+	class CosineShape : public ChainShape
 	{
 	public:
-		CurveShape(const CurveShape& curve);
-		CurveShape(const std::vector<Vector>& vertices);
-		virtual ~CurveShape();
+		CosineShape(const CosineShape& curve);
+		CosineShape(const std::vector<Vector>& vertices);
+		virtual ~CosineShape();
 
 		//
 		// IObject interface
 		//
-		virtual CurveShape* clone();
+		virtual CosineShape* clone();
 
 		//
 		// IShape interface
@@ -57,7 +57,7 @@ namespace d2d
 	private:
 		std::vector<Vector> m_midPoints;
 
-	}; // CurveShape
+	}; // CosineShape
 }
 
-#endif // D2D_CURVE_SHAPE_H
+#endif // D2D_COSINE_SHAPE_H

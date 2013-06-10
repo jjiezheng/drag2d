@@ -19,7 +19,7 @@
 #include "DrawCosineCurveOP.h"
 
 #include "view/MultiShapesImpl.h"
-#include "dataset/CurveShape.h"
+#include "dataset/CosineShape.h"
 
 using namespace d2d;
 
@@ -33,7 +33,7 @@ bool DrawCosineCurveOP::onMouseLeftDClick(int x, int y)
 {
 	if (DrawPolylineOP::onMouseLeftDClick(x, y)) return true;
 
-	CurveShape* curve = new CurveShape(m_polyline);
+	CosineShape* curve = new CosineShape(m_polyline);
 	curve->setMidPoints();
 
 	m_shapesImpl->insertShape(curve);
