@@ -62,14 +62,27 @@ wxString FilenameTools::getFilenameWithExtension(const wxString& filepath)
 	return filepath.substr(filepath.find_last_of('\\') + 1);
 }
 
-wxString FilenameTools::getRelativePath(const wxString& dlg, const wxString& filepath)
+wxString FilenameTools::getRelativePath(const wxString& dlg, const wxString& absolute)
 {
-	size_t start = 0;
-	while (dlg.size() > start && filepath.size() > start && dlg[start] == filepath[start])
-		++start;
-	wxString ret = filepath.substr(start);
-	ret.Replace('\\', '/');
-	return ret;
+// 	size_t start = 0;
+// 	while (dlg.size() > start && filepath.size() > start && dlg[start] == filepath[start])
+// 		++start;
+// 	wxString ret = filepath.substr(start);
+// 	ret.Replace('\\', '/');
+// 	return ret;
+
+	//////////////////////////////////////////////////////////////////////////
+
+	wxFileName filename(absolute);
+	filename.MakeRelativeTo(dlg);
+	return filename.GetFullPath().ToStdString();
+}
+
+wxString FilenameTools::getAbsolutePath(const wxString& dlg, const wxString& relative)
+{
+	wxFileName filename(relative);
+	filename.MakeAbsolute(dlg);
+	return filename.GetFullPath();
 }
 
 wxString FilenameTools::getFilePathExceptExtension(const wxString& filepath)
