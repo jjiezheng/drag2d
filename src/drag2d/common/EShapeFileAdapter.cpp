@@ -19,6 +19,7 @@
 #include "EShapeFileAdapter.h"
 
 #include "common/Vector.h"
+#include "dataset/BezierShape.h"
 #include "dataset/PolygonShape.h"
 #include "dataset/ChainShape.h"
 #include "dataset/RectShape.h"
@@ -67,6 +68,8 @@ IShape* EShapeFileAdapter::loadShape(const Json::Value& value)
 
 	if (value.isNull())
 		;
+	else if (!value["bezier"].isNull())
+		shape = loadBezier(value["bezier"]);
 	else if (!value["polygon"].isNull())
 		shape = loadPolygon(value["polygon"]);
 	else if (!value["chain"].isNull())
@@ -83,7 +86,9 @@ Json::Value EShapeFileAdapter::store(IShape* shape)
 {
 	Json::Value value;
 
-	if (PolygonShape* poly = dynamic_cast<PolygonShape*>(shape))
+	if (BezierShape* bezier = dynamic_cast<BezierShape*>(shape))
+		value["bezier"] = store(bezier);
+	else if (PolygonShape* poly = dynamic_cast<PolygonShape*>(shape))
 		value["polygon"] = store(poly);
 	else if (ChainShape* chain = dynamic_cast<ChainShape*>(shape))
 		value["chain"] = store(chain);
@@ -93,6 +98,18 @@ Json::Value EShapeFileAdapter::store(IShape* shape)
 		value["circle"] = store(circle);
 
 	return value;
+}
+
+IShape* EShapeFileAdapter::loadBezier(const Json::Value& value)
+{
+	d2d::Vector points[4];
+	for (size_t i = 0; i < 4; ++i)
+	{
+		points[i].x = value["points"]["x"][i].asDouble();
+		points[i].y = value["points"]["y"][i].asDouble();
+	}
+
+	return new BezierShape(points);
 }
 
 IShape* EShapeFileAdapter::loadPolygon(const Json::Value& value)
@@ -142,6 +159,19 @@ IShape* EShapeFileAdapter::loadCircle(const Json::Value& value)
 		radius = value["radius"].asDouble();
 
 	return new CircleShape(Vector(x, y), radius);
+}
+
+Json::Value EShapeFileAdapter::store(const BezierShape* bezier)
+{
+	Json::Value value;
+
+	for (size_t i = 0; i < 4; ++i)
+	{
+		value["points"]["x"][i] = bezier->points[i].x;
+		value["points"]["y"][i] = bezier->points[i].y;
+	}
+
+	return value;
 }
 
 Json::Value EShapeFileAdapter::store(const PolygonShape* poly)

@@ -39,10 +39,11 @@
 #include "dataset/CombinationSprite.h"
 #include "dataset/TextSprite.h"
 #include "dataset/ChainShape.h"
-#include "dataset/CurveShape.h"
+#include "dataset/CosineShape.h"
 #include "dataset/PolygonShape.h"
 #include "dataset/RectShape.h"
 #include "dataset/CircleShape.h"
+#include "dataset/BezierShape.h"
 #include "dataset/PolygonBody.h"
 #include "dataset/CircleBody.h"
 #include "dataset/ChainBody.h"
@@ -105,6 +106,7 @@
 #include "operator/EditPolylinesOP.h"
 #include "operator/EditRectOP.h"
 #include "operator/EditCircleOP.h"
+#include "operator/EditBezierOP.h"
 
 #include "history/AbstractAtomicOP.h"
 

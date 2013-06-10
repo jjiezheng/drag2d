@@ -18,9 +18,6 @@
 
 #include "ShapeStageCanvas.h"
 
-#include "dataset/ChainShape.h"
-#include "dataset/CurveShape.h"
-#include "dataset/PolygonShape.h"
 #include "view/EditPanel.h"
 #include "view/MultiShapesImpl.h"
 #include "render/DrawShapesVisitor.h"
