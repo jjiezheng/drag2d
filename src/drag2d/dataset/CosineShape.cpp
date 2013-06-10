@@ -16,7 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "CurveShape.h"
+#include "CosineShape.h"
 
 #include "render/PrimitiveDraw.h"
 #include "common/Settings.h"
@@ -27,31 +27,31 @@ using namespace d2d;
 
 #define SIMPLIFY
 
-const float CurveShape::SAMPLING_WIDTH = 10.0f;
+const float CosineShape::SAMPLING_WIDTH = 10.0f;
 
-CurveShape::CurveShape(const CurveShape& curve)
+CosineShape::CosineShape(const CosineShape& curve)
 	: ChainShape(curve)
 {
 	m_midPoints = curve.m_midPoints;
 }
 
-CurveShape::CurveShape(const std::vector<Vector>& vertices)
+CosineShape::CosineShape(const std::vector<Vector>& vertices)
 	: ChainShape(vertices, false)
 {
 	setMidPoints();
 }
 
-CurveShape::~CurveShape()
+CosineShape::~CosineShape()
 {
 	
 }
 
-CurveShape* CurveShape::clone()
+CosineShape* CosineShape::clone()
 {
-	return new CurveShape(*this);	
+	return new CosineShape(*this);	
 }
 
-void CurveShape::draw(const Colorf& color/* = Colorf(0, 0, 0)*/) const
+void CosineShape::draw(const Colorf& color/* = Colorf(0, 0, 0)*/) const
 {
 	if (m_vertices.empty()) return;
 
@@ -64,30 +64,30 @@ void CurveShape::draw(const Colorf& color/* = Colorf(0, 0, 0)*/) const
 		PrimitiveDraw::drawCircles(m_midPoints, Settings::ctlPosSize * 0.5f, true, 2, Colorf(0.8f, 0.8f, 0.4f));
 }
 
-void CurveShape::insertVertices(size_t index, const Vector& pos)
+void CosineShape::insertVertices(size_t index, const Vector& pos)
 {
 	ChainShape::insertVertices(index, pos);
 	setMidPoints();
 }
 
-void CurveShape::removeVertices(const Vector& pos)
+void CosineShape::removeVertices(const Vector& pos)
 {
 	ChainShape::removeVertices(pos);
 	setMidPoints();
 }
 
-void CurveShape::changeVertices(const Vector& from, const Vector& to)
+void CosineShape::changeVertices(const Vector& from, const Vector& to)
 {
 	ChainShape::changeVertices(from, to);
 	setMidPoints();
 }
 
-void CurveShape::refresh()
+void CosineShape::refresh()
 {
 //	createBody();
 }
 
-void CurveShape::setMidPoints()
+void CosineShape::setMidPoints()
 {
 	m_midPoints.clear();
 
