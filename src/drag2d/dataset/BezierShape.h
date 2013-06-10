@@ -16,24 +16,45 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "ShapeStageCanvas.h"
+#ifndef D2D_BEZIER_SHAPE_H
+#define D2D_BEZIER_SHAPE_H
 
-#include "view/EditPanel.h"
-#include "view/MultiShapesImpl.h"
-#include "render/DrawShapesVisitor.h"
+#include "ChainShape.h"
 
-using namespace d2d;
-
-ShapeStageCanvas::ShapeStageCanvas(EditPanel* editPanel, MultiShapesImpl* shapesImpl, 
-								   const Colorf& color/* = Colorf(0.0f, 0.0f, 0.0f)*/)
-	: GLCanvas(editPanel)
-	, m_color(color)
-	, m_shapesImpl(shapesImpl)
+namespace d2d
 {
+	class BezierShape : public ChainShape
+	{
+	public:
+		BezierShape(const BezierShape& bezier);
+		BezierShape(const d2d::Vector points[4]);
+		BezierShape(const d2d::Vector& start, const d2d::Vector& end);
+		virtual ~BezierShape();
+
+		//
+		// IObject interface
+		//
+		virtual BezierShape* clone();
+
+		//
+		// IShape interface
+		//
+		virtual bool isContain(const Vector& pos) const;
+		virtual void draw(const Colorf& color = Colorf(0, 0, 0)) const;
+
+		void createCurve();
+
+	private:
+		d2d::Vector pointOnCubicBezier(float t);
+
+	private:
+		static const int RADIUS = 5;
+
+	public:
+		// [0] start, [1] ctrl1, [2] ctrl2, [3] end
+		d2d::Vector points[4];
+
+	}; // BezierShape
 }
 
-void ShapeStageCanvas::onDraw()
-{
-	m_shapesImpl->traverseShapes(DrawShapesVisitor(m_color), e_visible);
-	m_editPanel->drawEditTemp();
-}
+#endif // D2D_BEZIER_SHAPE_H

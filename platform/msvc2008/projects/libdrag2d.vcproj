@@ -269,6 +269,14 @@
 				Name="edit"
 				>
 				<File
+					RelativePath="..\..\..\src\drag2d\operator\EditBezierOP.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\operator\EditBezierOP.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\drag2d\operator\EditCircleOP.cpp"
 					>
 				</File>
@@ -793,6 +801,14 @@
 				Name="shape"
 				>
 				<File
+					RelativePath="..\..\..\src\drag2d\dataset\BezierShape.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\dataset\BezierShape.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\drag2d\dataset\ChainShape.cpp"
 					>
 				</File>
@@ -809,11 +825,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\drag2d\dataset\CurveShape.cpp"
+					RelativePath="..\..\..\src\drag2d\dataset\CosineShape.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\drag2d\dataset\CurveShape.h"
+					RelativePath="..\..\..\src\drag2d\dataset\CosineShape.h"
 					>
 				</File>
 				<File

@@ -26,6 +26,7 @@
 namespace d2d
 {
 	class IShape;
+	class BezierShape;
 	class ChainShape;
 	class CircleShape;
 	class RectShape;
@@ -61,6 +62,7 @@ namespace d2d
 			virtual void visit(ICloneable* object, bool& bFetchNext);
 
 		private:
+			bool visit(BezierShape* bezier);
 			bool visit(ChainShape* chain);
 			bool visit(CircleShape* circle);
 			bool visit(RectShape* rect);

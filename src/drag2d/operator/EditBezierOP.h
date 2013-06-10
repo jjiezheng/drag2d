@@ -16,24 +16,44 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "ShapeStageCanvas.h"
+#ifndef D2D_EDIT_BEZIER_OP_H
+#define D2D_EDIT_BEZIER_OP_H
 
-#include "view/EditPanel.h"
-#include "view/MultiShapesImpl.h"
-#include "render/DrawShapesVisitor.h"
+#include "ZoomViewOP.h"
+#include "NodeCapture.h"
 
-using namespace d2d;
+#include "component/NodeCaptureCMPT.h"
 
-ShapeStageCanvas::ShapeStageCanvas(EditPanel* editPanel, MultiShapesImpl* shapesImpl, 
-								   const Colorf& color/* = Colorf(0.0f, 0.0f, 0.0f)*/)
-	: GLCanvas(editPanel)
-	, m_color(color)
-	, m_shapesImpl(shapesImpl)
+namespace d2d
 {
+	class EditBezierOP : public ZoomViewOP
+	{
+	public:
+		EditBezierOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl,
+			PropertySettingPanel* propertyPanel, NodeCaptureCMPT<EditBezierOP>* cmpt);
+
+		virtual bool onMouseLeftDown(int x, int y);
+		virtual bool onMouseLeftUp(int x, int y);
+		virtual bool onMouseRightDown(int x, int y);
+		virtual bool onMouseMove(int x, int y);
+		virtual bool onMouseDrag(int x, int y);
+
+		virtual bool onDraw() const;
+		virtual bool clear();
+
+	private:
+		MultiShapesImpl* m_shapesImpl;
+
+		PropertySettingPanel* m_propertyPanel;
+
+		NodeCaptureCMPT<EditBezierOP>* m_cmpt;
+
+		Vector m_firstPress;
+		Vector m_currPos;
+
+		NodeAddr m_captured;
+
+	}; // EditBezierOP
 }
 
-void ShapeStageCanvas::onDraw()
-{
-	m_shapesImpl->traverseShapes(DrawShapesVisitor(m_color), e_visible);
-	m_editPanel->drawEditTemp();
-}
+#endif // D2D_EDIT_BEZIER_OP_H

@@ -19,6 +19,7 @@
 #include "NodeCapture.h"
 
 #include "view/MultiShapesImpl.h"
+#include "dataset/BezierShape.h"
 #include "dataset/ChainShape.h"
 #include "dataset/CircleShape.h"
 #include "dataset/RectShape.h"
@@ -60,12 +61,40 @@ void NodeCapture::RectQueryVisitor::
 visit(ICloneable* object, bool& bFetchNext)
 {
 	bFetchNext = true;
-	if (ChainShape* chain = dynamic_cast<ChainShape*>(object))
+	if (BezierShape* bezier = dynamic_cast<BezierShape*>(object))
+		bFetchNext = !visit(bezier);
+	else if (ChainShape* chain = dynamic_cast<ChainShape*>(object))
 		bFetchNext = !visit(chain);
 	else if (CircleShape* circle = dynamic_cast<CircleShape*>(object))
 		bFetchNext = !visit(circle);
 	else if (RectShape* rect = dynamic_cast<RectShape*>(object))
 		bFetchNext = !visit(rect);
+}
+
+bool NodeCapture::RectQueryVisitor::
+visit(BezierShape* bezier)
+{
+	// capture center
+	const Rect& rect = bezier->getRect();
+	if (Math::getDistance(Vector(rect.xCenter(), rect.yCenter()), m_pos) < m_tolerance)
+	{
+		m_result.shape = bezier;
+		m_result.pos.setInvalid();
+		return true;
+	}
+
+	// capture control points
+	for (size_t i = 0; i < 4; ++i)
+	{
+		if (Math::getDistance(bezier->points[i], m_pos) < m_tolerance)
+		{
+			m_result.shape = bezier;
+			m_result.pos = bezier->points[i];
+			return true;
+		}
+	}
+
+	return false;
 }
 
 bool NodeCapture::RectQueryVisitor::
