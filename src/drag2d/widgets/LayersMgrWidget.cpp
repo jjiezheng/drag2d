@@ -186,7 +186,7 @@ void LayersMgrWidget::clear()
 
 void LayersMgrWidget::initLayout()
 {
-	wxStaticBox* bounding = new wxStaticBox(this, wxID_ANY, wxT("м╪╡Ц"));
+	wxStaticBox* bounding = new wxStaticBox(this, wxID_ANY, wxT("Layers"));
 	wxBoxSizer* topSizer = new wxStaticBoxSizer(bounding, wxVERTICAL);
 
 	topSizer->AddSpacer(5);
@@ -221,13 +221,13 @@ wxSizer* LayersMgrWidget::initButtonsPanel()
 	}
 	topSizer->AddSpacer(5);
 	{
-		m_btnUp = new wxButton(this, wxID_ANY, wxT("ио"), wxDefaultPosition, wxSize(20, 20));
+		m_btnUp = new wxButton(this, wxID_ANY, wxT("up"), wxDefaultPosition, wxSize(20, 20));
 		Connect(m_btnUp->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(LayersMgrWidget::onLayerUp));
 		topSizer->Add(m_btnUp);
 	}
 	topSizer->AddSpacer(2);
 	{
-		m_btnDown = new wxButton(this, wxID_ANY, wxT("об"), wxDefaultPosition, wxSize(20, 20));
+		m_btnDown = new wxButton(this, wxID_ANY, wxT("down"), wxDefaultPosition, wxSize(40, 20));
 		Connect(m_btnDown->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(LayersMgrWidget::onLayerDown));
 		topSizer->Add(m_btnDown);
 	}
@@ -291,7 +291,7 @@ void LayersMgrWidget::onLayerUp(wxCommandEvent& event)
 
 	m_stage->Refresh();
 
-	m_parent->GetParent()->Layout();
+	Layout();
 	Refresh();
 }
 
@@ -322,7 +322,7 @@ void LayersMgrWidget::onLayerDown(wxCommandEvent& event)
 
 	m_stage->Refresh();
 
-	m_parent->GetParent()->Layout();
+	Layout();
 	Refresh();
 }
 
