@@ -53,17 +53,23 @@ namespace d2d
 		virtual float getWidth(const ISprite* sprite = NULL) const;
 		virtual float getHeight(const ISprite* sprite = NULL) const;
 
-		const std::vector<IShape*>& getAllShapes() const { 
-			return m_shapes; 
-		}
+		//
+		// ListItem interface
+		//
+		virtual void refresh();
 
 	private:
 		void loadResources();
 
+		void loadThumbnail();
+
 		void clear();
 
 	private:
-		std::vector<IShape*> m_shapes;
+		static const float SCALE;
+
+	public:
+		std::vector<IShape*> shapes;
 
 	}; // EShapeSymbol
 }
