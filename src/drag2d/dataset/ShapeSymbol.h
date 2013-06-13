@@ -53,17 +53,13 @@ namespace d2d
 		virtual float getWidth(const ISprite* sprite = NULL) const;
 		virtual float getHeight(const ISprite* sprite = NULL) const;
 
-		const std::vector<IShape*>& getAllShapes() const { 
-			return m_shapes; 
-		}
-
 	private:
 		void loadResources();
 
 		void clear();
 
-	private:
-		std::vector<IShape*> m_shapes;
+	public:
+		std::vector<IShape*> shapes;
 
 	}; // ShapeSymbol
 }
