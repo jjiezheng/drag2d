@@ -28,13 +28,13 @@
 namespace d2d
 {
 	class ISprite;
-	class SpritesPanelImpl;
+	class MultiSpritesImpl;
 	class PasteSpriteCMPT;
 
 	class PasteSpriteOP : public SelectSpritesOP
 	{
 	public:
-		PasteSpriteOP(EditPanel* editPanel, SpritesPanelImpl* spritesImpl,
+		PasteSpriteOP(EditPanel* editPanel, MultiSpritesImpl* spritesImpl,
 			PropertySettingPanel* propertyPanel, PasteSpriteCMPT* cmpt = NULL);
 		virtual ~PasteSpriteOP();
 
@@ -60,7 +60,7 @@ namespace d2d
 
 			void loadFromSelection(const SpriteSelection& selection);
 
-			void insertToSpritesImpl(SpritesPanelImpl* spritesImpl, const Vector& pos,
+			void insertToSpritesImpl(MultiSpritesImpl* spritesImpl, const Vector& pos,
 				bool isHorMirror, bool isVerMirror);
 			void draw(const Vector& pos, bool isHorMirror, bool isVerMirror) const;
 
@@ -80,7 +80,7 @@ namespace d2d
 		}; // SpriteBatch
 
 	private:
-		SpritesPanelImpl* m_spritesImpl;
+		MultiSpritesImpl* m_spritesImpl;
 
 		PasteSpriteCMPT* m_cmpt;
 

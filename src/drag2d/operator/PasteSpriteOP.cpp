@@ -20,13 +20,13 @@
 
 #include "common/visitors.h"
 #include "component/PasteSpriteCMPT.h"
-#include "view/SpritesPanelImpl.h"
+#include "view/MultiSpritesImpl.h"
 #include "render/GL10.h"
 #include "render/SpriteDraw.h"
 
 using namespace d2d;
 
-PasteSpriteOP::PasteSpriteOP(EditPanel* editPanel, SpritesPanelImpl* spritesImpl,
+PasteSpriteOP::PasteSpriteOP(EditPanel* editPanel, MultiSpritesImpl* spritesImpl,
 							 PropertySettingPanel* propertyPanel, PasteSpriteCMPT* cmpt /*= NULL*/)
 	: SelectSpritesOP(editPanel, spritesImpl, propertyPanel)
 	, m_spritesImpl(spritesImpl)
@@ -186,7 +186,7 @@ loadFromSelection(const SpriteSelection& selection)
 }
 
 void PasteSpriteOP::SpriteBatch::
-insertToSpritesImpl(SpritesPanelImpl* spritesImpl, const Vector& pos,
+insertToSpritesImpl(MultiSpritesImpl* spritesImpl, const Vector& pos,
 					bool isHorMirror, bool isVerMirror)
 {
 	for (size_t i = 0, n = m_selected.size(); i < n; ++i)
