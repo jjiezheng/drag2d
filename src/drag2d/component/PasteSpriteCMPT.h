@@ -23,14 +23,14 @@
 
 namespace d2d
 {
-	class SpritesPanelImpl;
+	class MultiSpritesImpl;
 	class PropertySettingPanel;
 
 	class PasteSpriteCMPT : public AbstractEditCMPT
 	{
 	public:
 		PasteSpriteCMPT(wxWindow* parent, const wxString& name, EditPanel* editPanel, 
-			SpritesPanelImpl* spritesImpl, PropertySettingPanel* propertyPanel);
+			MultiSpritesImpl* spritesImpl, PropertySettingPanel* propertyPanel);
 
 		bool isHorMirror() const { return m_xMirror->IsChecked(); }
 		bool isVerMirror() const { return m_yMirror->IsChecked(); }

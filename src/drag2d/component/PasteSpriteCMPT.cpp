@@ -23,7 +23,7 @@
 using namespace d2d;
 
 PasteSpriteCMPT::PasteSpriteCMPT(wxWindow* parent, const wxString& name, 
-								 EditPanel* editPanel, SpritesPanelImpl* spritesImpl,
+								 EditPanel* editPanel, MultiSpritesImpl* spritesImpl,
 								 PropertySettingPanel* propertyPanel)
 	: AbstractEditCMPT(parent, name, editPanel)
 {
