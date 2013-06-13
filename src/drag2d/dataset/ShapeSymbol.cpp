@@ -18,8 +18,8 @@
 
 #include "ShapeSymbol.h"
 
-#include "dataset/PolygonShape.h"
 #include "common/ShapeFileAdapter.h"
+#include "dataset/PolygonShape.h"
 
 using namespace d2d;
 
@@ -30,9 +30,9 @@ ShapeSymbol::ShapeSymbol()
 ShapeSymbol::ShapeSymbol(const ShapeSymbol& symbol)
 {
 	m_filepath = symbol.m_filepath;
-	m_shapes.reserve(symbol.m_shapes.size());
-	for (size_t i = 0, n = symbol.m_shapes.size(); i < n; ++i)
-		m_shapes.push_back(symbol.m_shapes[i]->clone());
+	shapes.reserve(symbol.shapes.size());
+	for (size_t i = 0, n = symbol.shapes.size(); i < n; ++i)
+		shapes.push_back(symbol.shapes[i]->clone());
 }
 
 ShapeSymbol::~ShapeSymbol()
@@ -62,8 +62,8 @@ void ShapeSymbol::reloadTexture() const
 
 void ShapeSymbol::draw(const ISprite* sprite/* = NULL*/) const
 {
-	for (size_t i = 0, n = m_shapes.size(); i < n; ++i)
-		m_shapes[i]->draw();
+	for (size_t i = 0, n = shapes.size(); i < n; ++i)
+		shapes[i]->draw();
 }
 
 float ShapeSymbol::getWidth(const ISprite* sprite/* = NULL*/) const
@@ -88,14 +88,14 @@ void ShapeSymbol::loadResources()
  		for (size_t j = 0, m = adapter.m_layers[i]->polys.size(); j < m; ++j)
  		{
  			adapter.m_layers[i]->polys[j]->retain();
- 			m_shapes.push_back(adapter.m_layers[i]->polys[j]);
+ 			shapes.push_back(adapter.m_layers[i]->polys[j]);
  		}
  	}
 }
 
 void ShapeSymbol::clear()
 {
-	for (size_t i = 0, n = m_shapes.size(); i < n; ++i)
-		m_shapes[i]->release();
-	m_shapes.clear();
+	for (size_t i = 0, n = shapes.size(); i < n; ++i)
+		shapes[i]->release();
+	shapes.clear();
 }

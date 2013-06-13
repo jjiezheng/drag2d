@@ -72,7 +72,7 @@ void ShapeSprite::loadBodyFromFile()
 	if (m_body) delete m_body;
 
 	std::vector<Vector> triangles;
-	const std::vector<IShape*>& shapes = m_symbol->getAllShapes();
+	const std::vector<IShape*>& shapes = m_symbol->shapes;
 	for (size_t i = 0, n = shapes.size(); i < n; ++i)
 	{
 		PolygonShape* poly = dynamic_cast<PolygonShape*>(shapes[i]);
@@ -93,7 +93,7 @@ void ShapeSprite::buildBounding()
 	if (m_symbol)
 	{
 		Rect rect;
-		const std::vector<IShape*>& shapes = m_symbol->getAllShapes();
+		const std::vector<IShape*>& shapes = m_symbol->shapes;
 		for (size_t i = 0, n = shapes.size(); i < n; ++i)
 			rect.combine(shapes[i]->getRect());
 		

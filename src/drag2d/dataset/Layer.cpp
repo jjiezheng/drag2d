@@ -26,7 +26,7 @@ using namespace d2d;
 Layer::Layer()
 {
 	static int count = 0;
-	m_name = wxT("²ã") + wxString::FromDouble(count++);
+	m_name = wxT("layer") + wxString::FromDouble(count++);
 }
 
 Layer::~Layer()
