@@ -29,6 +29,7 @@
 #include "dataset/SymbolMgr.h"
 #include "dataset/ImageSymbol.h"
 #include "dataset/ShapeSymbol.h"
+#include "dataset/EShapeSymbol.h"
 #include "dataset/MeshSymbol.h"
 #include "dataset/CombinationSymbol.h"
 #include "dataset/ISprite.h"
