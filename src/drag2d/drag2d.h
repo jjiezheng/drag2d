@@ -36,6 +36,7 @@
 #include "dataset/SpriteFactory.h"
 #include "dataset/ImageSprite.h"
 #include "dataset/ShapeSprite.h"
+#include "dataset/EShapeSprite.h"
 #include "dataset/MeshSprite.h"
 #include "dataset/CombinationSprite.h"
 #include "dataset/TextSprite.h"

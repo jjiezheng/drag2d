@@ -19,6 +19,7 @@
 #include "SpriteFactory.h"
 #include "ImageSprite.h"
 #include "ShapeSprite.h"
+#include "EShapeSprite.h"
 #include "MeshSprite.h"
 #include "CombinationSprite.h"
 #include "TextSprite.h"
@@ -32,6 +33,9 @@ ISprite* SpriteFactory::create(ISymbol* symbol)
 
 	ShapeSymbol* shape = dynamic_cast<ShapeSymbol*>(symbol);
 	if (shape) return new ShapeSprite(shape);
+
+	EShapeSymbol* eshape = dynamic_cast<EShapeSymbol*>(symbol);
+	if (eshape) return new EShapeSprite(eshape);
 
 	MeshSymbol* mesh = dynamic_cast<MeshSymbol*>(symbol);
 	if (mesh) return new MeshSprite(mesh);
