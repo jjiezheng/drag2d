@@ -57,8 +57,8 @@ void LibraryPanel::clear()
 
 void LibraryPanel::reloadTexture() const
 {
-	if (m_selected)
-		m_selected->reloadTexture();
+	for (size_t i = 0, n = m_pages.size(); i < n; ++i)
+		m_pages[i]->reloadTexture();
 }
 
 void LibraryPanel::addPage(ILibraryPage* page)
