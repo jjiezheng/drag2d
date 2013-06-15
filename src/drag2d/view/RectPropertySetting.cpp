@@ -36,6 +36,7 @@ void RectPropertySetting::updatePanel(PropertySettingPanel* panel)
 
 	if (getPGType(pg) == m_type)
 	{
+		pg->GetProperty(wxT("Name"))->SetValue(m_rect->name);
 		pg->GetProperty(wxT("X"))->SetValue(m_rect->m_rect.xCenter());
 		pg->GetProperty(wxT("Y"))->SetValue(m_rect->m_rect.yCenter());
 		pg->GetProperty(wxT("Half Width"))->SetValue(m_rect->m_rect.xLength()*0.5f);
@@ -46,6 +47,8 @@ void RectPropertySetting::updatePanel(PropertySettingPanel* panel)
 		pg->Clear();
 
 		pg->Append(new wxStringProperty(wxT("Type"), wxPG_LABEL, m_type));
+
+		pg->Append(new wxStringProperty(wxT("Name"), wxPG_LABEL, m_rect->name));
 
 		pg->Append(new wxFloatProperty(wxT("X"), wxPG_LABEL, m_rect->m_rect.xCenter()));
 		pg->SetPropertyAttribute(wxT("X"), wxPG_ATTR_UNITS, wxT("pixels"));
@@ -70,7 +73,11 @@ void RectPropertySetting::onPropertyGridChange(const wxString& name, const wxAny
 	if (value.IsNull())
 		return;
 
-	if (name == wxT("X"))
+	if (name == wxT("Name"))
+	{
+		m_rect->name = wxANY_AS(value, wxString);
+	}
+	else if (name == wxT("X"))
 	{
 		const float x = wxANY_AS(value, float);
 		const float hWidth = m_rect->m_rect.xLength() * 0.5f;
@@ -117,6 +124,8 @@ void RectPropertySetting::enablePropertyGrid(PropertySettingPanel* panel, bool b
 
 		pg->Append(new wxStringProperty(wxT("Type"), wxPG_LABEL, m_type));
 
+		pg->Append(new wxStringProperty(wxT("Name"), wxPG_LABEL, m_rect->name));
+
 		pg->Append(new wxFloatProperty(wxT("X"), wxPG_LABEL, m_rect->m_rect.xCenter()));
 		pg->SetPropertyAttribute(wxT("X"), wxPG_ATTR_UNITS, wxT("pixels"));
 		pg->SetPropertyAttribute(wxT("X"), "Precision", 1);
@@ -135,6 +144,7 @@ void RectPropertySetting::enablePropertyGrid(PropertySettingPanel* panel, bool b
 	}
 
 	pg->GetProperty(wxT("Type"))->Enable(bEnable);
+	pg->GetProperty(wxT("Name"))->Enable(bEnable);
 	pg->GetProperty(wxT("X"))->Enable(bEnable);
 	pg->GetProperty(wxT("Y"))->Enable(bEnable);
 	pg->GetProperty(wxT("Half Width"))->Enable(bEnable);

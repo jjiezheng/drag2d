@@ -36,6 +36,7 @@ void CirclePropertySetting::updatePanel(PropertySettingPanel* panel)
 
 	if (getPGType(pg) == m_type)
 	{
+		pg->GetProperty(wxT("Name"))->SetValue(m_circle->name);
 		pg->GetProperty(wxT("X"))->SetValue(m_circle->center.x);
 		pg->GetProperty(wxT("Y"))->SetValue(m_circle->center.y);
 		pg->GetProperty(wxT("Radius"))->SetValue(m_circle->radius);
@@ -45,6 +46,8 @@ void CirclePropertySetting::updatePanel(PropertySettingPanel* panel)
 		pg->Clear();
 
 		pg->Append(new wxStringProperty(wxT("Type"), wxPG_LABEL, m_type));
+
+		pg->Append(new wxStringProperty(wxT("Name"), wxPG_LABEL, m_circle->name));
 
 		pg->Append(new wxFloatProperty(wxT("X"), wxPG_LABEL, m_circle->center.x));
 		pg->SetPropertyAttribute(wxT("X"), wxPG_ATTR_UNITS, wxT("pixels"));
@@ -65,6 +68,8 @@ void CirclePropertySetting::onPropertyGridChange(const wxString& name, const wxA
 	if (value.IsNull())
 		return;
 
+	if (name == wxT("Name"))
+		m_circle->name = wxANY_AS(value, wxString);
 	if (name == wxT("X"))
 		m_circle->center.x = wxANY_AS(value, float);
 	else if (name == wxT("Y"))
@@ -90,6 +95,8 @@ void CirclePropertySetting::enablePropertyGrid(PropertySettingPanel* panel, bool
 
 		pg->Append(new wxStringProperty(wxT("Type"), wxPG_LABEL, m_type));
 
+		pg->Append(new wxStringProperty(wxT("Name"), wxPG_LABEL, m_circle->name));
+
 		pg->Append(new wxFloatProperty(wxT("X"), wxPG_LABEL, m_circle->center.x));
 		pg->SetPropertyAttribute(wxT("X"), wxPG_ATTR_UNITS, wxT("pixels"));
 		pg->SetPropertyAttribute(wxT("X"), "Precision", 1);
@@ -104,6 +111,7 @@ void CirclePropertySetting::enablePropertyGrid(PropertySettingPanel* panel, bool
 	}
 
 	pg->GetProperty(wxT("Type"))->Enable(bEnable);
+	pg->GetProperty(wxT("Name"))->Enable(bEnable);
 	pg->GetProperty(wxT("X"))->Enable(bEnable);
 	pg->GetProperty(wxT("Y"))->Enable(bEnable);
 	pg->GetProperty(wxT("Radius"))->Enable(bEnable);

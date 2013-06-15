@@ -852,6 +852,10 @@
 					Name="base"
 					>
 					<File
+						RelativePath="..\..\..\src\drag2d\dataset\IShape.cpp"
+						>
+					</File>
+					<File
 						RelativePath="..\..\..\src\drag2d\dataset\IShape.h"
 						>
 					</File>
@@ -1457,43 +1461,11 @@
 				Name="property"
 				>
 				<File
-					RelativePath="..\..\..\src\drag2d\view\ChainPropertySetting.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\drag2d\view\ChainPropertySetting.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\drag2d\view\CirclePropertySetting.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\drag2d\view\CirclePropertySetting.h"
-					>
-				</File>
-				<File
 					RelativePath="..\..\..\src\drag2d\view\IPropertySetting.cpp"
 					>
 				</File>
 				<File
 					RelativePath="..\..\..\src\drag2d\view\IPropertySetting.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\drag2d\view\MultiSpritesPropertySetting.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\drag2d\view\MultiSpritesPropertySetting.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\drag2d\view\PolygonPropertySetting.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\drag2d\view\PolygonPropertySetting.h"
 					>
 				</File>
 				<File
@@ -1504,30 +1476,70 @@
 					RelativePath="..\..\..\src\drag2d\view\PropertySettingPanel.h"
 					>
 				</File>
-				<File
-					RelativePath="..\..\..\src\drag2d\view\RectPropertySetting.cpp"
+				<Filter
+					Name="sprite"
 					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\drag2d\view\RectPropertySetting.h"
+					<File
+						RelativePath="..\..\..\src\drag2d\view\MultiSpritesPropertySetting.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\MultiSpritesPropertySetting.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\SpritePropertySetting.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\SpritePropertySetting.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\TextPropertySetting.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\TextPropertySetting.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="shape"
 					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\drag2d\view\SpritePropertySetting.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\drag2d\view\SpritePropertySetting.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\drag2d\view\TextPropertySetting.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\drag2d\view\TextPropertySetting.h"
-					>
-				</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\ChainPropertySetting.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\ChainPropertySetting.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\CirclePropertySetting.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\CirclePropertySetting.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\PolygonPropertySetting.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\PolygonPropertySetting.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\RectPropertySetting.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\RectPropertySetting.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="stage"
