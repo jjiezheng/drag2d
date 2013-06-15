@@ -22,6 +22,7 @@
 #include "dataset/BezierShape.h"
 #include "view/MultiShapesImpl.h"
 #include "view/PropertySettingPanel.h"
+#include "view/BezierPropertySetting.h"
 #include "render/PrimitiveDraw.h"
 
 using namespace d2d;
@@ -53,8 +54,8 @@ bool EditBezierOP::onMouseLeftDown(int x, int y)
 		NodeCapture capture(m_shapesImpl, tolerance);
 		capture.captureEditable(m_firstPress, m_captured);
 
-// 		if (BezierShape* bezier = dynamic_cast<BezierShape*>(m_captured.shape))
-// 			m_propertyPanel->setPropertySetting(new BezierPropertySetting(m_editPanel, bezier));
+ 		if (BezierShape* bezier = dynamic_cast<BezierShape*>(m_captured.shape))
+ 			m_propertyPanel->setPropertySetting(new BezierPropertySetting(m_editPanel, bezier));
 	}
 	else
 	{
@@ -81,9 +82,9 @@ bool EditBezierOP::onMouseLeftUp(int x, int y)
 	}
 	else
 	{
-// 		m_propertyPanel->enablePropertyGrid(true);
-// 		if (BezierShape* bezier = dynamic_cast<BezierShape*>(m_captured.shape))
-// 			m_propertyPanel->setPropertySetting(new BezierPropertySetting(m_editPanel, rect));
+ 		m_propertyPanel->enablePropertyGrid(true);
+ 		if (BezierShape* bezier = dynamic_cast<BezierShape*>(m_captured.shape))
+ 			m_propertyPanel->setPropertySetting(new BezierPropertySetting(m_editPanel, bezier));
 	}
 
 	clear();

@@ -19,11 +19,14 @@
 #include "SelectShapesOP.h"
 
 #include "common/visitors.h"
+#include "dataset/BezierShape.h"
 #include "dataset/PolygonShape.h"
 #include "dataset/CircleShape.h"
 #include "dataset/RectShape.h"
 #include "component/AbstractEditCMPT.h"
 #include "view/PropertySettingPanel.h"
+#include "view/BezierPropertySetting.h"
+#include "view/PolygonPropertySetting.h"
 #include "view/ChainPropertySetting.h"
 #include "view/CirclePropertySetting.h"
 #include "view/RectPropertySetting.h"
@@ -205,7 +208,11 @@ bool SelectShapesOP::clear()
 
 IPropertySetting* SelectShapesOP::createPropertySetting(IShape* shape) const
 {
-	if (ChainShape* chain = dynamic_cast<ChainShape*>(shape))
+	if (BezierShape* bezier = dynamic_cast<BezierShape*>(shape))
+		return new BezierPropertySetting(m_editPanel, bezier);
+	else if (PolygonShape* polygon = dynamic_cast<PolygonShape*>(shape))
+		return new PolygonPropertySetting(m_editPanel, polygon);
+	else if (ChainShape* chain = dynamic_cast<ChainShape*>(shape))
 		return new ChainPropertySetting(m_editPanel, chain);
 	else if (CircleShape* circle = dynamic_cast<CircleShape*>(shape))
 		return new CirclePropertySetting(m_editPanel, circle);
