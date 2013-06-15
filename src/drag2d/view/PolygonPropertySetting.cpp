@@ -36,6 +36,7 @@ void PolygonPropertySetting::updatePanel(PropertySettingPanel* panel)
 
 	if (getPGType(pg) == m_type)
 	{
+		pg->GetProperty(wxT("Name"))->SetValue(m_poly->name);
 		pg->GetProperty(wxT("X"))->SetValue(m_poly->getRect().xCenter());
 		pg->GetProperty(wxT("Y"))->SetValue(m_poly->getRect().yCenter());
 	}
@@ -44,6 +45,8 @@ void PolygonPropertySetting::updatePanel(PropertySettingPanel* panel)
 		pg->Clear();
 
 		pg->Append(new wxStringProperty(wxT("Type"), wxPG_LABEL, m_type));
+
+		pg->Append(new wxStringProperty(wxT("Name"), wxPG_LABEL, m_poly->name));
 
 		pg->Append(new wxFloatProperty(wxT("X"), wxPG_LABEL, m_poly->getRect().xCenter()));
 		pg->SetPropertyAttribute(wxT("X"), wxPG_ATTR_UNITS, wxT("pixels"));
@@ -60,7 +63,11 @@ void PolygonPropertySetting::onPropertyGridChange(const wxString& name, const wx
 	if (value.IsNull())
 		return;
 
-	if (name == wxT("X"))
+	if (name == wxT("Name"))
+	{
+		m_poly->name = wxANY_AS(value, wxString);
+	}
+	else if (name == wxT("X"))
 	{
 		const float x = wxANY_AS(value, float);
 		const float dx = x - m_poly->getRect().xCenter();
@@ -97,6 +104,8 @@ void PolygonPropertySetting::enablePropertyGrid(PropertySettingPanel* panel, boo
 
 		pg->Append(new wxStringProperty(wxT("Type"), wxPG_LABEL, m_type));
 
+		pg->Append(new wxStringProperty(wxT("Name"), wxPG_LABEL, m_poly->name));
+
 		pg->Append(new wxFloatProperty(wxT("X"), wxPG_LABEL, m_poly->getRect().xCenter()));
 		pg->SetPropertyAttribute(wxT("X"), wxPG_ATTR_UNITS, wxT("pixels"));
 		pg->SetPropertyAttribute(wxT("X"), "Precision", 1);
@@ -107,6 +116,7 @@ void PolygonPropertySetting::enablePropertyGrid(PropertySettingPanel* panel, boo
 	}
 
 	pg->GetProperty(wxT("Type"))->Enable(bEnable);
+	pg->GetProperty(wxT("Name"))->Enable(bEnable);
 	pg->GetProperty(wxT("X"))->Enable(bEnable);
 	pg->GetProperty(wxT("Y"))->Enable(bEnable);
 }

@@ -32,7 +32,7 @@ namespace d2d
 	class IShape : public ICloneable, public UserDataImpl, public Object, public ISerializable
 	{
 	public:
-
+		IShape();
 		virtual ~IShape() { clearUserData(true); }
 
 		//
@@ -54,6 +54,9 @@ namespace d2d
 
 	protected:
 		static const int QUERY_ACCURACY = 5;
+
+	public:
+		std::string name;
 
 	}; // IShape
 }

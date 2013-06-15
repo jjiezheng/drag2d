@@ -36,6 +36,7 @@ void ChainPropertySetting::updatePanel(PropertySettingPanel* panel)
 
 	if (getPGType(pg) == m_type)
 	{
+		pg->GetProperty(wxT("Name"))->SetValue(m_chain->name);
 		pg->GetProperty(wxT("X"))->SetValue(m_chain->getRect().xCenter());
 		pg->GetProperty(wxT("Y"))->SetValue(m_chain->getRect().yCenter());
 		pg->GetProperty(wxT("Closed"))->SetValue(m_chain->isClosed());
@@ -45,6 +46,8 @@ void ChainPropertySetting::updatePanel(PropertySettingPanel* panel)
 		pg->Clear();
 
 		pg->Append(new wxStringProperty(wxT("Type"), wxPG_LABEL, m_type));
+
+		pg->Append(new wxStringProperty(wxT("Name"), wxPG_LABEL, m_chain->name));
 
 		pg->Append(new wxFloatProperty(wxT("X"), wxPG_LABEL, m_chain->getRect().xCenter()));
 		pg->SetPropertyAttribute(wxT("X"), wxPG_ATTR_UNITS, wxT("pixels"));
@@ -63,7 +66,11 @@ void ChainPropertySetting::onPropertyGridChange(const wxString& name, const wxAn
 	if (value.IsNull())
 		return;
 
-	if (name == wxT("X"))
+	if (name == wxT("Name"))
+	{
+		m_chain->name = wxANY_AS(value, wxString);
+	}
+	else if (name == wxT("X"))
 	{
 		const float x = wxANY_AS(value, float);
 		const float dx = x - m_chain->getRect().xCenter();
@@ -82,7 +89,9 @@ void ChainPropertySetting::onPropertyGridChange(const wxString& name, const wxAn
 		m_chain->setVertices(vertices);
 	}
 	else if (name == wxT("Closed"))
+	{
 		m_chain->setClosed(wxANY_AS(value, bool));
+	}
 
 	m_editPanel->Refresh();
 }
@@ -102,6 +111,8 @@ void ChainPropertySetting::enablePropertyGrid(PropertySettingPanel* panel, bool 
 
 		pg->Append(new wxStringProperty(wxT("Type"), wxPG_LABEL, m_type));
 
+		pg->Append(new wxStringProperty(wxT("Name"), wxPG_LABEL, m_chain->name));
+
 		pg->Append(new wxFloatProperty(wxT("X"), wxPG_LABEL, m_chain->getRect().xCenter()));
 		pg->SetPropertyAttribute(wxT("X"), wxPG_ATTR_UNITS, wxT("pixels"));
 		pg->SetPropertyAttribute(wxT("X"), "Precision", 1);
@@ -114,6 +125,7 @@ void ChainPropertySetting::enablePropertyGrid(PropertySettingPanel* panel, bool 
 	}
 
 	pg->GetProperty(wxT("Type"))->Enable(bEnable);
+	pg->GetProperty(wxT("Name"))->Enable(bEnable);
 	pg->GetProperty(wxT("X"))->Enable(bEnable);
 	pg->GetProperty(wxT("Y"))->Enable(bEnable);
 	pg->GetProperty(wxT("Closed"))->Enable(bEnable);
