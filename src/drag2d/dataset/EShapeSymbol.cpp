@@ -159,7 +159,7 @@ void EShapeSymbol::loadThumbnail()
 				points[i].x = chain->getVertices()[i].x * SCALE + dx;
 				points[i].y = -chain->getVertices()[i].y * SCALE + dy;
 			}
-			memDC.DrawSpline(size, points);
+			memDC.DrawLines(size, points);
 			delete points;
 		}
 		else if (RectShape* rect = dynamic_cast<RectShape*>(shape))
