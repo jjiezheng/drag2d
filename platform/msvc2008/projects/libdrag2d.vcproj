@@ -1508,6 +1508,14 @@
 					Name="shape"
 					>
 					<File
+						RelativePath="..\..\..\src\drag2d\view\BezierPropertySetting.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\BezierPropertySetting.h"
+						>
+					</File>
+					<File
 						RelativePath="..\..\..\src\drag2d\view\ChainPropertySetting.cpp"
 						>
 					</File>
