@@ -38,11 +38,29 @@ EditBezierOP::EditBezierOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl,
 	clear();
 }
 
+bool EditBezierOP::onKeyDown(int keyCode)
+{
+	if (ZoomViewOP::onKeyDown(keyCode)) return true;
+
+	if (keyCode == WXK_DELETE)
+	{
+		m_shapesImpl->removeShapeSelection();
+		m_captured.clear();
+		m_editPanel->Refresh();
+
+		m_propertyPanel->setPropertySetting(NULL);
+	}
+
+	return false;
+}
+
 bool EditBezierOP::onMouseLeftDown(int x, int y)
 {
 	if (ZoomViewOP::onMouseLeftDown(x, y)) return true;
 
 	m_firstPress = m_currPos = m_editPanel->transPosScreenToProject(x, y);
+
+	m_shapesImpl->getShapeSelection()->clear();
 
 	int tolerance;
 	if (m_cmpt)
@@ -55,7 +73,10 @@ bool EditBezierOP::onMouseLeftDown(int x, int y)
 		capture.captureEditable(m_firstPress, m_captured);
 
  		if (BezierShape* bezier = dynamic_cast<BezierShape*>(m_captured.shape))
+		{
  			m_propertyPanel->setPropertySetting(new BezierPropertySetting(m_editPanel, bezier));
+			m_shapesImpl->getShapeSelection()->insert(bezier);
+		}
 	}
 	else
 	{
@@ -77,7 +98,12 @@ bool EditBezierOP::onMouseLeftUp(int x, int y)
 
 			const float dis = Math::getDistance(m_firstPress, m_currPos);
 			if (dis > 1)
-				m_shapesImpl->insertShape(new BezierShape(m_firstPress, m_currPos));
+			{
+				BezierShape* bezier = new BezierShape(m_firstPress, m_currPos);
+				m_propertyPanel->setPropertySetting(new BezierPropertySetting(m_editPanel, bezier));
+				m_shapesImpl->getShapeSelection()->insert(bezier);
+				m_shapesImpl->insertShape(bezier);
+			}
 		}
 	}
 	else
@@ -112,6 +138,7 @@ bool EditBezierOP::onMouseRightDown(int x, int y)
 		if (m_captured.shape)
 		{
 			m_shapesImpl->removeShape(m_captured.shape);
+			m_shapesImpl->getShapeSelection()->clear();
 			m_captured.clear();
 			m_editPanel->Refresh();
 
