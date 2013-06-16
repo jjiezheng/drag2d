@@ -41,11 +41,29 @@ EditRectOP::EditRectOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl,
 	clear();
 }
 
+bool EditRectOP::onKeyDown(int keyCode)
+{
+	if (ZoomViewOP::onKeyDown(keyCode)) return true;
+
+	if (keyCode == WXK_DELETE)
+	{
+		m_shapesImpl->removeShapeSelection();
+		m_captured.clear();
+		m_editPanel->Refresh();
+
+		m_propertyPanel->setPropertySetting(NULL);
+	}
+
+	return false;
+}
+
 bool EditRectOP::onMouseLeftDown(int x, int y)
 {
 	if (ZoomViewOP::onMouseLeftDown(x, y)) return true;
 
 	m_firstPress = m_currPos = m_editPanel->transPosScreenToProject(x, y);
+
+	m_shapesImpl->getShapeSelection()->clear();
 
 	int tolerance;
 	if (m_cmpt)
@@ -58,7 +76,10 @@ bool EditRectOP::onMouseLeftDown(int x, int y)
 		capture.captureEditable(m_firstPress, m_captured);
 
 		if (RectShape* rect = dynamic_cast<RectShape*>(m_captured.shape))
+		{
 			m_propertyPanel->setPropertySetting(new RectPropertySetting(m_editPanel, rect));
+			m_shapesImpl->getShapeSelection()->insert(rect);
+		}
 	}
 	else
 	{
@@ -80,7 +101,12 @@ bool EditRectOP::onMouseLeftUp(int x, int y)
 
 			const float dis = Math::getDistance(m_firstPress, m_currPos);
 			if (dis > 1)
-				m_shapesImpl->insertShape(new RectShape(m_firstPress, m_currPos));
+			{
+				RectShape* rect = new RectShape(m_firstPress, m_currPos);
+				m_propertyPanel->setPropertySetting(new RectPropertySetting(m_editPanel, rect));
+				m_shapesImpl->getShapeSelection()->insert(rect);
+				m_shapesImpl->insertShape(rect);
+			}
 		}
 	}
 	else
@@ -115,6 +141,7 @@ bool EditRectOP::onMouseRightDown(int x, int y)
 		if (m_captured.shape)
 		{
 			m_shapesImpl->removeShape(m_captured.shape);
+			m_shapesImpl->getShapeSelection()->clear();
 			m_captured.clear();
 			m_editPanel->Refresh();
 
