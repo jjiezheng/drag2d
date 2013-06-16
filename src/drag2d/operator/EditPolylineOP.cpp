@@ -225,6 +225,8 @@ onMouseRightDown(int x, int y)
 				{
 					m_shapesImpl->removeShape(m_capturedEditable.shape);
 					m_shapesImpl->getShapeSelection()->clear();
+					m_capturedEditable.clear();
+					m_captureSelectable.clear();
 					m_propertyPanel->setPropertySetting(NULL);
 				}
 				m_capturedEditable.shape = NULL;
