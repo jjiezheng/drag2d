@@ -51,8 +51,8 @@ void ShapesPanelImpl::removeShape(IShape* shape)
 	{
 		if (*itr == shape)
 		{
-			delete *itr;
 			m_shapes.erase(itr);
+			shape->release();
 			break;
 		}
 	}
