@@ -35,8 +35,23 @@ EditCircleOP::EditCircleOP(EditPanel* editPanel, MultiShapesImpl* shapesImpl,
 	, m_shapesImpl(shapesImpl)
 	, m_cmpt(cmpt)
 {
-	m_firstPress.setInvalid();
-	m_currPos.setInvalid();
+	clear();
+}
+
+bool EditCircleOP::onKeyDown(int keyCode)
+{
+	if (ZoomViewOP::onKeyDown(keyCode)) return true;
+
+	if (keyCode == WXK_DELETE)
+	{
+		m_shapesImpl->removeShapeSelection();
+		m_captured.clear();
+		m_editPanel->Refresh();
+
+		m_propertyPanel->setPropertySetting(NULL);
+	}
+
+	return false;
 }
 
 bool EditCircleOP::onMouseLeftDown(int x, int y)
@@ -44,6 +59,8 @@ bool EditCircleOP::onMouseLeftDown(int x, int y)
 	if (ZoomViewOP::onMouseLeftDown(x, y)) return true;
 
 	m_firstPress = m_currPos = m_editPanel->transPosScreenToProject(x, y);
+
+	m_shapesImpl->getShapeSelection()->clear();
 
 	int tolerance;
 	if (m_cmpt)
@@ -56,7 +73,10 @@ bool EditCircleOP::onMouseLeftDown(int x, int y)
 		capture.captureEditable(m_firstPress, m_captured);
 
 		if (CircleShape* circle = dynamic_cast<CircleShape*>(m_captured.shape))
+		{
 			m_propertyPanel->setPropertySetting(new CirclePropertySetting(m_editPanel, circle));
+			m_shapesImpl->getShapeSelection()->insert(circle);
+		}
 	}
 	else
 	{
@@ -78,7 +98,12 @@ bool EditCircleOP::onMouseLeftUp(int x, int y)
 
 			const float radius = Math::getDistance(m_firstPress, m_currPos);
 			if (radius > 0)
-				m_shapesImpl->insertShape(new CircleShape(m_firstPress, radius));
+			{
+				CircleShape* circle = new CircleShape(m_firstPress, radius);
+				m_propertyPanel->setPropertySetting(new CirclePropertySetting(m_editPanel, circle));
+				m_shapesImpl->getShapeSelection()->insert(circle);
+				m_shapesImpl->insertShape(circle);
+			}
 		}
 	}
 	else
@@ -113,6 +138,7 @@ bool EditCircleOP::onMouseRightDown(int x, int y)
 		if (m_captured.shape)
 		{
 			m_shapesImpl->removeShape(m_captured.shape);
+			m_shapesImpl->getShapeSelection()->clear();
 			m_captured.clear();
 			m_editPanel->Refresh();
 
