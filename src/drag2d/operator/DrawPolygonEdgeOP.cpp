@@ -33,9 +33,12 @@ bool DrawPolygonEdgeOP::onMouseLeftDClick(int x, int y)
 {
 	if (DrawPolylineOP::onMouseLeftDClick(x, y)) return true;
 
-	m_shapesImpl->insertShape(new PolygonShape(m_polyline));
-	m_polyline.clear();
-	m_currPos.setInvalid();
+	if (m_polyline.size() >= 3)
+	{
+		m_shapesImpl->insertShape(new PolygonShape(m_polyline));
+		m_polyline.clear();
+		m_currPos.setInvalid();
+	}
 
 	return false;
 }
