@@ -92,7 +92,8 @@ onMouseLeftDown(int x, int y)
 // 			Vector screen = m_editPanel->transPosProjectToScreen(m_capturedEditable.pos);
 // 			bNotDeliver = TBase::onMouseLeftDown(screen.x, screen.y);
 
-			m_polyline.push_back(m_capturedEditable.pos);
+			if (m_capturedEditable.pos.isValid())
+				m_polyline.push_back(m_capturedEditable.pos);
 
 			if (PolygonShape* poly = dynamic_cast<PolygonShape*>(m_capturedEditable.shape))
 				m_propertyPanel->setPropertySetting(new PolygonPropertySetting(m_editPanel, poly));
@@ -101,7 +102,8 @@ onMouseLeftDown(int x, int y)
 		}
 		else if (m_captureSelectable.shape)
 		{
-			m_polyline.push_back(m_captureSelectable.pos);
+			if (m_captureSelectable.pos.isValid())
+				m_polyline.push_back(m_captureSelectable.pos);
 
 			if (PolygonShape* poly = dynamic_cast<PolygonShape*>(m_captureSelectable.shape))
 				m_propertyPanel->setPropertySetting(new PolygonPropertySetting(m_editPanel, poly));
@@ -214,10 +216,15 @@ onMouseRightDown(int x, int y)
 			if (m_capturedEditable.shape)
 			{
 				if (m_capturedEditable.pos.isValid())
-					dynamic_cast<ChainShape*>(m_capturedEditable.shape)->removeVertices(m_capturedEditable.pos);
+				{
+					ChainShape* chain = dynamic_cast<ChainShape*>(m_capturedEditable.shape);
+					chain->removeVertices(m_capturedEditable.pos);
+					chain->refresh();
+				}
 				else
 				{
 					m_shapesImpl->removeShape(m_capturedEditable.shape);
+					m_shapesImpl->getShapeSelection()->clear();
 					m_propertyPanel->setPropertySetting(NULL);
 				}
 				m_capturedEditable.shape = NULL;
