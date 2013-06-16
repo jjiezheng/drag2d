@@ -109,7 +109,10 @@ IShape* EShapeFileAdapter::loadBezier(const Json::Value& value)
 		points[i].y = value["points"]["y"][i].asDouble();
 	}
 
-	return new BezierShape(points);
+	BezierShape* bezier = new BezierShape(points);
+	bezier->name = value["name"].asString();
+
+	return bezier;
 }
 
 IShape* EShapeFileAdapter::loadPolygon(const Json::Value& value)
@@ -123,7 +126,10 @@ IShape* EShapeFileAdapter::loadPolygon(const Json::Value& value)
 		vertices[i].y = value["vertices"]["y"][i].asDouble();
 	}
 
-	return new PolygonShape(vertices);
+	PolygonShape* poly = new PolygonShape(vertices);
+	poly->name = value["name"].asString();
+
+	return poly;
 }
 
 IShape* EShapeFileAdapter::loadChain(const Json::Value& value)
@@ -139,7 +145,10 @@ IShape* EShapeFileAdapter::loadChain(const Json::Value& value)
 
 	bool isLoop = value["closed"].asBool();
 
-	return new ChainShape(vertices, isLoop);
+	ChainShape* chain = new ChainShape(vertices, isLoop);
+	chain->name = value["name"].asString();
+
+	return chain;
 }
 
 IShape* EShapeFileAdapter::loadRect(const Json::Value& value)
@@ -149,7 +158,10 @@ IShape* EShapeFileAdapter::loadRect(const Json::Value& value)
 		ymin = value["ymin"].asDouble(),
 		ymax = value["ymax"].asDouble();
 
-	return new RectShape(Vector(xmin, ymin), Vector(xmax, ymax));
+	RectShape* rect = new RectShape(Vector(xmin, ymin), Vector(xmax, ymax));
+	rect->name = value["name"].asString();
+
+	return rect;
 }
 
 IShape* EShapeFileAdapter::loadCircle(const Json::Value& value)
@@ -158,12 +170,17 @@ IShape* EShapeFileAdapter::loadCircle(const Json::Value& value)
 		y = value["y"].asDouble(),
 		radius = value["radius"].asDouble();
 
-	return new CircleShape(Vector(x, y), radius);
+	CircleShape* circle = new CircleShape(Vector(x, y), radius);
+	circle->name = value["name"].asString();
+
+	return circle;
 }
 
 Json::Value EShapeFileAdapter::store(const BezierShape* bezier)
 {
 	Json::Value value;
+
+	value["name"] = bezier->name;
 
 	for (size_t i = 0; i < 4; ++i)
 	{
@@ -178,6 +195,8 @@ Json::Value EShapeFileAdapter::store(const PolygonShape* poly)
 {
 	Json::Value value;
 
+	value["name"] = poly->name;
+
 	const std::vector<Vector>& vertices = poly->getVertices();
 	for (size_t i = 0, n = vertices.size(); i < n; ++i)
 	{
@@ -191,6 +210,8 @@ Json::Value EShapeFileAdapter::store(const PolygonShape* poly)
 Json::Value EShapeFileAdapter::store(const ChainShape* chain)
 {
 	Json::Value value;
+
+	value["name"] = chain->name;
 
 	const std::vector<Vector>& vertices = chain->getVertices();
 	for (size_t i = 0, n = vertices.size(); i < n; ++i)
@@ -207,6 +228,8 @@ Json::Value EShapeFileAdapter::store(const RectShape* rect)
 {
 	Json::Value value;
 
+	value["name"] = rect->name;
+
 	value["xmin"] = rect->m_rect.xMin;
 	value["xmax"] = rect->m_rect.xMax;
 	value["ymin"] = rect->m_rect.yMin;
@@ -218,6 +241,8 @@ Json::Value EShapeFileAdapter::store(const RectShape* rect)
 Json::Value EShapeFileAdapter::store(const CircleShape* circle)
 {
 	Json::Value value;
+
+	value["name"] = circle->name;
 
 	value["x"] = circle->center.x;
 	value["y"] = circle->center.y;
