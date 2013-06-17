@@ -60,6 +60,11 @@ template <typename TBase, typename TSelected>
 bool d2d::EditPolylineOP<TBase, TSelected>::
 onKeyDown(int keyCode) 
 {
+	if (keyCode == WXK_DELETE)
+	{
+		m_capturedEditable.clear();
+		m_captureSelectable.clear();
+	}
 	return m_selectOP->onKeyDown(keyCode);
 }
 
@@ -95,20 +100,14 @@ onMouseLeftDown(int x, int y)
 			if (m_capturedEditable.pos.isValid())
 				m_polyline.push_back(m_capturedEditable.pos);
 
-			if (PolygonShape* poly = dynamic_cast<PolygonShape*>(m_capturedEditable.shape))
-				m_propertyPanel->setPropertySetting(new PolygonPropertySetting(m_editPanel, poly));
-			else if (ChainShape* chain = dynamic_cast<ChainShape*>(m_capturedEditable.shape))
-				m_propertyPanel->setPropertySetting(new ChainPropertySetting(m_editPanel, chain));
+			checkActiveShape(m_capturedEditable);
 		}
 		else if (m_captureSelectable.shape)
 		{
 			if (m_captureSelectable.pos.isValid())
 				m_polyline.push_back(m_captureSelectable.pos);
 
-			if (PolygonShape* poly = dynamic_cast<PolygonShape*>(m_captureSelectable.shape))
-				m_propertyPanel->setPropertySetting(new PolygonPropertySetting(m_editPanel, poly));
-			else if (ChainShape* chain = dynamic_cast<ChainShape*>(m_captureSelectable.shape))
-				m_propertyPanel->setPropertySetting(new ChainPropertySetting(m_editPanel, chain));
+			checkActiveShape(m_captureSelectable);
 		}
 		else
 		{
@@ -126,10 +125,7 @@ onMouseLeftDown(int x, int y)
 					m_capturedEditable.pos = pos;
 					m_editPanel->Refresh();
 
-					if (PolygonShape* poly = dynamic_cast<PolygonShape*>(m_capturedEditable.shape))
-						m_propertyPanel->setPropertySetting(new PolygonPropertySetting(m_editPanel, poly));
-					else if (ChainShape* chain = dynamic_cast<ChainShape*>(m_capturedEditable.shape))
-						m_propertyPanel->setPropertySetting(new ChainPropertySetting(m_editPanel, chain));
+					checkActiveShape(m_capturedEditable);
 				}
 				else
 					bNotDeliver = TBase::onMouseLeftDown(x, y);
@@ -173,16 +169,8 @@ onMouseLeftUp(int x, int y)
 
 		if (m_capturedEditable.shape)
 		{
-			if (PolygonShape* poly = dynamic_cast<PolygonShape*>(m_capturedEditable.shape))
-			{
-				m_propertyPanel->enablePropertyGrid(true);
-				m_propertyPanel->setPropertySetting(new PolygonPropertySetting(m_editPanel, poly));
-			}
-			else if (ChainShape* chain = dynamic_cast<ChainShape*>(m_capturedEditable.shape))
-			{
-				m_propertyPanel->enablePropertyGrid(true);
-				m_propertyPanel->setPropertySetting(new ChainPropertySetting(m_editPanel, chain));
-			}
+			m_propertyPanel->enablePropertyGrid(true);
+			checkActiveShape(m_capturedEditable);
 		}
 	}
 
@@ -378,6 +366,22 @@ drawCaptured(const NodeAddr& captured) const
 		center.y = chain->getRect().yCenter();
 		PrimitiveDraw::drawCircle(center, m_cmpt->getNodeCaptureDistance(), true, 2, Colorf(0.4f, 1.0f, 0.4f));
 	}
+}
+
+template <typename TBase, typename TSelected>
+void d2d::EditPolylineOP<TBase, TSelected>::
+checkActiveShape(const NodeAddr& captured)
+{
+	if (PolygonShape* poly = dynamic_cast<PolygonShape*>(captured.shape))
+	{
+		m_propertyPanel->setPropertySetting(new PolygonPropertySetting(m_editPanel, poly));
+		m_shapesImpl->getShapeSelection()->insert(poly);
+	}
+	else if (ChainShape* chain = dynamic_cast<ChainShape*>(captured.shape))
+	{
+		m_propertyPanel->setPropertySetting(new ChainPropertySetting(m_editPanel, chain));
+		m_shapesImpl->getShapeSelection()->insert(chain);
+	}	
 }
 
 //////////////////////////////////////////////////////////////////////////
