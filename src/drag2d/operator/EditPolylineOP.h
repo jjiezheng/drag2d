@@ -55,6 +55,8 @@ namespace d2d
 	private:
 		void drawCaptured(const NodeAddr& captured) const;
 
+		void checkActiveShape(const NodeAddr& captured);
+
 	private:
 		class InterruptChainVisitor : public IVisitor
 		{
