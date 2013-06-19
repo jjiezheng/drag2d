@@ -39,6 +39,7 @@ void PolygonPropertySetting::updatePanel(PropertySettingPanel* panel)
 		pg->GetProperty(wxT("Name"))->SetValue(m_poly->name);
 		pg->GetProperty(wxT("X"))->SetValue(m_poly->getRect().xCenter());
 		pg->GetProperty(wxT("Y"))->SetValue(m_poly->getRect().yCenter());
+		pg->GetProperty(wxT("Mirror"))->SetValue(wxT("none"));
 	}
 	else
 	{
@@ -55,6 +56,10 @@ void PolygonPropertySetting::updatePanel(PropertySettingPanel* panel)
 		pg->Append(new wxFloatProperty(wxT("Y"), wxPG_LABEL, m_poly->getRect().yCenter()));
 		pg->SetPropertyAttribute(wxT("Y"), wxPG_ATTR_UNITS, wxT("pixels"));
 		pg->SetPropertyAttribute(wxT("Y"), "Precision", 1);
+
+		static const wxChar* mirror_labels[] = { wxT("none"),
+			wxT("horizontal"), wxT("vertical"), NULL };
+		pg->Append(new wxEnumProperty(wxT("Mirror"), wxPG_LABEL, mirror_labels));
 	}
 }
 
@@ -75,6 +80,7 @@ void PolygonPropertySetting::onPropertyGridChange(const wxString& name, const wx
 		for (size_t i = 0, n = vertices.size(); i < n; ++i)
 			vertices[i].x += dx;
 		m_poly->setVertices(vertices);
+		m_poly->refresh();
 	}
 	else if (name == wxT("Y"))
 	{
@@ -84,6 +90,29 @@ void PolygonPropertySetting::onPropertyGridChange(const wxString& name, const wx
 		for (size_t i = 0, n = vertices.size(); i < n; ++i)
 			vertices[i].y += dy;
 		m_poly->setVertices(vertices);
+		m_poly->refresh();
+	}
+	else if (name == wxT("Mirror"))
+	{
+		int type = wxANY_AS(value, int);
+		if (type == 1)
+		{
+			float x = m_poly->getRect().xCenter();
+			std::vector<Vector> vertices = m_poly->getVertices();
+			for (size_t i = 0, n = vertices.size(); i < n; ++i)
+				vertices[i].x = x * 2 - vertices[i].x;
+			m_poly->setVertices(vertices);
+			m_poly->refresh();
+		}
+		else if (type == 2)
+		{
+			float y = m_poly->getRect().yCenter();
+			std::vector<Vector> vertices = m_poly->getVertices();
+			for (size_t i = 0, n = vertices.size(); i < n; ++i)
+				vertices[i].y = y * 2 - vertices[i].y;
+			m_poly->setVertices(vertices);
+			m_poly->refresh();
+		}
 	}
 
 	m_editPanel->Refresh();
@@ -113,10 +142,15 @@ void PolygonPropertySetting::enablePropertyGrid(PropertySettingPanel* panel, boo
 		pg->Append(new wxFloatProperty(wxT("Y"), wxPG_LABEL, m_poly->getRect().yCenter()));
 		pg->SetPropertyAttribute(wxT("Y"), wxPG_ATTR_UNITS, wxT("pixels"));
 		pg->SetPropertyAttribute(wxT("Y"), "Precision", 1);
+
+		static const wxChar* mirror_labels[] = { wxT("none"),
+			wxT("horizontal"), wxT("vertical"), NULL };
+		pg->Append(new wxEnumProperty(wxT("Mirror"), wxPG_LABEL, mirror_labels));
 	}
 
 	pg->GetProperty(wxT("Type"))->Enable(bEnable);
 	pg->GetProperty(wxT("Name"))->Enable(bEnable);
 	pg->GetProperty(wxT("X"))->Enable(bEnable);
 	pg->GetProperty(wxT("Y"))->Enable(bEnable);
+	pg->GetProperty(wxT("Mirror"))->Enable(bEnable);
 }

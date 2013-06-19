@@ -40,6 +40,7 @@ void ChainPropertySetting::updatePanel(PropertySettingPanel* panel)
 		pg->GetProperty(wxT("X"))->SetValue(m_chain->getRect().xCenter());
 		pg->GetProperty(wxT("Y"))->SetValue(m_chain->getRect().yCenter());
 		pg->GetProperty(wxT("Closed"))->SetValue(m_chain->isClosed());
+		pg->GetProperty(wxT("Mirror"))->SetValue(wxT("none"));
 	}
 	else
 	{
@@ -58,6 +59,10 @@ void ChainPropertySetting::updatePanel(PropertySettingPanel* panel)
 		pg->SetPropertyAttribute(wxT("Y"), "Precision", 1);
 
 		pg->Append(new wxBoolProperty(wxT("Closed"), wxPG_LABEL, m_chain->isClosed()));
+
+		static const wxChar* mirror_labels[] = { wxT("none"),
+			wxT("horizontal"), wxT("vertical"), NULL };
+		pg->Append(new wxEnumProperty(wxT("Mirror"), wxPG_LABEL, mirror_labels));
 	}
 }
 
@@ -92,6 +97,26 @@ void ChainPropertySetting::onPropertyGridChange(const wxString& name, const wxAn
 	{
 		m_chain->setClosed(wxANY_AS(value, bool));
 	}
+	else if (name == wxT("Mirror"))
+	{
+		int type = wxANY_AS(value, int);
+		if (type == 1)
+		{
+			float x = m_chain->getRect().xCenter();
+			std::vector<Vector> vertices = m_chain->getVertices();
+			for (size_t i = 0, n = vertices.size(); i < n; ++i)
+				vertices[i].x = x * 2 - vertices[i].x;
+			m_chain->setVertices(vertices);
+		}
+		else if (type == 2)
+		{
+			float y = m_chain->getRect().yCenter();
+			std::vector<Vector> vertices = m_chain->getVertices();
+			for (size_t i = 0, n = vertices.size(); i < n; ++i)
+				vertices[i].y = y * 2 - vertices[i].y;
+			m_chain->setVertices(vertices);
+		}
+	}
 
 	m_editPanel->Refresh();
 }
@@ -122,6 +147,10 @@ void ChainPropertySetting::enablePropertyGrid(PropertySettingPanel* panel, bool 
 		pg->SetPropertyAttribute(wxT("Y"), "Precision", 1);
 
 		pg->Append(new wxBoolProperty(wxT("Closed"), wxPG_LABEL, m_chain->isClosed()));
+
+		static const wxChar* mirror_labels[] = { wxT("none"),
+			wxT("horizontal"), wxT("vertical"), NULL };
+		pg->Append(new wxEnumProperty(wxT("Mirror"), wxPG_LABEL, mirror_labels));
 	}
 
 	pg->GetProperty(wxT("Type"))->Enable(bEnable);
@@ -129,4 +158,5 @@ void ChainPropertySetting::enablePropertyGrid(PropertySettingPanel* panel, bool 
 	pg->GetProperty(wxT("X"))->Enable(bEnable);
 	pg->GetProperty(wxT("Y"))->Enable(bEnable);
 	pg->GetProperty(wxT("Closed"))->Enable(bEnable);
+	pg->GetProperty(wxT("Mirror"))->Enable(bEnable);
 }

@@ -39,7 +39,7 @@ namespace d2d
 		virtual void updatePropertyGrid(PropertySettingPanel* panel);
 		virtual void enablePropertyGrid(PropertySettingPanel* panel, bool bEnable);
 
-	private:
+	protected:
 		std::vector<ISprite*> m_sprites;
 
 	}; // MultiSpritesPropertySetting

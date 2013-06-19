@@ -38,7 +38,7 @@ namespace d2d
 		virtual bool onDraw() const;
 		virtual bool clear();
 
-	private:
+	protected:
 		Colorf m_color;
 
 		Vector m_firstPos, m_currPos;

@@ -39,6 +39,7 @@ void BezierPropertySetting::updatePanel(PropertySettingPanel* panel)
 		pg->GetProperty(wxT("Name"))->SetValue(m_bezier->name);
 		pg->GetProperty(wxT("X"))->SetValue(m_bezier->getRect().xCenter());
 		pg->GetProperty(wxT("Y"))->SetValue(m_bezier->getRect().yCenter());
+		pg->GetProperty(wxT("Mirror"))->SetValue(wxT("none"));
 	}
 	else
 	{
@@ -55,6 +56,10 @@ void BezierPropertySetting::updatePanel(PropertySettingPanel* panel)
 		pg->Append(new wxFloatProperty(wxT("Y"), wxPG_LABEL, m_bezier->getRect().yCenter()));
 		pg->SetPropertyAttribute(wxT("Y"), wxPG_ATTR_UNITS, wxT("pixels"));
 		pg->SetPropertyAttribute(wxT("Y"), "Precision", 1);
+
+		static const wxChar* mirror_labels[] = { wxT("none"),
+			wxT("horizontal"), wxT("vertical"), NULL };
+		pg->Append(new wxEnumProperty(wxT("Mirror"), wxPG_LABEL, mirror_labels));
 	}
 }
 
@@ -85,6 +90,24 @@ void BezierPropertySetting::onPropertyGridChange(const wxString& name, const wxA
 			vertices[i].y += dy;
 		m_bezier->setVertices(vertices);
 	}
+	else if (name == wxT("Mirror"))
+	{
+		int type = wxANY_AS(value, int);
+		if (type == 1)
+		{
+			float x = m_bezier->getRect().xCenter();
+			for (size_t i = 0; i < 4; ++i)
+				m_bezier->points[i].x = x * 2 - m_bezier->points[i].x;
+			m_bezier->createCurve();
+		}
+		else if (type == 2)
+		{
+			float y = m_bezier->getRect().yCenter();
+			for (size_t i = 0; i < 4; ++i)
+				m_bezier->points[i].y = y * 2 - m_bezier->points[i].y;
+			m_bezier->createCurve();
+		}
+	}
 
 	m_editPanel->Refresh();
 }
@@ -113,10 +136,15 @@ void BezierPropertySetting::enablePropertyGrid(PropertySettingPanel* panel, bool
 		pg->Append(new wxFloatProperty(wxT("Y"), wxPG_LABEL, m_bezier->getRect().yCenter()));
 		pg->SetPropertyAttribute(wxT("Y"), wxPG_ATTR_UNITS, wxT("pixels"));
 		pg->SetPropertyAttribute(wxT("Y"), "Precision", 1);
+
+		static const wxChar* mirror_labels[] = { wxT("none"),
+			wxT("horizontal"), wxT("vertical"), NULL };
+		pg->Append(new wxEnumProperty(wxT("Mirror"), wxPG_LABEL, mirror_labels));
 	}
 
 	pg->GetProperty(wxT("Type"))->Enable(bEnable);
 	pg->GetProperty(wxT("Name"))->Enable(bEnable);
 	pg->GetProperty(wxT("X"))->Enable(bEnable);
 	pg->GetProperty(wxT("Y"))->Enable(bEnable);
+	pg->GetProperty(wxT("Mirror"))->Enable(bEnable);
 }
