@@ -147,7 +147,6 @@
 #include "common/CombinationFileAdapter.h"
 #include "common/MeshFileAdapter.h"
 #include "common/ShapeFileAdapter.h"
-#include "common/EShapeFileAdapter.h"
 #include "common/TexPackerAdapter.h"
 #include "common/Settings.h"
 #include "common/Math.h"

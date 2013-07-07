@@ -18,13 +18,14 @@
 
 #include "EShapeSymbol.h"
 
-#include "common/EShapeFileAdapter.h"
 #include "dataset/BezierShape.h"
 #include "dataset/PolygonShape.h"
 #include "dataset/ChainShape.h"
 #include "dataset/RectShape.h"
 #include "dataset/CircleShape.h"
 #include "dataset/Bitmap.h"
+
+#include <easyshape.h>
 
 using namespace d2d;
 
@@ -92,7 +93,7 @@ void EShapeSymbol::loadResources()
 {
 	clear();
 
-	EShapeFileAdapter adpater(shapes);
+	libshape::FileAdapter adpater(shapes);
 	adpater.load(m_filepath.c_str());
 
 	loadThumbnail();

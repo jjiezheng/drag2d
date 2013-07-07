@@ -18,6 +18,8 @@
 
 #include <json/json.h>
 
+#include <easyshape.h>
+
 #include "BodyData.h"
 #include "ChainShape.h"
 
@@ -25,7 +27,6 @@
 #include "common/FileNameParser.h"
 #include "common/PolylineFileAdapter.h"
 #include "common/CircleFileAdapter.h"
-#include "common/EShapeFileAdapter.h"
 #include "dataset/MeshSymbol.h"
 #include "dataset/CircleShape.h"
 #include "dataset/RectShape.h"
@@ -132,7 +133,7 @@ void BodyData::loadFromShapeFile(const wxString& filename)
 	m_type = e_shapes;
 
 	std::vector<IShape*> shapes;
-	EShapeFileAdapter adapter(shapes);
+	libshape::FileAdapter adapter(shapes);
 	adapter.load(filename.c_str());
 	for (size_t i = 0, n = shapes.size();  i< n; ++i)
 	{
