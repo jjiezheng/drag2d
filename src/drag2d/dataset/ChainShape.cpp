@@ -91,7 +91,12 @@ void ChainShape::storeToTextFile(std::ofstream& fout) const
 
 bool ChainShape::isContain(const Vector& pos) const
 {
-	if (m_vertices.empty() || !Math::isPointInRect(pos, m_rect))
+	Rect rect(m_rect);
+	rect.xMin -= QUERY_ACCURACY;
+	rect.xMax += QUERY_ACCURACY;
+	rect.yMin -= QUERY_ACCURACY;
+	rect.yMax += QUERY_ACCURACY;
+	if (m_vertices.empty() || !Math::isPointInRect(pos, rect))
 		return false;
 
 	size_t index;

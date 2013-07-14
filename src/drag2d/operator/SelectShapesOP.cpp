@@ -64,7 +64,10 @@ bool SelectShapesOP::onKeyDown(int keyCode)
 	if (DrawRectangleOP::onKeyDown(keyCode)) return true;
 
 	if (keyCode == WXK_DELETE)
+	{
 		m_shapeImpl->removeShapeSelection();
+		clear();
+	}
 	else if (wxGetKeyState(WXK_CONTROL_X))
 	{
 		clearClipboard();
