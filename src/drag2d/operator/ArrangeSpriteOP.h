@@ -44,6 +44,8 @@ namespace d2d
 		virtual bool onMouseRightUp(int x, int y);
 		virtual bool onMouseDrag(int x, int y);
 
+		virtual bool onPopMenuSelected(int type);
+
 		virtual bool onDraw() const;
 		virtual bool clear();
 

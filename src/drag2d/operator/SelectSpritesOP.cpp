@@ -153,6 +153,13 @@ bool SelectSpritesOP::onMouseLeftUp(int x, int y)
 	return false;
 }
 
+bool SelectSpritesOP::onMouseRightDown(int x, int y)
+{
+	if (DrawRectangleOP::onMouseRightDown(x, y)) return true;
+
+	return SelectSpritesOP::onMouseLeftDown(x, y);
+}
+
 bool SelectSpritesOP::onMouseDrag(int x, int y)
 {
 	if (DrawRectangleOP::onMouseDrag(x, y)) return true;

@@ -44,6 +44,8 @@ namespace d2d
 		virtual bool onMouseLeftDClick(int x, int y) { return false; }
 		virtual bool onMouseWheelRotation(int x, int y, int direction) { return false; }
 
+		virtual bool onPopMenuSelected(int type) { return false; }
+
 		virtual bool onDraw() const { return false; }
 		virtual bool clear() { return false; }
 

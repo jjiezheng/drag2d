@@ -72,6 +72,18 @@ namespace d2d
 		void redo();
 		void addHistoryOP(AbstractAtomicOP* op);
 
+	public:
+		enum
+		{
+			Menu_UpOneLayer,
+			Menu_DownOneLayer
+		};
+
+		static std::string menu_entries[];
+
+		void onMenuUpOneLayer(wxCommandEvent& event);
+		void onMenuDownOneLayer(wxCommandEvent& event);
+
 	protected:
 		void onSize(wxSizeEvent& event);
 

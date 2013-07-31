@@ -30,7 +30,16 @@ BEGIN_EVENT_TABLE(EditPanel, wxPanel)
 	EVT_KEY_DOWN(EditPanel::onKeyDown)
 	EVT_KEY_UP(EditPanel::onKeyUp)
 	EVT_SIZE(EditPanel::onSize)
+
+	EVT_MENU(Menu_UpOneLayer, EditPanel::onMenuUpOneLayer)
+	EVT_MENU(Menu_DownOneLayer, EditPanel::onMenuDownOneLayer)
 END_EVENT_TABLE()
+
+std::string EditPanel::menu_entries[] = 
+{
+	"Up One Layer",
+	"Down One Layer"
+};
 
 EditPanel::EditPanel(wxWindow* parent)
 	: wxPanel(parent)
@@ -173,6 +182,18 @@ void EditPanel::addHistoryOP(AbstractAtomicOP* op)
 {
 	m_undoStack.push(op);
 	clearAtomicOPStack(m_redoStack);
+}
+
+void EditPanel::onMenuUpOneLayer(wxCommandEvent& event)
+{
+	m_editOP->onPopMenuSelected(Menu_UpOneLayer);
+	Refresh();
+}
+
+void EditPanel::onMenuDownOneLayer(wxCommandEvent& event)
+{
+	m_editOP->onPopMenuSelected(Menu_DownOneLayer);
+	Refresh();
 }
 
 void EditPanel::onSize(wxSizeEvent& event)

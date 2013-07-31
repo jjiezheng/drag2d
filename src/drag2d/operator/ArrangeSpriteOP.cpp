@@ -194,8 +194,20 @@ namespace d2d
 			m_bRightPress = false;
 			if (m_firstPos.isValid() && !m_selection->empty())
 			{
-				Vector pos = m_editPanel->transPosScreenToProject(x, y);
-				m_editPanel->addHistoryOP(new arrange_sprite::RotateSpritesAOP(*m_selection, m_firstPos, pos));
+				Vector curr = m_editPanel->transPosScreenToProject(x, y);
+				d2d::ISprite* sprite = m_spritesImpl->querySpriteByPos(curr);
+				if (curr == m_firstPos && sprite)
+				{
+					wxMenu menu;
+					menu.Append(EditPanel::Menu_UpOneLayer, EditPanel::menu_entries[EditPanel::Menu_UpOneLayer]);
+					menu.Append(EditPanel::Menu_DownOneLayer, EditPanel::menu_entries[EditPanel::Menu_DownOneLayer]);
+					m_editPanel->PopupMenu(&menu, x, y);
+				}
+				else
+				{
+					Vector pos = m_editPanel->transPosScreenToProject(x, y);
+					m_editPanel->addHistoryOP(new arrange_sprite::RotateSpritesAOP(*m_selection, m_firstPos, pos));
+				}
 			}
 		}
 
@@ -229,6 +241,30 @@ namespace d2d
 		else
 			translateSprite(pos - m_lastPos);
 		m_lastPos = pos;
+
+		return false;
+	}
+
+	template <typename TBase>
+	bool ArrangeSpriteOP<TBase>::onPopMenuSelected(int type)
+	{
+		if (TBase::onPopMenuSelected(type)) return true;
+
+		switch (type)
+		{
+		case EditPanel::Menu_UpOneLayer:
+			{
+				d2d::ISprite* sprite = m_spritesImpl->querySpriteByPos(m_firstPos);
+				m_spritesImpl->resetSpriteOrder(sprite, true);
+			}
+			break;
+		case EditPanel::Menu_DownOneLayer:
+			{
+				d2d::ISprite* sprite = m_spritesImpl->querySpriteByPos(m_firstPos);
+				m_spritesImpl->resetSpriteOrder(sprite, false);
+			}
+			break;
+		}
 
 		return false;
 	}
