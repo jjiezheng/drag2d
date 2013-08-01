@@ -90,6 +90,28 @@ void SpritesPanelImpl::clearSprites()
 	m_sprites.clear();
 }
 
+void SpritesPanelImpl::resetSpriteOrder(d2d::ISprite* sprite, bool up)
+{
+	for (size_t i = 0, n = m_sprites.size(); i < n; ++i)
+	{
+		if (m_sprites[i] == sprite)
+		{
+			if (up && i != n - 1)
+			{
+				ISprite* tmp = m_sprites[i];
+				m_sprites[i] = m_sprites[i+1];
+				m_sprites[i+1] = tmp;
+			}
+			else if (!up && i != 0)
+			{
+				ISprite* tmp = m_sprites[i];
+				m_sprites[i] = m_sprites[i-1];
+				m_sprites[i-1] = tmp;
+			}
+		}
+	}
+}
+
 //////////////////////////////////////////////////////////////////////////
 // class SpritesPanelImpl::DragSymbolTarget
 //////////////////////////////////////////////////////////////////////////

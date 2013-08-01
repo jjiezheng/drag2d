@@ -79,6 +79,28 @@ void Layer::remove(ISprite* sprite)
 	}
 }
 
+void Layer::resetOrder(ISprite* sprite, bool up)
+{
+	for (size_t i = 0, n = m_sprites.size(); i < n; ++i)
+	{
+		if (m_sprites[i] == sprite)
+		{
+			if (up && i != n - 1)
+			{
+				ISprite* tmp = m_sprites[i];
+				m_sprites[i] = m_sprites[i+1];
+				m_sprites[i+1] = tmp;
+			}
+			else if (!up && i != 0)
+			{
+				ISprite* tmp = m_sprites[i];
+				m_sprites[i] = m_sprites[i-1];
+				m_sprites[i-1] = tmp;
+			}
+		}
+	}
+}
+
 void Layer::insert(IShape* shape)
 {
 	m_shapes.push_back(shape);

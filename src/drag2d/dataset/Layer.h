@@ -52,6 +52,7 @@ namespace d2d
 
 		void insert(ISprite* shape);
 		void remove(ISprite* shape);
+		void resetOrder(ISprite* sprite, bool up);
 
 		void insert(IShape* sprite);
 		void remove(IShape* sprite);

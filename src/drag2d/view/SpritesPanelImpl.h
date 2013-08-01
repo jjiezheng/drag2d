@@ -41,6 +41,8 @@ namespace d2d
 		virtual void insertSprite(ISprite* sprite);
 		virtual void clearSprites();
 
+		virtual void resetSpriteOrder(d2d::ISprite* sprite, bool up);
+
 	private:
 		class DragSymbolTarget : public wxTextDropTarget
 		{
