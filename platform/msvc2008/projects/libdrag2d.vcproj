@@ -873,6 +873,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\src\drag2d\dataset\ComplexSprite.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\dataset\ComplexSprite.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\drag2d\dataset\EShapeSprite.cpp"
 					>
 				</File>
@@ -942,6 +950,14 @@
 				</File>
 				<File
 					RelativePath="..\..\..\src\drag2d\dataset\CombinationSymbol.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\dataset\ComplexSymbol.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\dataset\ComplexSymbol.h"
 					>
 				</File>
 				<File
@@ -1174,6 +1190,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\src\drag2d\common\Context.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\drag2d\common\Context.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\src\drag2d\common\interface.h"
 				>
 			</File>
@@ -1270,6 +1294,14 @@
 				</File>
 				<File
 					RelativePath="..\..\..\src\drag2d\common\CombinationFileAdapter.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\common\ComplexFileAdapter.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\common\ComplexFileAdapter.h"
 					>
 				</File>
 				<File

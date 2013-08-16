@@ -24,6 +24,7 @@
 #include "dataset/ISprite.h"
 #include "dataset/ISymbol.h"
 #include "dataset/ImageSprite.h"
+#include "dataset/Bitmap.h"
 
 using namespace d2d;
 
@@ -55,6 +56,47 @@ void SpriteDraw::drawSprite(const ISymbol* symbol, const Vector& pos,
 	GL10::Rotatef(angle * TRANS_RAD_TO_DEG, 0, 0, 1);
 	symbol->draw();
 	GL10::PopMatrix();
+}
+
+void SpriteDraw::drawSprite(const ISprite* sprite, wxMemoryDC& memDC)
+{
+	const float SCALE = 0.15f;
+	const float WIDTH = 800, HEIGHT = 480;
+
+	const wxBitmap* bitmap = sprite->getSymbol().getBitmap()->getBitmap();
+
+	const float width = std::max(1.0f, sprite->getSymbol().getWidth() * SCALE),
+		height = std::max(1.0f, sprite->getSymbol().getHeight() * SCALE);
+	const float hWidth = width * 0.5f,
+		hHeight = height * 0.5f;
+
+	float xMin, yMin;
+	xMin = yMin = FLT_MAX;
+
+	d2d::Vector p = d2d::Math::rotateVector(d2d::Vector(-hWidth, -hHeight), sprite->getAngle());
+	if (p.x < xMin) xMin = p.x;
+	if (p.y < yMin) yMin = p.y;
+
+	p = d2d::Math::rotateVector(d2d::Vector(-hWidth, hHeight), sprite->getAngle());
+	if (p.x < xMin) xMin = p.x;
+	if (p.y < yMin) yMin = p.y;
+
+	p = d2d::Math::rotateVector(d2d::Vector(hWidth, -hHeight), sprite->getAngle());
+	if (p.x < xMin) xMin = p.x;
+	if (p.y < yMin) yMin = p.y;
+
+	p = d2d::Math::rotateVector(d2d::Vector(hWidth, hHeight), sprite->getAngle());
+	if (p.x < xMin) xMin = p.x;
+	if (p.y < yMin) yMin = p.y;
+
+	wxPoint pos;
+	pos.x = WIDTH * 0.5f * SCALE + sprite->getPosition().x * SCALE + xMin;
+	pos.y = HEIGHT * 0.5f * SCALE - sprite->getPosition().y * SCALE + yMin;
+
+	memDC.DrawBitmap(
+		bitmap->ConvertToImage().Scale(width, height).Rotate(sprite->getAngle(), wxPoint(0, 0)),
+		pos,
+		true);
 }
 
 void SpriteDraw::drawSprites(const std::vector<ISprite*>& sprites,

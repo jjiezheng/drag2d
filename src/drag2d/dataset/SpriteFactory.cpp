@@ -22,6 +22,7 @@
 #include "EShapeSprite.h"
 #include "MeshSprite.h"
 #include "CombinationSprite.h"
+#include "ComplexSprite.h"
 #include "TextSprite.h"
 
 using namespace d2d;
@@ -42,6 +43,9 @@ ISprite* SpriteFactory::create(ISymbol* symbol)
 
 	CombinationSymbol* combination = dynamic_cast<CombinationSymbol*>(symbol);
 	if (combination) return new CombinationSprite(combination);
+
+	ComplexSymbol* complex = dynamic_cast<ComplexSymbol*>(symbol);
+	if (complex) return new ComplexSprite(complex);
 
 	FontSymbol* font = dynamic_cast<FontSymbol*>(symbol);
 	if (font) return new TextSprite(font);

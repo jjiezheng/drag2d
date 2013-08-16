@@ -33,7 +33,7 @@ bool ISymbol::loadFromFile(const wxString& filepath)
 	}
 
 	m_name = FilenameTools::getFilename(filepath);
-	m_bitmap = NULL;
+//	m_bitmap = NULL;
 	loadResources();
 	return true;
 }

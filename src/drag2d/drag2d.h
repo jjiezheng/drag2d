@@ -32,6 +32,7 @@
 #include "dataset/EShapeSymbol.h"
 #include "dataset/MeshSymbol.h"
 #include "dataset/CombinationSymbol.h"
+#include "dataset/ComplexSymbol.h"
 #include "dataset/ISprite.h"
 #include "dataset/SpriteFactory.h"
 #include "dataset/ImageSprite.h"
@@ -39,6 +40,7 @@
 #include "dataset/EShapeSprite.h"
 #include "dataset/MeshSprite.h"
 #include "dataset/CombinationSprite.h"
+#include "dataset/ComplexSprite.h"
 #include "dataset/TextSprite.h"
 #include "dataset/ChainShape.h"
 #include "dataset/CosineShape.h"
@@ -153,6 +155,7 @@
 #include "common/visitors.h"
 #include "common/tools.h"
 #include "common/Random.h"
+#include "common/Context.h"
 
 #include "render/b2Render.h"
 #include "render/PrimitiveDraw.h"

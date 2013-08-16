@@ -21,6 +21,8 @@
 
 #include <vector>
 
+class wxMemoryDC;
+
 namespace d2d
 {
 	class ISprite;
@@ -35,6 +37,8 @@ namespace d2d
 
 		static void drawSprite(const ISymbol* symbol, const Vector& pos,
 			float angle = 0.0f, float scale = 1.0f);
+
+		static void drawSprite(const ISprite* sprite, wxMemoryDC& memDC);
 
 		static void drawSprites(const std::vector<ISprite*>& sprites, 
 			SpriteBatch& batch);
