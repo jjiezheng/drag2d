@@ -92,21 +92,27 @@ void SpritesPanelImpl::clearSprites()
 
 void SpritesPanelImpl::resetSpriteOrder(d2d::ISprite* sprite, bool up)
 {
-	for (size_t i = 0, n = m_sprites.size(); i < n; ++i)
+	resetSpriteOrder(m_sprites, sprite, up);
+}
+
+void SpritesPanelImpl::resetSpriteOrder(std::vector<d2d::ISprite*>& sprites, 
+										d2d::ISprite* sprite, bool up)
+{
+	for (size_t i = 0, n = sprites.size(); i < n; ++i)
 	{
-		if (m_sprites[i] == sprite)
+		if (sprites[i] == sprite)
 		{
 			if (up && i != n - 1)
 			{
-				ISprite* tmp = m_sprites[i];
-				m_sprites[i] = m_sprites[i+1];
-				m_sprites[i+1] = tmp;
+				ISprite* tmp = sprites[i];
+				sprites[i] = sprites[i+1];
+				sprites[i+1] = tmp;
 			}
 			else if (!up && i != 0)
 			{
-				ISprite* tmp = m_sprites[i];
-				m_sprites[i] = m_sprites[i-1];
-				m_sprites[i-1] = tmp;
+				ISprite* tmp = sprites[i];
+				sprites[i] = sprites[i-1];
+				sprites[i-1] = tmp;
 			}
 		}
 	}

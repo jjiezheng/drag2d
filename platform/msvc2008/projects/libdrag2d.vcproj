@@ -1742,6 +1742,10 @@
 				>
 			</File>
 		</Filter>
+		<File
+			RelativePath="..\..\..\..\coceditor\platform\msvc2008\projects\coceditor.vcproj"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
