@@ -865,6 +865,14 @@
 				Name="sprite"
 				>
 				<File
+					RelativePath="..\..\..\src\drag2d\dataset\AnimSprite.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\dataset\AnimSprite.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\drag2d\dataset\CombinationSprite.cpp"
 					>
 				</File>
@@ -944,6 +952,14 @@
 			<Filter
 				Name="symbol"
 				>
+				<File
+					RelativePath="..\..\..\src\drag2d\dataset\AnimSymbol.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\dataset\AnimSymbol.h"
+					>
+				</File>
 				<File
 					RelativePath="..\..\..\src\drag2d\dataset\CombinationSymbol.cpp"
 					>
@@ -1281,6 +1297,14 @@
 				Name="fileadapter"
 				>
 				<File
+					RelativePath="..\..\..\src\drag2d\common\AnimFileAdapter.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\common\AnimFileAdapter.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\drag2d\common\CircleFileAdapter.cpp"
 					>
 				</File>
@@ -1473,6 +1497,30 @@
 					</File>
 					<File
 						RelativePath="..\..\..\src\drag2d\view\LibraryFontPage.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="complex"
+					>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\LibraryComplexPage.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\LibraryComplexPage.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="anim"
+					>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\LibraryAnimPage.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\LibraryAnimPage.h"
 						>
 					</File>
 				</Filter>
@@ -1774,10 +1822,6 @@
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath="..\..\..\..\coceditor\platform\msvc2008\projects\coceditor.vcproj"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>

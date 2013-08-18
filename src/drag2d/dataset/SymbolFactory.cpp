@@ -22,6 +22,8 @@
 #include "EShapeSymbol.h"
 #include "MeshSymbol.h"
 #include "CombinationSymbol.h"
+#include "ComplexSymbol.h"
+#include "AnimSymbol.h"
 #include "FontSymbol.h"
 
 #include "common/FileNameTools.h"
@@ -56,6 +58,10 @@ ISymbol* SymbolFactory::create(const wxString& filepath)
 	{
 		if (FileNameParser::isType(filepath, FileNameParser::e_shape))
 			symbol = new EShapeSymbol;
+		else if (FileNameParser::isType(filepath, FileNameParser::e_complex))
+			symbol = new ComplexSymbol;
+		else if (FileNameParser::isType(filepath, FileNameParser::e_anim))
+			symbol = new AnimSymbol;
 	}
 
 	return symbol;

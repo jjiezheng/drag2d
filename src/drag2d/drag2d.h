@@ -68,6 +68,8 @@
 #include "view/LibraryEShapePage.h"
 #include "view/LibraryMeshPage.h"
 #include "view/LibraryCombinationPage.h"
+#include "view/LibraryComplexPage.h"
+#include "view/LibraryAnimPage.h"
 #include "view/PropertySettingPanel.h"
 #include "view/IPropertySetting.h"
 #include "view/SpritePropertySetting.h"

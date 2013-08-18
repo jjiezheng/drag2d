@@ -16,38 +16,42 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef D2D_FILE_NAME_PARSER_H
-#define D2D_FILE_NAME_PARSER_H
+#ifndef D2D_ANIM_SPRITE_H
+#define D2D_ANIM_SPRITE_H
 
-#include <wx/wx.h>
+#include "ISprite.h"
+
+#include "AnimSymbol.h"
 
 namespace d2d
 {
-	class FileNameParser
+	class AnimSprite : public ISprite
 	{
 	public:
-		enum Type
-		{
-			e_unknown = 0,
-			// shape
-			e_polyline,
-			e_circle,
-			e_polygon,
-			e_shape,
-			// symbol
-			e_image,
-			e_mesh,
-			e_combination,
-			e_complex,
-			e_anim
-		};
+		AnimSprite();
+		AnimSprite(const AnimSprite& sprite);
+		AnimSprite(AnimSymbol* symbol);
+		virtual ~AnimSprite();
 
-		static Type getFileType(const wxString& filename);
-		static wxString getFileTag(Type type);
+		//
+		// IObject interface
+		//
+		virtual AnimSprite* clone();
 
-		static bool isType(const wxString& filename, Type type);
+		//
+		// ISprite interface
+		//
+		virtual const AnimSymbol& getSymbol() const;
+		virtual void setSymbol(ISymbol* symbol);
+		virtual void loadBodyFromFile();
 
-	}; // FileNameParser
+	protected:
+		virtual void buildBounding();
+
+	protected:
+		AnimSymbol* m_symbol;
+
+	}; // AnimSprite
 }
 
-#endif // D2D_FILE_NAME_PARSER_H
+#endif // D2D_ANIM_SPRITE_H

@@ -16,38 +16,58 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef D2D_FILE_NAME_PARSER_H
-#define D2D_FILE_NAME_PARSER_H
+#ifndef D2D_ANIM_FILE_ADAPTER_H
+#define D2D_ANIM_FILE_ADAPTER_H
 
-#include <wx/wx.h>
+#include "IFileAdapter.h"
+
+#include "common/Vector.h"
+
+#include <json/json.h>
+
+class wxString;
 
 namespace d2d
 {
-	class FileNameParser
+	class AnimFileAdapter
 	{
 	public:
-		enum Type
+		struct Entry
 		{
-			e_unknown = 0,
-			// shape
-			e_polyline,
-			e_circle,
-			e_polygon,
-			e_shape,
-			// symbol
-			e_image,
-			e_mesh,
-			e_combination,
-			e_complex,
-			e_anim
+			std::string filepath;
+
+			Vector pos;
+			float angle;
+			float scale;
+			bool xMirror, yMirror;
 		};
 
-		static Type getFileType(const wxString& filename);
-		static wxString getFileTag(Type type);
+		struct Frame
+		{
+			int index;
 
-		static bool isType(const wxString& filename, Type type);
+			std::vector<Entry*> entries;
+		};
 
-	}; // FileNameParser
+		struct Layer
+		{
+			std::string name;
+
+			std::vector<Frame*> frames;
+		};
+
+	public:
+		virtual void load(const char* filename);
+
+	private:
+		Layer* loadLayer(const Json::Value& layerValue, const wxString& dlg);
+		Frame* loadFrame(const Json::Value& frameValue, const wxString& dlg);
+		Entry* loadEntry(const Json::Value& entryValue, const wxString& dlg);
+
+	public:
+		std::vector<Layer*> layers;
+
+	}; // AnimFileAdapter
 }
 
-#endif // D2D_FILE_NAME_PARSER_H
+#endif // D2D_ANIM_FILE_ADAPTER_H

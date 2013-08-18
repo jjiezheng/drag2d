@@ -29,6 +29,8 @@ static const wxString TAG_SHAPE = "shape";
 
 static const wxString TAG_MESH = "mesh";
 static const wxString TAG_COMBINATION = "combination";
+static const wxString TAG_COMPLEX = "complex";
+static const wxString TAG_ANIM = "anim";
 
 FileNameParser::Type FileNameParser::getFileType(const wxString& filename)
 {
@@ -58,6 +60,8 @@ FileNameParser::Type FileNameParser::getFileType(const wxString& filename)
 
 		const wxString jsonExtension = jsonName.substr(jsonName.find_last_of('_') + 1);
 		if (jsonExtension == TAG_SHAPE) return e_shape;
+		else if (jsonExtension == TAG_COMPLEX) return e_complex;
+		else if (jsonExtension == TAG_ANIM) return e_anim;
 		else return e_unknown;
 	}
 	else
@@ -90,6 +94,12 @@ wxString FileNameParser::getFileTag(Type type)
 		break;
 	case e_combination:
 		extension = TAG_COMBINATION;
+		break;
+	case e_complex:
+		extension = TAG_COMPLEX;
+		break;
+	case e_anim:
+		extension = TAG_ANIM;
 		break;
 	}
 	return extension;
