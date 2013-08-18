@@ -110,10 +110,20 @@ void AnimSymbol::refresh()
 	initBounding();
 }
 
+size_t AnimSymbol::getMaxFrameIndex() const
+{
+	size_t index = 0;
+	for (size_t i = 0, n = m_layers.size(); i < n; ++i)
+		index = std::max(index, m_layers[i]->frames.size());
+	return index;
+}
+
 void AnimSymbol::loadResources()
 {
 	AnimFileAdapter adapter;
 	adapter.load(m_filepath.c_str());
+
+	m_fps = adapter.fps;
 
 	std::string dlg = FilenameTools::getFileDir(m_filepath);
 

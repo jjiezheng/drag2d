@@ -32,6 +32,8 @@ void AnimFileAdapter::load(const char* filename)
 	reader.parse(fin, value);
 	fin.close();
 
+	fps = value["fps"].asInt();
+
 	int i = 0;
 	Json::Value layerValue = value["layer"][i++];
 	while (!layerValue.isNull()) {

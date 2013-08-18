@@ -30,6 +30,18 @@ namespace d2d
 	class AnimSymbol : public ISymbol
 	{
 	public:
+		struct Frame
+		{
+			int index;
+			std::vector<ISprite*> sprites;
+		};
+
+		struct Layer
+		{
+			std::vector<Frame*> frames;
+		};
+
+	public:
 		AnimSymbol();
 		virtual ~AnimSymbol();
 
@@ -57,6 +69,8 @@ namespace d2d
 		//
 		virtual void refresh();
 
+		size_t getMaxFrameIndex() const;
+
 	protected:
 		virtual void loadResources();
 
@@ -65,23 +79,12 @@ namespace d2d
 
 		void refreshThumbnail();
 
-	private:
-		struct Frame
-		{
-			int index;
-			std::vector<ISprite*> sprites;
-		};
-
-		struct Layer
-		{
-			std::vector<Frame*> frames;
-		};
-
-	private:
+	public:
 		std::vector<Layer*> m_layers;
 
-	public:
 		Rect m_rect;
+
+		int m_fps;
 
 	}; // AnimSymbol
 }

@@ -65,6 +65,8 @@ namespace d2d
 		Entry* loadEntry(const Json::Value& entryValue, const wxString& dlg);
 
 	public:
+		int fps;
+
 		std::vector<Layer*> layers;
 
 	}; // AnimFileAdapter
