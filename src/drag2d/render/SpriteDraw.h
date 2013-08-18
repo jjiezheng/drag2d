@@ -39,6 +39,7 @@ namespace d2d
 			float angle = 0.0f, float scale = 1.0f);
 
 		static void drawSprite(const ISprite* sprite, wxMemoryDC& memDC);
+		static void drawSprite(const ISprite* sprite, const Vector& offset, wxMemoryDC& memDC);
 
 		static void drawSprites(const std::vector<ISprite*>& sprites, 
 			SpriteBatch& batch);

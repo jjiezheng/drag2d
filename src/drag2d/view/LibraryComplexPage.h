@@ -16,28 +16,24 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "ISymbol.h"
+#ifndef D2D_LIBRARY_COMPLEX_PAGE_H
+#define D2D_LIBRARY_COMPLEX_PAGE_H
 
-#include "common/FileNameTools.h"
-#include "common/Context.h"
+#include "ILibraryPage.h"
 
-using namespace d2d;
-
-bool ISymbol::loadFromFile(const wxString& filepath)
+namespace d2d
 {
-	m_filepath = FilenameTools::getExistFilepath(filepath);
-	if (m_filepath == wxEmptyString)
+	class LibraryComplexPage : public ILibraryPage
 	{
-		m_name = wxT("error");
-		m_bitmap = NULL;
-		return false;
-	}
+	public:
+		LibraryComplexPage(wxWindow* parent);
 
-	if (Context::Instance()->resPath.empty())
-		Context::Instance()->resPath = FilenameTools::getFileDir(filepath);
+		virtual bool isHandleSymbol(d2d::ISymbol* symbol) const;
 
-	m_name = FilenameTools::getFilename(filepath);
-//	m_bitmap = NULL;
-	loadResources();
-	return true;
+	protected:
+		virtual void onAddPress(wxCommandEvent& event);
+
+	}; // LibraryComplexPage
 }
+
+#endif // D2D_LIBRARY_COMPLEX_PAGE_H

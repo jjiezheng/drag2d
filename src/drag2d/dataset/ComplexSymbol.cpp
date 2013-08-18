@@ -17,6 +17,7 @@
 */
 
 #include "ComplexSymbol.h"
+#include "ComplexSprite.h"
 #include "ISprite.h"
 #include "SymbolMgr.h"
 #include "SpriteFactory.h"
@@ -25,6 +26,9 @@
 #include "dataset/Bitmap.h"
 #include "dataset/AbstractBV.h"
 #include "render/SpriteDraw.h"
+
+#include <queue>
+#include <set>
 
 using namespace d2d;
 
@@ -57,12 +61,40 @@ void ComplexSymbol::storeToTextFile(std::ofstream& fout) const
 
 void ComplexSymbol::reloadTexture() const
 {
+	std::vector<std::pair<const ISprite*, d2d::Vector> > children;
+	getAllChildren(children);
+	
+	std::set<const ISymbol*> symbols;
+	for (size_t i = 0, n = children.size(); i < n; ++i)
+		symbols.insert(&children[i].first->getSymbol());
+
+	std::set<const ISymbol*>::iterator itr = symbols.begin();
+	for ( ; itr != symbols.end(); ++itr)
+		(*itr)->reloadTexture();
 }
 
 void ComplexSymbol::draw(const ISprite* sprite/* = NULL*/) const
 {
-	for (size_t i = 0, n = m_sprites.size(); i < n; ++i)
-		SpriteDraw::drawSprite(m_sprites[i]);
+// 	for (size_t i = 0, n = m_sprites.size(); i < n; ++i)
+// 		SpriteDraw::drawSprite(m_sprites[i]);
+
+	//////////////////////////////////////////////////////////////////////////
+
+// 	std::vector<const ISprite*> children;
+// 	getAllChildren(children);
+// 	for (size_t i = 0, n = children.size(); i < n; ++i)
+// 		SpriteDraw::drawSprite(children[i]);
+
+	//////////////////////////////////////////////////////////////////////////
+
+	std::vector<std::pair<const ISprite*, d2d::Vector> > children;
+	getAllChildren(children);
+	for (size_t i = 0, n = children.size(); i < n; ++i)
+	{
+		const ISprite* child = children[i].first;
+		SpriteDraw::drawSprite(&child->getSymbol(), child->getPosition() + children[i].second, 
+			child->getAngle(), child->getScale());
+	}
 }
 
 float ComplexSymbol::getWidth(const ISprite* sprite/* = NULL*/) const
@@ -101,6 +133,8 @@ void ComplexSymbol::loadResources()
 
 		m_sprites.push_back(sprite);
 	}
+
+	initBounding();
 }
 
 void ComplexSymbol::initBounding()
@@ -124,8 +158,40 @@ void ComplexSymbol::refreshThumbnail()
 	//	memDC.SetBackground(wxBrush(m_scene->m_color/**wxRED*/));
 	memDC.Clear();
 
-	for (size_t i = 0, n = m_sprites.size(); i < n; ++i)
-		SpriteDraw::drawSprite(m_sprites[i], memDC);
+	std::vector<std::pair<const ISprite*, d2d::Vector> > children;
+	getAllChildren(children);
+	for (size_t i = 0, n = children.size(); i < n; ++i)
+		SpriteDraw::drawSprite(children[i].first, children[i].second, memDC);
 
 	memDC.SelectObject(wxNullBitmap);
+}
+
+void ComplexSymbol::getAllChildren(std::vector<std::pair<const ISprite*, d2d::Vector> >& children) const
+{
+	std::queue<std::pair<const ISprite*, d2d::Vector> > drawQueue;
+	std::set<const ISprite*> cache;
+
+	for (size_t i = 0, n = m_sprites.size(); i < n; ++i)
+		drawQueue.push(std::make_pair(m_sprites[i], d2d::Vector(0, 0)));
+	while (!drawQueue.empty())
+	{
+		std::pair<const ISprite*, d2d::Vector> pairSprite = drawQueue.front(); drawQueue.pop();
+		const ComplexSprite* complex = dynamic_cast<const ComplexSprite*>(pairSprite.first);
+		if (complex)
+		{
+			if (cache.find(pairSprite.first) == cache.end())
+			{
+				cache.insert(pairSprite.first);
+				for (size_t i = 0, n = complex->getSymbol().m_sprites.size(); i < n; ++i)
+				{
+					ISprite* child = complex->getSymbol().m_sprites[i];
+					drawQueue.push(std::make_pair(child, pairSprite.second + complex->getPosition()));
+				}
+			}
+		}
+		else
+		{
+			children.push_back(pairSprite);
+		}
+	}
 }

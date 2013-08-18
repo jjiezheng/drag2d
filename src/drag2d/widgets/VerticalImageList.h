@@ -47,6 +47,10 @@ namespace d2d
 
 		void swap(int i0, int i1);
 
+		void setFileter(const std::string& filter) {
+			m_name = filter;
+		}
+
 	protected:
 		// wxVListBox
 		virtual void OnDrawItem(wxDC& dc, const wxRect& rect, size_t n) const;
