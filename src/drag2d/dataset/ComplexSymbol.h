@@ -57,6 +57,8 @@ namespace d2d
 		//
 		virtual void refresh();
 
+		bool isOneLayer() const;
+
 	protected:
 		virtual void loadResources();
 

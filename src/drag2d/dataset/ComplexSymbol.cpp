@@ -115,6 +115,14 @@ void ComplexSymbol::refresh()
 	initBounding();
 }
 
+bool ComplexSymbol::isOneLayer() const
+{
+	for (size_t i = 0, n = m_sprites.size(); i < n; ++i)
+		if (dynamic_cast<d2d::ComplexSprite*>(m_sprites[i]))
+			return false;
+	return true;
+}
+
 void ComplexSymbol::loadResources()
 {
 	ComplexFileAdapter adapter;
@@ -169,24 +177,24 @@ void ComplexSymbol::refreshThumbnail()
 
 void ComplexSymbol::getAllChildren(std::vector<std::pair<const ISprite*, d2d::Vector> >& children) const
 {
-	std::queue<std::pair<const ISprite*, d2d::Vector> > drawQueue;
-	std::set<const ISprite*> cache;
+	std::queue<std::pair<const ISprite*, d2d::Vector> > buffer;
+	std::set<const ISprite*> unique;	// avoid complex symbol contain itself
 
 	for (size_t i = 0, n = m_sprites.size(); i < n; ++i)
-		drawQueue.push(std::make_pair(m_sprites[i], d2d::Vector(0, 0)));
-	while (!drawQueue.empty())
+		buffer.push(std::make_pair(m_sprites[i], d2d::Vector(0, 0)));
+	while (!buffer.empty())
 	{
-		std::pair<const ISprite*, d2d::Vector> pairSprite = drawQueue.front(); drawQueue.pop();
+		std::pair<const ISprite*, d2d::Vector> pairSprite = buffer.front(); buffer.pop();
 		const ComplexSprite* complex = dynamic_cast<const ComplexSprite*>(pairSprite.first);
 		if (complex)
 		{
-			if (cache.find(pairSprite.first) == cache.end())
+			if (unique.find(pairSprite.first) == unique.end())
 			{
-				cache.insert(pairSprite.first);
+				unique.insert(pairSprite.first);
 				for (size_t i = 0, n = complex->getSymbol().m_sprites.size(); i < n; ++i)
 				{
 					ISprite* child = complex->getSymbol().m_sprites[i];
-					drawQueue.push(std::make_pair(child, pairSprite.second + complex->getPosition()));
+					buffer.push(std::make_pair(child, pairSprite.second + complex->getPosition()));
 				}
 			}
 		}
