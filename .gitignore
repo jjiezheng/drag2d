@@ -1,3 +1,5 @@
+*.suo
+*.ncb
 *.user
 platform/msvc2008/libbox2d/
 platform/msvc2008/libdrag2d/

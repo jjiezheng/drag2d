@@ -27,6 +27,7 @@
 #include "common/FileNameParser.h"
 #include "common/PolylineFileAdapter.h"
 #include "common/CircleFileAdapter.h"
+#include "common/EShapeFileAdapter.h"
 #include "dataset/MeshSymbol.h"
 #include "dataset/CircleShape.h"
 #include "dataset/RectShape.h"
@@ -134,6 +135,7 @@ void BodyData::loadFromShapeFile(const wxString& filename)
 
 	std::vector<IShape*> shapes;
 	libshape::FileAdapter adapter(shapes);
+
 	adapter.load(filename.c_str());
 	for (size_t i = 0, n = shapes.size();  i< n; ++i)
 	{
