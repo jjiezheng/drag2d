@@ -183,5 +183,4 @@ void AnimSymbol::initBounding()
 
 void AnimSymbol::refreshThumbnail()
 {
-
 }
