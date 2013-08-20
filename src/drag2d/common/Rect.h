@@ -52,18 +52,6 @@ namespace d2d
 			return *this;
 		}
 
-		void operator *= (float scale)
-		{
-			const float cx = xCenter(),
-				cy = yCenter();
-			const float dx = xLength() * scale * 0.5f,
-				dy = yLength() * scale * 0.5f;
-			xMin = cx - dx;
-			xMax = cx + dx;
-			yMin = cy - dy;
-			yMax = cy + dy;
-		}
-
 		bool isValid() const {
 			return xMin != FLT_MAX && yMin != FLT_MAX
 				&& xMax != - FLT_MAX && yMax != - FLT_MAX;
@@ -85,6 +73,19 @@ namespace d2d
 			xMax += offset.x;
 			yMin += offset.y;
 			yMax += offset.y;
+		}
+
+		void scale(float xScale, float yScale = 1.0f)
+		{
+			yScale = xScale;
+			const float cx = xCenter(),
+				cy = yCenter();
+			const float dx = xLength() * xScale * 0.5f,
+				dy = yLength() * yScale * 0.5f;
+			xMin = cx - dx;
+			xMax = cx + dx;
+			yMin = cy - dy;
+			yMax = cy + dy;
 		}
 
 		void combine(const Vector& pos)

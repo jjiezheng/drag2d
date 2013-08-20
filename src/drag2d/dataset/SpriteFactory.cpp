@@ -24,6 +24,7 @@
 #include "CombinationSprite.h"
 #include "ComplexSprite.h"
 #include "AnimSprite.h"
+#include "Patch9Sprite.h"
 #include "TextSprite.h"
 
 using namespace d2d;
@@ -50,6 +51,9 @@ ISprite* SpriteFactory::create(ISymbol* symbol)
 
 	AnimSymbol* anim = dynamic_cast<AnimSymbol*>(symbol);
 	if (anim) return new AnimSprite(anim);
+
+	Patch9Symbol* patch = dynamic_cast<Patch9Symbol*>(symbol);
+	if (patch) return new Patch9Sprite(patch);
 
 	FontSymbol* font = dynamic_cast<FontSymbol*>(symbol);
 	if (font) return new TextSprite(font);

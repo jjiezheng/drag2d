@@ -32,7 +32,7 @@ ISprite::ISprite()
 {
 	m_pos.set(0.0f, 0.0f);
 	m_angle = 0.0f;
-	m_scale = 1.0f;
+	m_xScale = m_yScale = 1.0f;
 	m_xMirror = m_yMirror = false;
 	m_bounding = NULL;
 }
@@ -41,7 +41,8 @@ ISprite::ISprite(const ISprite& sprite)
 {
 	m_pos = sprite.m_pos;
 	m_angle = sprite.m_angle;
-	m_scale = sprite.m_scale;
+	m_xScale = sprite.m_xScale;
+	m_yScale = sprite.m_yScale;
 	m_xMirror = sprite.m_xMirror;
 	m_yMirror = sprite.m_yMirror;
 	m_bounding = sprite.m_bounding->clone();
@@ -73,22 +74,17 @@ void ISprite::setTransform(const Vector& position, float angle)
 		m_body->getBody()->SetTransform(b2Vec2(position.x / BOX2D_SCALE_FACTOR, position.y / BOX2D_SCALE_FACTOR), angle);
 }
 
+void ISprite::setScale(float xScale, float yScale)
+{
+	m_xScale = xScale;
+	m_yScale = yScale;
+	afterScaleChanged();
+}
+
 void ISprite::setScale(float scale)
 {
-	m_scale = scale;
-
-	buildBounding();
-
-	if (m_body)
-	{
-		b2BodyType type = m_body->getBody()->GetType();
-		loadBodyFromFile();
-		if (m_body)
-		{
-			m_body->getBody()->SetTransform(b2Vec2(m_pos.x / BOX2D_SCALE_FACTOR, m_pos.y / BOX2D_SCALE_FACTOR), m_angle);
-			m_body->getBody()->SetType(type);
-		}
-	}
+	m_xScale = m_yScale = scale;
+	afterScaleChanged();
 }
 
 bool ISprite::isContain(const Vector& pos) const
@@ -149,6 +145,22 @@ void ISprite::updateEachFrame()
 IBody* ISprite::getBody() const
 {
 	return m_body;
+}
+
+void ISprite::afterScaleChanged()
+{
+	buildBounding();
+
+	if (m_body)
+	{
+		b2BodyType type = m_body->getBody()->GetType();
+		loadBodyFromFile();
+		if (m_body)
+		{
+			m_body->getBody()->SetTransform(b2Vec2(m_pos.x / BOX2D_SCALE_FACTOR, m_pos.y / BOX2D_SCALE_FACTOR), m_angle);
+			m_body->getBody()->SetType(type);
+		}
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////

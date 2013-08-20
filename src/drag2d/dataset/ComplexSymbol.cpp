@@ -94,7 +94,7 @@ void ComplexSymbol::draw(const ISprite* sprite/* = NULL*/) const
 		const ISprite* child = children[i].first;
 
 		SpriteDraw::drawSprite(&child->getSymbol(), child->getPosition() + children[i].second, 
-			child->getAngle(), child->getScale());
+			child->getAngle(), child->getScaleX(), child->getScaleY());
 	}
 }
 

@@ -909,11 +909,11 @@ void Math::triangulateStrips(const std::vector<Vector>& triangulates,
 	SGI::implement(triangulates, strips);
 }
 
-void Math::computeQuadNodes(const Vector& center, float angle, float scale, 
+void Math::computeQuadNodes(const Vector& center, float angle, float xScale, float yScale, 
 							float width, float height, Vector quad[4])
 {
-	const float hWidth = width * 0.5f * scale,
-		hHeight = height * 0.5f * scale;
+	const float hWidth = width * 0.5f * xScale,
+		hHeight = height * 0.5f * yScale;
 
 	float x1 = - hWidth;
 	float y1 = - hHeight;

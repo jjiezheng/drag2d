@@ -38,8 +38,8 @@ void SpriteDraw::drawSprite(const ISprite* sprite)
 
 	bool xMirror, yMirror;
 	sprite->getMirror(xMirror, yMirror);
-	const float xScale = xMirror ? -sprite->getScale() : sprite->getScale(),
-		yScale = yMirror ? -sprite->getScale() : sprite->getScale();
+	const float xScale = xMirror ? -sprite->getScaleX() : sprite->getScaleX(),
+		yScale = yMirror ? -sprite->getScaleY() : sprite->getScaleY();
 	GL10::Scalef(xScale, yScale, 1.0f);
 
 	sprite->getSymbol().draw(sprite);
@@ -48,11 +48,13 @@ void SpriteDraw::drawSprite(const ISprite* sprite)
 }
 
 void SpriteDraw::drawSprite(const ISymbol* symbol, const Vector& pos,
-							float angle/* = 0.0f*/, float scale/* = 1.0f*/)
+							float angle/* = 0.0f*/, float xScale/* = 1.0f*/, 
+							float yScale/* = 1.0f*/)
 {
+	yScale = xScale;
 	GL10::PushMatrix();
 	GL10::Translatef(pos.x, pos.y, 0.0f);
-	GL10::Scalef(scale, scale, 1.0f);
+	GL10::Scalef(xScale, yScale, 1.0f);
 	GL10::Rotatef(angle * TRANS_RAD_TO_DEG, 0, 0, 1);
 	symbol->draw();
 	GL10::PopMatrix();

@@ -39,7 +39,8 @@ namespace d2d
 			e_mesh,
 			e_combination,
 			e_complex,
-			e_anim
+			e_anim,
+			e_9patch
 		};
 
 		static Type getFileType(const wxString& filename);

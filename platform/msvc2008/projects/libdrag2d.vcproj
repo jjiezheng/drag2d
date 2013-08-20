@@ -913,6 +913,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\src\drag2d\dataset\Patch9Sprite.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\dataset\Patch9Sprite.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\drag2d\dataset\ShapeSprite.cpp"
 					>
 				</File>
@@ -1006,6 +1014,14 @@
 				</File>
 				<File
 					RelativePath="..\..\..\src\drag2d\dataset\MeshSymbol.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\dataset\Patch9Symbol.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\dataset\Patch9Symbol.h"
 					>
 				</File>
 				<File
@@ -1341,6 +1357,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\src\drag2d\common\Patch9FileAdapter.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\common\Patch9FileAdapter.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\drag2d\common\PolylineFileAdapter.cpp"
 					>
 				</File>
@@ -1533,6 +1557,18 @@
 					</File>
 					<File
 						RelativePath="..\..\..\src\drag2d\view\LibraryAnimPage.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="patch"
+					>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\Library9PatchPage.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\Library9PatchPage.h"
 						>
 					</File>
 				</Filter>

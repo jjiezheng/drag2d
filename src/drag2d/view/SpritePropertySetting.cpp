@@ -39,7 +39,7 @@ void SpritePropertySetting::updatePanel(PropertySettingPanel* panel)
  		pg->GetProperty(wxT("X"))->SetValue(m_sprite->getPosition().x);
  		pg->GetProperty(wxT("Y"))->SetValue(m_sprite->getPosition().y);
  		pg->GetProperty(wxT("Angle"))->SetValue(m_sprite->getAngle());
- 		pg->GetProperty(wxT("Scale"))->SetValue(m_sprite->getScale());
+ 		pg->GetProperty(wxT("Scale"))->SetValue(m_sprite->getScaleX());
  
  		bool xMirror, yMirror;
  		m_sprite->getMirror(xMirror, yMirror);
@@ -64,7 +64,7 @@ void SpritePropertySetting::updatePanel(PropertySettingPanel* panel)
 		pg->SetPropertyAttribute(wxT("Angle"), wxPG_ATTR_UNITS, wxT("rad"));
 		pg->SetPropertyAttribute(wxT("Angle"), "Precision", 2);
 
-		pg->Append(new wxFloatProperty(wxT("Scale"), wxPG_LABEL, m_sprite->getScale()));
+		pg->Append(new wxFloatProperty(wxT("Scale"), wxPG_LABEL, m_sprite->getScaleX()));
 		pg->SetPropertyAttribute(wxT("Scale"), wxPG_ATTR_UNITS, wxT("multiple"));
 		pg->SetPropertyAttribute(wxT("Scale"), "Precision", 2);
 
@@ -131,7 +131,7 @@ void SpritePropertySetting::enablePropertyGrid(PropertySettingPanel* panel, bool
 		pg->SetPropertyAttribute(wxT("Angle"), wxPG_ATTR_UNITS, wxT("rad"));
 		pg->SetPropertyAttribute(wxT("Angle"), "Precision", 2);
 
-		pg->Append(new wxFloatProperty(wxT("Scale"), wxPG_LABEL, m_sprite->getScale()));
+		pg->Append(new wxFloatProperty(wxT("Scale"), wxPG_LABEL, m_sprite->getScaleX()));
 		pg->SetPropertyAttribute(wxT("Scale"), wxPG_ATTR_UNITS, wxT("multiple"));
 		pg->SetPropertyAttribute(wxT("Scale"), "Precision", 2);
 

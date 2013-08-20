@@ -73,7 +73,7 @@ void AnimSprite::buildBounding()
 	{
 		Rect& rect = m_symbol->m_rect;
 
-		rect *= m_scale;
+		rect.scale(m_xScale, m_yScale);
 		rect.translate(m_pos);
 		m_bounding->initFromRect(rect);
 		m_bounding->rotate(m_angle);

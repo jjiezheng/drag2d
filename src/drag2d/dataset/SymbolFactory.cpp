@@ -24,6 +24,7 @@
 #include "CombinationSymbol.h"
 #include "ComplexSymbol.h"
 #include "AnimSymbol.h"
+#include "Patch9Symbol.h"
 #include "FontSymbol.h"
 
 #include "common/FileNameTools.h"

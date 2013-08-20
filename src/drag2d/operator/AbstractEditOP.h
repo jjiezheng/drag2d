@@ -46,6 +46,8 @@ namespace d2d
 
 		virtual bool onPopMenuSelected(int type) { return false; }
 
+		virtual bool onActive() { return false; }
+
 		virtual bool onDraw() const { return false; }
 		virtual bool clear() { return false; }
 

@@ -249,7 +249,7 @@ namespace d2d
 		// 1 2
 		// 0 3
 		static void computeQuadNodes(const Vector& center, float angle, 
-			float scale, float width, float height, Vector quad[4]);
+			float xScale, float yScale, float width, float height, Vector quad[4]);
 
 	private:
 		// for mergeMultiChains

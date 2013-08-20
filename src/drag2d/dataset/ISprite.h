@@ -54,6 +54,7 @@ namespace d2d
 		virtual void loadBodyFromFile() = 0;
 
 		virtual void setTransform(const Vector& position, float angle);
+		void setScale(float xScale, float yScale);
 		void setScale(float scale);
 
 		bool isContain(const Vector& pos) const;
@@ -64,7 +65,9 @@ namespace d2d
 
 		const Vector& getPosition() const;
 		float getAngle() const;
-		float getScale() const { return m_scale; }
+		float getScaleX() const { return m_xScale; }
+		float getScaleY() const { return m_yScale; }
+//		float getScale(float& xScale, float& yScale) const { xScale = m_xScale; yScale = m_yScale; }
 
 		void setMirror(bool xMirror, bool yMirror) { m_xMirror = xMirror; m_yMirror = yMirror; }
 		void getMirror(bool& xMirror, bool& yMirror) const { xMirror = m_xMirror; yMirror = m_yMirror; }
@@ -77,10 +80,14 @@ namespace d2d
 	protected:
 		virtual void buildBounding() = 0;
 
+	private:
+		void afterScaleChanged();
+
 	protected:
 		Vector m_pos;
 		float m_angle;
-		float m_scale;
+//		float m_scale;
+		float m_xScale, m_yScale;
 
 		bool m_xMirror, m_yMirror;
 

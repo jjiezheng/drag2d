@@ -118,15 +118,17 @@ namespace d2d
 		if (m_scaleOpen && m_scaling)
 		{
 			Vector quad[4];
+			const float xscale = m_scaling->getScaleX(),
+				yscale = m_scaling->getScaleY();
 			Math::computeQuadNodes(m_scaling->getPosition(), m_scaling->getAngle(), 
-				m_scaling->getScale(), m_scaling->getBounding()->width() / m_scaling->getScale(), 
-				m_scaling->getBounding()->height() / m_scaling->getScale(), quad);
+				xscale, yscale, m_scaling->getBounding()->width() / xscale, 
+				m_scaling->getBounding()->height() / yscale, quad);
 
 			for (size_t i = 0; i < 4; ++i)
 			{
 				if (Math::getDistance(quad[i], m_lastPos) < SCALE_NODE_RADIUS)
 				{
-					m_scaleSelected = m_scaling->getPosition() + (quad[i] - m_scaling->getPosition()) / m_scaling->getScale();
+					m_scaleSelected = m_scaling->getPosition() + (quad[i] - m_scaling->getPosition()) / m_scaling->getScaleX();
 					return false;
 				}
 			}
@@ -276,10 +278,12 @@ namespace d2d
 
 		if (m_scaleOpen && m_scaling)
 		{
+			const float xscale = m_scaling->getScaleX(),
+				yscale = m_scaling->getScaleY();
 			Vector quad[4];
 			Math::computeQuadNodes(m_scaling->getPosition(), m_scaling->getAngle(), 
-				m_scaling->getScale(), m_scaling->getBounding()->width() / m_scaling->getScale(), 
-				m_scaling->getBounding()->height() / m_scaling->getScale(), quad);
+				xscale, yscale, m_scaling->getBounding()->width() / xscale, 
+				m_scaling->getBounding()->height() / yscale, quad);
 
 			for (size_t i = 0; i < 4; ++i)
 				PrimitiveDraw::drawCircle(quad[i], SCALE_NODE_RADIUS, false, 2, Colorf(0.2f, 0.8f, 0.2f));

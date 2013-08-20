@@ -94,6 +94,7 @@ void EditPanel::setEditOP(AbstractEditOP* editOP)
 		m_editOP->release();
 	}
 
+	editOP->onActive();
 	editOP->retain();
 	m_editOP = editOP;
 }
