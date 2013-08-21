@@ -166,7 +166,17 @@ void Patch9Symbol::initBounding()
 
 void Patch9Symbol::refreshThumbnail()
 {
+	wxMemoryDC memDC;
+	memDC.SelectObject(const_cast<wxBitmap&>(*m_bitmap->getBitmap()));
 
+	memDC.SetBackground(wxBrush(*wxWHITE));
+	memDC.Clear();
+
+	for (size_t i = 0; i < 3; ++i)
+		for (size_t j = 0; j < 3; ++j)
+			SpriteDraw::drawSprite(m_sprites[i][j], memDC);
+
+	memDC.SelectObject(wxNullBitmap);
 }
 
 void Patch9Symbol::composeFromSprites()
