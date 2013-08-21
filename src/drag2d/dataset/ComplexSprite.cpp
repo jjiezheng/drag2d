@@ -64,11 +64,6 @@ void ComplexSprite::loadBodyFromFile()
 {
 }
 
-void ComplexSprite::refreshBounding()
-{
-	buildBounding();
-}
-
 void ComplexSprite::buildBounding()
 {
 	delete m_bounding;

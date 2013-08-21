@@ -91,17 +91,17 @@ namespace d2d
 
 		static bool isPointInTriangle(const Vector& p, const Vector& a, const Vector& b, const Vector& c);
 
-		static bool isPointInRect(const Vector& pos, const Vector& left_low, float w, float h)
-		{
-			return pos.x > left_low.x && pos.x < left_low.x + w 
-				&& pos.y > left_low.y && pos.y < left_low.y + h;
-		}
-
 		static bool isPointInRect(const Vector& pos, const Rect& aabb)
 		{
 			return pos.x > aabb.xMin && pos.x < aabb.xMax
 				&& pos.y > aabb.yMin && pos.y < aabb.yMax;
 		}
+
+ 		static bool isPointInRect(const Vector& pos, const Vector& center, float hw, float hh)
+ 		{
+ 			return pos.x > center.x - hw && pos.x < center.x + hw 
+ 				&& pos.y > center.y - hh && pos.y < center.y + hh;
+ 		}
 
 		static bool isPointInArea(const Vector& pos, const std::vector<Vector>& area);
 

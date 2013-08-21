@@ -71,14 +71,6 @@ void Patch9Sprite::buildBounding()
 
 	if (m_symbol)
 	{
-// 		Rect& rect = m_symbol->m_rect;
-// 
-// 		rect.scale(m_xScale, m_yScale);
-// 		rect.translate(m_pos);
-
-
-//		m_bounding->initFromRect(rect);
-
 		m_bounding->combine(Rect(m_pos, m_symbol->getWidth() * 0.5f,
 			m_symbol->getHeight() * 0.5f));
 		m_bounding->rotate(m_angle);

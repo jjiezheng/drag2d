@@ -45,7 +45,6 @@ namespace d2d
 		virtual void setSymbol(ISymbol* symbol);
 		virtual void loadBodyFromFile();
 
-	protected:
 		virtual void buildBounding();
 
 	private:

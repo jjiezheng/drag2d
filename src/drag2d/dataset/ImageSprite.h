@@ -49,7 +49,6 @@ namespace d2d
 		// todo: should auto resize through its symbol and shapes
 		void buildBounding(float* texCoords);
 
-	protected:
 		virtual void buildBounding();
 
 	protected:

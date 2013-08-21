@@ -105,14 +105,22 @@ void Patch9Symbol::composeFromSprites(ISprite* sprites[3][3],
 {
 	for (size_t i = 0; i < 3; ++i)
 		for (size_t j = 0; j < 3; ++j)
-		{
 			if (!sprites[i][j]) return;
-			else m_sprites[i][j]->release();
-		}
 	for (size_t i = 0; i < 3; ++i)
 		for (size_t j = 0; j < 3; ++j)
+		{
+			if (m_sprites[i][j]) m_sprites[i][j]->release();
 			m_sprites[i][j] = sprites[i][j]->clone();
+		}
 	
+	m_width = width;
+	m_height = height;
+
+	composeFromSprites();
+}
+
+void Patch9Symbol::resize(float width, float height)
+{
 	m_width = width;
 	m_height = height;
 

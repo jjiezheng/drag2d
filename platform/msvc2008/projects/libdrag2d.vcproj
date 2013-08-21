@@ -1669,6 +1669,14 @@
 				Name="stage"
 				>
 				<File
+					RelativePath="..\..\..\src\drag2d\view\DialogStageCanvas.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\view\DialogStageCanvas.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\drag2d\view\EditPanel.cpp"
 					>
 				</File>

@@ -58,6 +58,8 @@ namespace d2d
 		void composeFromSprites(ISprite* sprites[3][3], 
 			float width, float height);
 
+		void resize(float width, float height);
+
 	protected:
 		virtual void loadResources();
 

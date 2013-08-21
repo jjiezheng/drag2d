@@ -58,7 +58,6 @@ namespace d2d
 		void setColor(const d2d::Colori& color) { m_color = color; }
 		const d2d::Colori& getColor() const { return m_color; }
 
-	protected:
 		virtual void buildBounding();
 
 	protected:
