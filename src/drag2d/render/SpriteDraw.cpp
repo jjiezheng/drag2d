@@ -67,8 +67,8 @@ void SpriteDraw::drawSprite(const ISprite* sprite, wxMemoryDC& memDC)
 
 	const wxBitmap* bitmap = sprite->getSymbol().getBitmap()->getBitmap();
 
-	const float width = std::max(1.0f, sprite->getSymbol().getWidth() * SCALE),
-		height = std::max(1.0f, sprite->getSymbol().getHeight() * SCALE);
+	const float width = std::max(1.0f, sprite->getSymbol().getWidth() * sprite->getScaleX() * SCALE),
+		height = std::max(1.0f, sprite->getSymbol().getHeight() * sprite->getScaleY() * SCALE);
 	const float hWidth = width * 0.5f,
 		hHeight = height * 0.5f;
 
