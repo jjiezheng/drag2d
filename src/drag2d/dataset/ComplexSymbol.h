@@ -67,6 +67,8 @@ namespace d2d
 
 		void refreshThumbnail();
 
+		// todo!
+	public:
 		// avoid to cycle same ComplexSymbol
 		void getAllChildren(std::vector<std::pair<const ISprite*, d2d::Vector> >& children) const;
 
