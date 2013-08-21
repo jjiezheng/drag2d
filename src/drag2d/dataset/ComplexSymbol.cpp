@@ -163,8 +163,7 @@ void ComplexSymbol::refreshThumbnail()
 	wxMemoryDC memDC;
 	memDC.SelectObject(const_cast<wxBitmap&>(*m_bitmap->getBitmap()));
 
-	memDC.SetBackground(wxBrush(*wxBLACK));
-	//	memDC.SetBackground(wxBrush(m_scene->m_color/**wxRED*/));
+	memDC.SetBackground(wxBrush(*wxWHITE));
 	memDC.Clear();
 
 	std::vector<std::pair<const ISprite*, d2d::Vector> > children;
