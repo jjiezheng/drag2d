@@ -25,6 +25,8 @@
 #include "common/FileNameTools.h"
 #include "dataset/Bitmap.h"
 #include "dataset/AbstractBV.h"
+#include "dataset/ImageSprite.h"
+#include "dataset/ComplexSprite.h"
 #include "render/SpriteDraw.h"
 
 using namespace d2d;
@@ -183,4 +185,34 @@ void AnimSymbol::initBounding()
 
 void AnimSymbol::refreshThumbnail()
 {
+	wxMemoryDC memDC;
+	memDC.SelectObject(const_cast<wxBitmap&>(*m_bitmap->getBitmap()));
+
+	memDC.SetBackground(wxBrush(*wxWHITE));
+	memDC.Clear();
+
+	for (size_t i = 0, n = m_layers.size(); i < n; ++i)
+	{
+		Layer* layer = m_layers[i];
+		if (!layer->frames.empty())
+		{
+			Frame* frame = layer->frames[0];
+			for (size_t j = 0, m = frame->sprites.size(); j < m; ++j)
+			{
+				ISprite* sprite = frame->sprites[i];
+				if (ImageSprite* image = dynamic_cast<ImageSprite*>(sprite))
+					SpriteDraw::drawSprite(image, memDC);
+				else if (ComplexSprite* complex = dynamic_cast<ComplexSprite*>(sprite))
+				{
+					const Vector& offset = complex->getPosition();
+					std::vector<std::pair<const ISprite*, Vector> > children;
+					complex->getSymbol().getAllChildren(children);
+					for (size_t k = 0, l = children.size(); k < l; ++k)
+						SpriteDraw::drawSprite(children[k].first, children[k].second + offset, memDC);
+				}
+			}
+		}
+	}
+
+	memDC.SelectObject(wxNullBitmap);
 }
