@@ -96,6 +96,8 @@ void GLCanvas::onSize(wxSizeEvent& event)
 		m_camera->getCenter().y - hHeight,
 		m_camera->getCenter().y + hHeight
 		);
+
+	glMatrixMode(GL_MODELVIEW);
 }
 
 void GLCanvas::onPaint(wxPaintEvent& event)
