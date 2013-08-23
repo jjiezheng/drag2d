@@ -63,6 +63,8 @@ ISymbol* SymbolFactory::create(const wxString& filepath)
 			symbol = new ComplexSymbol;
 		else if (FileNameParser::isType(filepath, FileNameParser::e_anim))
 			symbol = new AnimSymbol;
+		else if (FileNameParser::isType(filepath, FileNameParser::e_9patch))
+			symbol = new Patch9Symbol;
 	}
 
 	return symbol;
