@@ -72,6 +72,9 @@ namespace d2d
 		// avoid to cycle same ComplexSymbol
 		void getAllChildren(std::vector<std::pair<const ISprite*, d2d::Vector> >& children) const;
 
+	private:
+		static const float SCALE;
+
 	public:
 		std::vector<ISprite*> m_sprites;
 

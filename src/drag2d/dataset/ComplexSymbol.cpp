@@ -32,6 +32,8 @@
 
 using namespace d2d;
 
+const float ComplexSymbol::SCALE = 0.15f;
+
 ComplexSymbol::ComplexSymbol()
 {
 	static int id = 0;
@@ -89,10 +91,10 @@ void ComplexSymbol::draw(const ISprite* sprite/* = NULL*/) const
 
 	std::vector<std::pair<const ISprite*, d2d::Vector> > children;
 	getAllChildren(children);
+
 	for (size_t i = 0, n = children.size(); i < n; ++i)
 	{
 		const ISprite* child = children[i].first;
-
 		SpriteDraw::drawSprite(&child->getSymbol(), child->getPosition() + children[i].second, 
 			child->getAngle(), child->getScaleX(), child->getScaleY());
 	}
@@ -111,8 +113,8 @@ float ComplexSymbol::getHeight(const ISprite* sprite/* = NULL*/) const
 void ComplexSymbol::refresh()
 {
 	ISymbol::refresh();
-	refreshThumbnail();
 	initBounding();
+	refreshThumbnail();
 }
 
 bool ComplexSymbol::isOneLayer() const
@@ -156,6 +158,11 @@ void ComplexSymbol::initBounding()
 		for (size_t j = 0, m = vertices.size(); j < m; ++j)
 			m_rect.combine(vertices[j]);
 	}
+
+ 	delete m_bitmap;
+ 	m_bitmap = new Bitmap(
+ 		new wxBitmap(m_rect.xLength() * SCALE, m_rect.yLength() * SCALE)
+ 		);
 }
 
 void ComplexSymbol::refreshThumbnail()
@@ -169,7 +176,8 @@ void ComplexSymbol::refreshThumbnail()
 	std::vector<std::pair<const ISprite*, d2d::Vector> > children;
 	getAllChildren(children);
 	for (size_t i = 0, n = children.size(); i < n; ++i)
-		SpriteDraw::drawSprite(children[i].first, children[i].second, memDC);
+		SpriteDraw::drawSprite(children[i].first, children[i].second, memDC,
+		m_rect.xLength(), m_rect.yLength(), SCALE);
 
 	memDC.SelectObject(wxNullBitmap);
 }
