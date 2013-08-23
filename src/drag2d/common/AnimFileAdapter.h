@@ -36,6 +36,8 @@ namespace d2d
 		{
 			std::string filepath;
 
+			std::string name;
+
 			Vector pos;
 			float angle;
 			float scale;

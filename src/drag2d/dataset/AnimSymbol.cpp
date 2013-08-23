@@ -154,6 +154,8 @@ void AnimSymbol::loadResources()
 				ISymbol* symbol = SymbolMgr::Instance()->getSymbol(filepath);
 				ISprite* sprite = SpriteFactory::create(symbol);
 
+				sprite->name = entry->name;
+
 				sprite->setTransform(entry->pos, entry->angle);
 				sprite->setScale(entry->scale);
 				sprite->setMirror(entry->xMirror, entry->yMirror);

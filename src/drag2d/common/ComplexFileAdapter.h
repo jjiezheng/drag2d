@@ -34,6 +34,8 @@ namespace d2d
 		{
 			std::string filepath;
 
+			std::string name;
+
 			d2d::Vector pos;
 			float angle;
 			float scale;
@@ -47,6 +49,8 @@ namespace d2d
 		Entry load(const Json::Value& value);
 
 	public:
+		std::string m_name;
+
 		std::vector<Entry> m_data;
 
 	}; // ComplexFileAdapter

@@ -16,47 +16,30 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef D2D_INTERFACE_SYMBOL_H
-#define D2D_INTERFACE_SYMBOL_H
+#ifndef D2D_SYMBOL_PROPERTY_SETTING_H
+#define D2D_SYMBOL_PROPERTY_SETTING_H
 
-#include "widgets/ListItem.h"
-#include "common/ResourcesMgr.h"
+#include "IPropertySetting.h"
 
 namespace d2d
 {
-	class ISprite;
+	class ISymbol;
 
-	class ISymbol : public ListItem, public ISerializable
+	class SymbolPropertySetting : public IPropertySetting
 	{
 	public:
-		virtual ~ISymbol() {}
+		SymbolPropertySetting(EditPanel* editPanel, ISymbol* symbol);
 
-		//
-		// IObject interface
-		//	
-		virtual ISymbol* clone() { return NULL; }
+		virtual void updatePanel(PropertySettingPanel* panel);
 
-		virtual void reloadTexture() const = 0;
-		virtual void draw(const ISprite* sprite = NULL) const = 0;
-		virtual float getWidth(const ISprite* sprite = NULL) const = 0;
-		virtual float getHeight(const ISprite* sprite = NULL) const = 0;
+		virtual void onPropertyGridChange(const wxString& name, const wxAny& value);
+		virtual void updatePropertyGrid(PropertySettingPanel* panel);
+		virtual void enablePropertyGrid(PropertySettingPanel* panel, bool bEnable);
 
-		bool loadFromFile(const wxString& filepath);
+	private:
+		ISymbol* m_symbol;
 
-		const wxString& getFilepath() const { 
-			return m_filepath; 
-		}
-
-	public:
-		std::string name;
-
-	protected:
-		virtual void loadResources() = 0;
-
-	protected:
-		wxString m_filepath;
-
-	}; // ISymbol
+	}; // SymbolPropertySetting
 }
 
-#endif // D2D_INTERFACE_SYMBOL_H
+#endif // D2D_SYMBOL_PROPERTY_SETTING_H

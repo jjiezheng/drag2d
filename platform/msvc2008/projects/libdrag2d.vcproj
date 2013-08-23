@@ -1672,6 +1672,18 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="symbol"
+					>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\SymbolPropertySetting.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\SymbolPropertySetting.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="stage"

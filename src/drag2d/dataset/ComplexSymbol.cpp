@@ -130,6 +130,8 @@ void ComplexSymbol::loadResources()
 	ComplexFileAdapter adapter;
 	adapter.load(m_filepath.c_str());
 
+	name = adapter.m_name;
+
 	for (size_t i = 0, n = adapter.m_data.size(); i < n; ++i)
 	{
 		ISprite* sprite = NULL;
@@ -138,6 +140,7 @@ void ComplexSymbol::loadResources()
 		ISymbol* symbol = SymbolMgr::Instance()->getSymbol(entry.filepath);
 		sprite = SpriteFactory::create(symbol);
 
+		sprite->name = entry.name;
 		sprite->setTransform(entry.pos, entry.angle);
 		sprite->setScale(entry.scale);
 		sprite->setMirror(entry.xMirror, entry.yMirror);

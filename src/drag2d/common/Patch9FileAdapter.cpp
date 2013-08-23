@@ -50,6 +50,8 @@ namespace d2d
 		entry.filepath = d2d::FilenameTools::getAbsolutePath(
 			Context::Instance()->getDir(), value["filepath"].asString());
 
+		entry.name = value["name"].asString();
+
 		entry.pos.x = value["position"]["x"].asDouble();
 		entry.pos.y = value["position"]["y"].asDouble();
 
