@@ -38,6 +38,7 @@ namespace d2d
 
 		struct Layer
 		{
+			std::string name;
 			std::vector<Frame*> frames;
 		};
 

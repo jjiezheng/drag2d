@@ -90,7 +90,11 @@ void AnimSymbol::draw(const ISprite* sprite/* = NULL*/) const
 		{
 			Frame* frame = layer->frames[0];
 			for (size_t j = 0, m = frame->sprites.size(); j < m; ++j)
-				SpriteDraw::drawSprite(frame->sprites[j]);
+			{
+				d2d::ISprite* sprite = frame->sprites[i];
+//				SpriteDraw::drawSprite(&sprite->getSymbol(), sprite->getPosition() + d2d::Vector(100, 0));
+				SpriteDraw::drawSprite(sprite);
+			}
 		}
 	}
 }
@@ -133,6 +137,7 @@ void AnimSymbol::loadResources()
 	{
 		Layer* dstLayer = new Layer;
 		AnimFileAdapter::Layer* srcLayer = adapter.layers[i];
+		dstLayer->name = srcLayer->name;
 		for (size_t j = 0, m = srcLayer->frames.size(); j < m; ++j)
 		{
 			Frame* dstFrame = new Frame;
@@ -199,7 +204,7 @@ void AnimSymbol::refreshThumbnail()
 			Frame* frame = layer->frames[0];
 			for (size_t j = 0, m = frame->sprites.size(); j < m; ++j)
 			{
-				ISprite* sprite = frame->sprites[i];
+				ISprite* sprite = frame->sprites[j];
 				if (ImageSprite* image = dynamic_cast<ImageSprite*>(sprite))
 					SpriteDraw::drawSprite(image, memDC);
 				else if (ComplexSprite* complex = dynamic_cast<ComplexSprite*>(sprite))
