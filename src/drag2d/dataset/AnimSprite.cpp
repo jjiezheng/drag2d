@@ -71,7 +71,7 @@ void AnimSprite::buildBounding()
 
 	if (m_symbol)
 	{
-		Rect& rect = m_symbol->m_rect;
+		Rect rect = m_symbol->m_rect;
 
 		rect.scale(m_xScale, m_yScale);
 		rect.translate(m_pos);
