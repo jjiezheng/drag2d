@@ -36,6 +36,8 @@ void SpritePropertySetting::updatePanel(PropertySettingPanel* panel)
 
 	if (getPGType(pg) == m_type)
 	{
+		pg->GetProperty(wxT("Name"))->SetValue(m_sprite->name);
+
  		pg->GetProperty(wxT("X"))->SetValue(m_sprite->getPosition().x);
  		pg->GetProperty(wxT("Y"))->SetValue(m_sprite->getPosition().y);
  		pg->GetProperty(wxT("Angle"))->SetValue(m_sprite->getAngle());
@@ -51,6 +53,8 @@ void SpritePropertySetting::updatePanel(PropertySettingPanel* panel)
 		pg->Clear();
 
 		pg->Append(new wxStringProperty(wxT("Type"), wxPG_LABEL, m_type));
+
+		pg->Append(new wxStringProperty(wxT("Name"), wxPG_LABEL, m_sprite->name));
 
 		pg->Append(new wxFloatProperty(wxT("X"), wxPG_LABEL, m_sprite->getPosition().x));
 		pg->SetPropertyAttribute(wxT("X"), wxPG_ATTR_UNITS, wxT("pixels"));
@@ -80,7 +84,9 @@ void SpritePropertySetting::onPropertyGridChange(const wxString& name, const wxA
 	if (value.IsNull())
 		return;
 
-	if (name == wxT("X"))
+	if (name == wxT("Name"))
+		m_sprite->name = wxANY_AS(value, wxString);
+	else if (name == wxT("X"))
 		m_sprite->setTransform(Vector(wxANY_AS(value, float), m_sprite->getPosition().y), m_sprite->getAngle());
 	else if (name == wxT("Y"))
 		m_sprite->setTransform(Vector(m_sprite->getPosition().x, wxANY_AS(value, float)), m_sprite->getAngle());
@@ -119,6 +125,8 @@ void SpritePropertySetting::enablePropertyGrid(PropertySettingPanel* panel, bool
 
 		pg->Append(new wxStringProperty(wxT("Type"), wxPG_LABEL, m_type));
 
+		pg->Append(new wxStringProperty(wxT("Name"), wxPG_LABEL, m_sprite->name));
+
 		pg->Append(new wxFloatProperty(wxT("X"), wxPG_LABEL, m_sprite->getPosition().x));
 		pg->SetPropertyAttribute(wxT("X"), wxPG_ATTR_UNITS, wxT("pixels"));
 		pg->SetPropertyAttribute(wxT("X"), "Precision", 1);
@@ -142,6 +150,7 @@ void SpritePropertySetting::enablePropertyGrid(PropertySettingPanel* panel, bool
 	}
 
 	pg->GetProperty(wxT("Type"))->Enable(bEnable);
+	pg->GetProperty(wxT("Name"))->Enable(bEnable);
 	pg->GetProperty(wxT("X"))->Enable(bEnable);
 	pg->GetProperty(wxT("Y"))->Enable(bEnable);
 	pg->GetProperty(wxT("Angle"))->Enable(bEnable);

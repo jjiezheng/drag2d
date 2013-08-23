@@ -81,6 +81,9 @@ namespace d2d
 	private:
 		void afterScaleChanged();
 
+	public:
+		std::string name;
+		
 	protected:
 		Vector m_pos;
 		float m_angle;
