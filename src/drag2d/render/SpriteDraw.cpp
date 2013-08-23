@@ -101,15 +101,13 @@ void SpriteDraw::drawSprite(const ISprite* sprite, wxMemoryDC& memDC)
 		true);
 }
 
-void SpriteDraw::drawSprite(const ISprite* sprite, const Vector& offset, wxMemoryDC& memDC)
+void SpriteDraw::drawSprite(const ISprite* sprite, const Vector& offset, wxMemoryDC& memDC,
+							float bgwidth /*= 800*/, float bgheight /*= 480*/, float scale /*= 0.15f*/)
 {
-	const float SCALE = 0.15f;
-	const float WIDTH = 800, HEIGHT = 480;
-
 	const wxBitmap* bitmap = sprite->getSymbol().getBitmap()->getBitmap();
 
-	const float width = std::max(1.0f, sprite->getSymbol().getWidth() * SCALE),
-		height = std::max(1.0f, sprite->getSymbol().getHeight() * SCALE);
+	const float width = std::max(1.0f, sprite->getSymbol().getWidth() * scale),
+		height = std::max(1.0f, sprite->getSymbol().getHeight() * scale);
 	const float hWidth = width * 0.5f,
 		hHeight = height * 0.5f;
 
@@ -133,8 +131,8 @@ void SpriteDraw::drawSprite(const ISprite* sprite, const Vector& offset, wxMemor
 	if (p.y < yMin) yMin = p.y;
 
 	wxPoint pos;
-	pos.x = WIDTH * 0.5f * SCALE + (sprite->getPosition().x + offset.x) * SCALE + xMin;
-	pos.y = HEIGHT * 0.5f * SCALE - (sprite->getPosition().y + offset.y) * SCALE + yMin;
+	pos.x = bgwidth * 0.5f * scale + (sprite->getPosition().x + offset.x) * scale + xMin;
+	pos.y = bgheight * 0.5f * scale - (sprite->getPosition().y + offset.y) * scale + yMin;
 
 	memDC.DrawBitmap(
 		bitmap->ConvertToImage().Scale(width, height).Rotate(sprite->getAngle(), wxPoint(0, 0)),
