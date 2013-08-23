@@ -33,8 +33,7 @@ bool ISymbol::loadFromFile(const wxString& filepath)
 		return false;
 	}
 
-	if (Context::Instance()->resPath.empty())
-		Context::Instance()->resPath = FilenameTools::getFileDir(filepath);
+	Context::Instance()->resPath = FilenameTools::getFileDir(filepath);
 
 	m_name = FilenameTools::getFilename(filepath);
 //	m_bitmap = NULL;
