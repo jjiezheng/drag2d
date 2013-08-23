@@ -1388,6 +1388,14 @@
 					RelativePath="..\..\..\src\drag2d\common\TexPackerAdapter.h"
 					>
 				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\common\TexturePackerFileAdapter.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\common\TexturePackerFileAdapter.h"
+					>
+				</File>
 				<Filter
 					Name="new"
 					>
