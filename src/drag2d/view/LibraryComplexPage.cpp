@@ -28,6 +28,7 @@ LibraryComplexPage::LibraryComplexPage(wxWindow* parent)
 	: ILibraryPage(parent, wxT("Complex"))
 {
 	initLayout();
+	m_list->setFileter("complex");
 }
 
 bool LibraryComplexPage::isHandleSymbol(ISymbol* symbol) const
