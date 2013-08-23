@@ -41,10 +41,38 @@ SpritesPanelImpl::~SpritesPanelImpl()
 void SpritesPanelImpl::traverseSprites(IVisitor& visitor, TraverseType type/* = e_allExisting*/,
 									   bool order/* = true*/) const
 {
+	traverseSprites(m_sprites, visitor, type, order);
+}
+
+void SpritesPanelImpl::removeSprite(ISprite* sprite)
+{
+	removeSprite(m_sprites, sprite);
+}
+
+void SpritesPanelImpl::insertSprite(ISprite* sprite)
+{
+	insertSprite(m_sprites, sprite);
+	m_wnd->Refresh();
+}
+
+void SpritesPanelImpl::clearSprites()
+{
+	clearSprites(m_sprites);
+}
+
+void SpritesPanelImpl::resetSpriteOrder(d2d::ISprite* sprite, bool up)
+{
+	resetSpriteOrder(m_sprites, sprite, up);
+}
+
+void SpritesPanelImpl::traverseSprites(const std::vector<d2d::ISprite*>& sprites, 
+									   IVisitor& visitor, TraverseType type/* = e_allExisting*/,
+									   bool order/* = true*/)
+{
 	if (order)
 	{
-		std::vector<ISprite*>::const_iterator itr = m_sprites.begin();
-		for ( ; itr != m_sprites.end(); ++itr)
+		std::vector<ISprite*>::const_iterator itr = sprites.begin();
+		for ( ; itr != sprites.end(); ++itr)
 		{
 			bool hasNext;
 			visitor.visit(*itr, hasNext);
@@ -53,8 +81,8 @@ void SpritesPanelImpl::traverseSprites(IVisitor& visitor, TraverseType type/* = 
 	}
 	else
 	{
-		std::vector<ISprite*>::const_reverse_iterator itr = m_sprites.rbegin();
-		for ( ; itr != m_sprites.rend(); ++itr)
+		std::vector<ISprite*>::const_reverse_iterator itr = sprites.rbegin();
+		for ( ; itr != sprites.rend(); ++itr)
 		{
 			bool hasNext;
 			visitor.visit(*itr, hasNext);
@@ -63,36 +91,30 @@ void SpritesPanelImpl::traverseSprites(IVisitor& visitor, TraverseType type/* = 
 	}
 }
 
-void SpritesPanelImpl::removeSprite(ISprite* sprite)
+void SpritesPanelImpl::removeSprite(std::vector<d2d::ISprite*>& sprites, ISprite* sprite)
 {
-	for (size_t i = 0, n = m_sprites.size(); i < n; ++i)
+	for (size_t i = 0, n = sprites.size(); i < n; ++i)
 	{
-		if (m_sprites[i] == sprite)
+		if (sprites[i] == sprite)
 		{
-			m_sprites[i]->release();
-			m_sprites.erase(m_sprites.begin() + i);
+			sprites[i]->release();
+			sprites.erase(sprites.begin() + i);
 			break;
 		}
 	}
 }
 
-void SpritesPanelImpl::insertSprite(ISprite* sprite)
+void SpritesPanelImpl::insertSprite(std::vector<d2d::ISprite*>& sprites, ISprite* sprite)
 {
 	sprite->retain();
-	m_sprites.push_back(sprite);
-	m_wnd->Refresh();
+	sprites.push_back(sprite);
 }
 
-void SpritesPanelImpl::clearSprites()
+void SpritesPanelImpl::clearSprites(std::vector<d2d::ISprite*>& sprites)
 {
-	for (size_t i = 0, n = m_sprites.size(); i < n; ++i)
-		m_sprites[i]->release();
-	m_sprites.clear();
-}
-
-void SpritesPanelImpl::resetSpriteOrder(d2d::ISprite* sprite, bool up)
-{
-	resetSpriteOrder(m_sprites, sprite, up);
+	for (size_t i = 0, n = sprites.size(); i < n; ++i)
+		sprites[i]->release();
+	sprites.clear();
 }
 
 void SpritesPanelImpl::resetSpriteOrder(std::vector<d2d::ISprite*>& sprites, 

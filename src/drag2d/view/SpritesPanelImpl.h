@@ -43,6 +43,12 @@ namespace d2d
 
 		virtual void resetSpriteOrder(d2d::ISprite* sprite, bool up);
 
+		static void traverseSprites(const std::vector<d2d::ISprite*>& sprites,
+			IVisitor& visitor, TraverseType type = e_allExisting, bool order = true);
+		static void removeSprite(std::vector<d2d::ISprite*>& sprites, ISprite* sprite);
+		static void insertSprite(std::vector<d2d::ISprite*>& sprites, ISprite* sprite);
+		static void clearSprites(std::vector<d2d::ISprite*>& sprites);
+
 		static void resetSpriteOrder(std::vector<d2d::ISprite*>& sprites,
 			d2d::ISprite* sprite, bool up);
 
