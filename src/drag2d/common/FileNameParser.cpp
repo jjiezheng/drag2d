@@ -32,6 +32,7 @@ static const wxString TAG_COMBINATION = "combination";
 static const wxString TAG_COMPLEX = "complex";
 static const wxString TAG_ANIM = "anim";
 static const wxString TAG_PATCH = "9patch";
+static const wxString TAG_FONTBLANK = "fontblank";
 
 FileNameParser::Type FileNameParser::getFileType(const wxString& filename)
 {
@@ -64,6 +65,7 @@ FileNameParser::Type FileNameParser::getFileType(const wxString& filename)
 		else if (jsonExtension == TAG_COMPLEX) return e_complex;
 		else if (jsonExtension == TAG_ANIM) return e_anim;
 		else if (jsonExtension == TAG_PATCH) return e_9patch;
+		else if (jsonExtension == TAG_FONTBLANK) return e_fontblank;
 		else return e_unknown;
 	}
 	else
@@ -105,6 +107,9 @@ wxString FileNameParser::getFileTag(Type type)
 		break;
 	case e_9patch:
 		extension = TAG_PATCH;
+		break;
+	case e_fontblank:
+		extension = TAG_FONTBLANK;
 		break;
 	}
 	return extension;

@@ -16,40 +16,21 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef D2D_FILE_NAME_PARSER_H
-#define D2D_FILE_NAME_PARSER_H
+#ifndef D2D_LIBRARY_FONT_BLANK_LIST_H
+#define D2D_LIBRARY_FONT_BLANK_LIST_H
 
-#include <wx/wx.h>
+#include "LibraryList.h"
 
 namespace d2d
 {
-	class FileNameParser
+	class LibraryFontBlankList : public LibraryList
 	{
 	public:
-		enum Type
-		{
-			e_unknown = 0,
-			// shape
-			e_polyline,
-			e_circle,
-			e_polygon,
-			e_shape,
-			// symbol
-			e_image,
-			e_mesh,
-			e_combination,
-			e_complex,
-			e_anim,
-			e_9patch,
-			e_fontblank
-		};
+		LibraryFontBlankList(wxWindow* parent);
 
-		static Type getFileType(const wxString& filename);
-		static wxString getFileTag(Type type);
+		virtual void onListDoubleClicked(wxCommandEvent& event);
 
-		static bool isType(const wxString& filename, Type type);
-
-	}; // FileNameParser
+	}; // LibraryFontBlankList
 }
 
-#endif // D2D_FILE_NAME_PARSER_H
+#endif // D2D_LIBRARY_FONT_BLANK_LIST_H

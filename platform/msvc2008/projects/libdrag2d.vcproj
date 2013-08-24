@@ -897,6 +897,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\src\drag2d\dataset\FontBlankSprite.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\dataset\FontBlankSprite.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\drag2d\dataset\ImageSprite.cpp"
 					>
 				</File>
@@ -990,6 +998,14 @@
 				</File>
 				<File
 					RelativePath="..\..\..\src\drag2d\dataset\EShapeSymbol.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\dataset\FontBlankSymbol.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\dataset\FontBlankSymbol.h"
 					>
 				</File>
 				<File
@@ -1577,6 +1593,34 @@
 					</File>
 					<File
 						RelativePath="..\..\..\src\drag2d\view\Library9PatchPage.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="fontblank"
+					>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\FontBlankDialog.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\FontBlankDialog.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\LibraryFontBlankList.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\LibraryFontBlankList.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\LibraryFontBlankPage.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\LibraryFontBlankPage.h"
 						>
 					</File>
 				</Filter>

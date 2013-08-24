@@ -16,40 +16,41 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef D2D_FILE_NAME_PARSER_H
-#define D2D_FILE_NAME_PARSER_H
+#ifndef D2D_FONT_BLANK_SPRITE_H
+#define D2D_FONT_BLANK_SPRITE_H
 
-#include <wx/wx.h>
+#include "ISprite.h"
+
+#include "FontBlankSymbol.h"
 
 namespace d2d
 {
-	class FileNameParser
+	class FontBlankSprite : public ISprite
 	{
 	public:
-		enum Type
-		{
-			e_unknown = 0,
-			// shape
-			e_polyline,
-			e_circle,
-			e_polygon,
-			e_shape,
-			// symbol
-			e_image,
-			e_mesh,
-			e_combination,
-			e_complex,
-			e_anim,
-			e_9patch,
-			e_fontblank
-		};
+		FontBlankSprite();
+		FontBlankSprite(const FontBlankSprite& sprite);
+		FontBlankSprite(FontBlankSymbol* symbol);
+		virtual ~FontBlankSprite();
 
-		static Type getFileType(const wxString& filename);
-		static wxString getFileTag(Type type);
+		//
+		// IObject interface
+		//
+		virtual FontBlankSprite* clone();
 
-		static bool isType(const wxString& filename, Type type);
+		//
+		// ISprite interface
+		//
+		virtual const FontBlankSymbol& getSymbol() const;
+		virtual void setSymbol(ISymbol* symbol);
+		virtual void loadBodyFromFile();
 
-	}; // FileNameParser
+		virtual void buildBounding();
+
+	protected:
+		FontBlankSymbol* m_symbol;
+
+	}; // FontBlankSprite
 }
 
-#endif // D2D_FILE_NAME_PARSER_H
+#endif // D2D_FONT_BLANK_SPRITE_H

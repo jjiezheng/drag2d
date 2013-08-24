@@ -26,6 +26,7 @@
 #include "AnimSymbol.h"
 #include "Patch9Symbol.h"
 #include "FontSymbol.h"
+#include "FontBlankSymbol.h"
 
 #include "common/FileNameTools.h"
 #include "common/FileNameParser.h"
@@ -65,6 +66,8 @@ ISymbol* SymbolFactory::create(const wxString& filepath)
 			symbol = new AnimSymbol;
 		else if (FileNameParser::isType(filepath, FileNameParser::e_9patch))
 			symbol = new Patch9Symbol;
+		else if (FileNameParser::isType(filepath, FileNameParser::e_fontblank))
+			symbol = new FontBlankSymbol;
 	}
 
 	return symbol;

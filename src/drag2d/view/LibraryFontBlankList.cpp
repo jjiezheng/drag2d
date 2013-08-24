@@ -16,40 +16,21 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef D2D_FILE_NAME_PARSER_H
-#define D2D_FILE_NAME_PARSER_H
+#include "LibraryFontBlankList.h"
+#include "FontBlankDialog.h"
 
-#include <wx/wx.h>
+#include "dataset/FontBlankSymbol.h"
 
-namespace d2d
+using namespace d2d;
+
+LibraryFontBlankList::LibraryFontBlankList(wxWindow* parent)
+	: LibraryList(parent, wxT("fontblank"))
 {
-	class FileNameParser
-	{
-	public:
-		enum Type
-		{
-			e_unknown = 0,
-			// shape
-			e_polyline,
-			e_circle,
-			e_polygon,
-			e_shape,
-			// symbol
-			e_image,
-			e_mesh,
-			e_combination,
-			e_complex,
-			e_anim,
-			e_9patch,
-			e_fontblank
-		};
-
-		static Type getFileType(const wxString& filename);
-		static wxString getFileTag(Type type);
-
-		static bool isType(const wxString& filename, Type type);
-
-	}; // FileNameParser
 }
 
-#endif // D2D_FILE_NAME_PARSER_H
+void LibraryFontBlankList::onListDoubleClicked(wxCommandEvent& event)
+{
+	FontBlankDialog dlg(this, static_cast<FontBlankSymbol*>(m_items[event.GetInt()]));
+	dlg.ShowModal();
+	// resetCanvas
+}

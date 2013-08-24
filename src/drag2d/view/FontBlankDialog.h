@@ -16,40 +16,42 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef D2D_FILE_NAME_PARSER_H
-#define D2D_FILE_NAME_PARSER_H
+#ifndef D2D_FONT_BLANK_DIALOG_H
+#define D2D_FONT_BLANK_DIALOG_H
 
 #include <wx/wx.h>
 
 namespace d2d
 {
-	class FileNameParser
+	class FontBlankSymbol;
+
+	class FontBlankDialog : public wxDialog
 	{
 	public:
-		enum Type
-		{
-			e_unknown = 0,
-			// shape
-			e_polyline,
-			e_circle,
-			e_polygon,
-			e_shape,
-			// symbol
-			e_image,
-			e_mesh,
-			e_combination,
-			e_complex,
-			e_anim,
-			e_9patch,
-			e_fontblank
-		};
+		FontBlankDialog(wxWindow* parent, FontBlankSymbol* symbol);
 
-		static Type getFileType(const wxString& filename);
-		static wxString getFileTag(Type type);
+		~FontBlankDialog();
 
-		static bool isType(const wxString& filename, Type type);
+	private:
+		void initLayout();
 
-	}; // FileNameParser
+		void storeSymbol();
+
+	private:
+		FontBlankSymbol* m_symbol;
+
+		wxTextCtrl* m_name;
+
+		wxTextCtrl* m_font;
+
+		wxTextCtrl* m_color;
+
+		wxTextCtrl* m_align;
+		wxTextCtrl* m_size;
+
+		wxTextCtrl *m_width, *m_height;
+
+	}; // FontBlankDialog
 }
 
-#endif // D2D_FILE_NAME_PARSER_H
+#endif // D2D_FONT_BLANK_DIALOG_H

@@ -26,6 +26,7 @@
 #include "AnimSprite.h"
 #include "Patch9Sprite.h"
 #include "TextSprite.h"
+#include "FontBlankSprite.h"
 
 using namespace d2d;
 
@@ -57,6 +58,9 @@ ISprite* SpriteFactory::create(ISymbol* symbol)
 
 	FontSymbol* font = dynamic_cast<FontSymbol*>(symbol);
 	if (font) return new TextSprite(font);
+
+	FontBlankSymbol* fontblank = dynamic_cast<FontBlankSymbol*>(symbol);
+	if (fontblank) return new FontBlankSprite(fontblank);
 
 	return NULL;
 }
