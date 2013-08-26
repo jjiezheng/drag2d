@@ -28,6 +28,16 @@ namespace d2d
 	class Patch9Symbol : public ISymbol
 	{
 	public:
+		enum Type
+		{
+
+			e_null = 0,
+			e_9Grid,
+			e_3GridHor,
+			e_3GridVer,
+		};
+
+	public:
 		Patch9Symbol();
 		virtual ~Patch9Symbol();
 
@@ -60,6 +70,8 @@ namespace d2d
 
 		void resize(float width, float height);
 
+		Type type() const { return m_type; }
+
 	protected:
 		virtual void loadResources();
 
@@ -70,10 +82,16 @@ namespace d2d
 
 		void composeFromSprites();
 
+		bool isGrid9Type(ISprite* sprites[3][3]) const;
+		bool isGrid3HorType(ISprite* sprites[3][3]) const;
+		bool isGrid3VerType(ISprite* sprites[3][3]) const;
+
 		static void stretch(ISprite* sprite, const d2d::Vector& center, 
 			float width, float height);
 
 	public:
+		Type m_type;
+
 		// 2
 		// 1
 		// 0 1 2
