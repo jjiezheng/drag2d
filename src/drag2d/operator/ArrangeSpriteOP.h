@@ -84,11 +84,11 @@ namespace d2d
 		static const float SCALE_NODE_RADIUS;
 
 	private:
-		MultiSpritesImpl* m_spritesImpl;
-
 		PropertySettingPanel* m_propertyPanel;
 
 	protected:
+		MultiSpritesImpl* m_spritesImpl;
+
 		SpriteSelection* m_selection;
 		Vector m_lastPos;
 
