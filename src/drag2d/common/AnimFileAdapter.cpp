@@ -68,6 +68,7 @@ AnimFileAdapter::Frame* AnimFileAdapter::loadFrame(const Json::Value& frameValue
 
 	Frame* frame = new Frame;
 	frame->index = time;
+	frame->bClassicTween = frameValue["tween"].asBool();
 
 	int i = 0;
 	Json::Value entryValue = frameValue["actor"][i++];
@@ -94,7 +95,8 @@ AnimFileAdapter::Entry* AnimFileAdapter::loadEntry(const Json::Value& entryValue
 
 	entry->angle = entryValue["angle"].asDouble();
 
-	entry->scale = entryValue["scale"].asDouble();
+	entry->xScale = entryValue["x scale"].asDouble();
+	entry->yScale = entryValue["y scale"].asDouble();
 
 	entry->xMirror = entryValue["x mirror"].asBool();
 	entry->yMirror = entryValue["y mirror"].asBool();

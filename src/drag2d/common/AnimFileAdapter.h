@@ -40,7 +40,7 @@ namespace d2d
 
 			Vector pos;
 			float angle;
-			float scale;
+			float xScale, yScale;
 			bool xMirror, yMirror;
 		};
 
@@ -49,6 +49,8 @@ namespace d2d
 			int index;
 
 			std::vector<Entry*> entries;
+
+			bool bClassicTween;
 		};
 
 		struct Layer

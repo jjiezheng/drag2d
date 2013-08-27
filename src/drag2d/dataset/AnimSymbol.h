@@ -34,6 +34,7 @@ namespace d2d
 		{
 			int index;
 			std::vector<ISprite*> sprites;
+			bool bClassicTween;
 		};
 
 		struct Layer

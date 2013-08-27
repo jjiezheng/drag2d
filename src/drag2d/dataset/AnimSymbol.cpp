@@ -91,8 +91,7 @@ void AnimSymbol::draw(const ISprite* sprite/* = NULL*/) const
 			Frame* frame = layer->frames[0];
 			for (size_t j = 0, m = frame->sprites.size(); j < m; ++j)
 			{
-				d2d::ISprite* sprite = frame->sprites[i];
-//				SpriteDraw::drawSprite(&sprite->getSymbol(), sprite->getPosition() + d2d::Vector(100, 0));
+				d2d::ISprite* sprite = frame->sprites[j];
 				SpriteDraw::drawSprite(sprite);
 			}
 		}
@@ -143,6 +142,7 @@ void AnimSymbol::loadResources()
 			Frame* dstFrame = new Frame;
 			AnimFileAdapter::Frame* srcFrame = srcLayer->frames[j];
 			dstFrame->index = srcFrame->index;
+			dstFrame->bClassicTween = srcFrame->bClassicTween;
 			for (size_t k = 0, l = srcFrame->entries.size(); k < l; ++k)
 			{
 				AnimFileAdapter::Entry* entry = srcFrame->entries[k];
@@ -157,7 +157,7 @@ void AnimSymbol::loadResources()
 				sprite->name = entry->name;
 
 				sprite->setTransform(entry->pos, entry->angle);
-				sprite->setScale(entry->scale);
+				sprite->setScale(entry->xScale, entry->yScale);
 				sprite->setMirror(entry->xMirror, entry->yMirror);
 
 				dstFrame->sprites.push_back(sprite);
