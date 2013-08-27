@@ -117,9 +117,13 @@ void AnimSymbol::refresh()
 
 size_t AnimSymbol::getMaxFrameIndex() const
 {
-	size_t index = 0;
+	int index = 0;
 	for (size_t i = 0, n = m_layers.size(); i < n; ++i)
-		index = std::max(index, m_layers[i]->frames.size());
+	{
+		Layer* layer = m_layers[i];
+		for (size_t j = 0, m = layer->frames.size(); j < m; ++j)
+			index = std::max(index, layer->frames[j]->index);
+	}
 	return index;
 }
 
