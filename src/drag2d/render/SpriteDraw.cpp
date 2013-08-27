@@ -165,8 +165,17 @@ void SpriteDraw::drawSprites(const std::vector<ISprite*>& sprites,
 void SpriteDraw::begin(const ISprite* sprite)
 {
 	GL10::PushMatrix();
+
 	GL10::Translatef(sprite->getPosition().x, sprite->getPosition().y, 0.0f);
+
 	GL10::Rotatef(sprite->getAngle() * TRANS_RAD_TO_DEG, 0, 0, 1);
+
+	bool xMirror, yMirror;
+	sprite->getMirror(xMirror, yMirror);
+	const float xScale = xMirror ? -sprite->getScaleX() : sprite->getScaleX(),
+		yScale = yMirror ? -sprite->getScaleY() : sprite->getScaleY();
+	GL10::Scalef(xScale, yScale, 1.0f);
+
 }
 
 void SpriteDraw::end(const ISprite* sprite)
