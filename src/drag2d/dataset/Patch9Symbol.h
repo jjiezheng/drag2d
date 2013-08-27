@@ -22,6 +22,7 @@
 #include "ISymbol.h"
 
 #include "common/Rect.h"
+#include "common/Patch9FileAdapter.h"
 
 namespace d2d
 {
@@ -88,6 +89,9 @@ namespace d2d
 
 		static void stretch(ISprite* sprite, const d2d::Vector& center, 
 			float width, float height);
+
+		static void initSprite(const Patch9FileAdapter::Entry& entry,
+			ISprite** pSprite, const std::string& dlg);
 
 	public:
 		Type m_type;

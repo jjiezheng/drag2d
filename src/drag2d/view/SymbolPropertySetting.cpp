@@ -45,7 +45,6 @@ void SymbolPropertySetting::updatePanel(PropertySettingPanel* panel)
 		pg->Append(new wxStringProperty(wxT("Type"), wxPG_LABEL, m_type));
 
 		pg->Append(new wxStringProperty(wxT("Name"), wxPG_LABEL, m_symbol->name));
-
 	}
 }
 

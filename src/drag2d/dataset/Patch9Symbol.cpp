@@ -22,7 +22,6 @@
 #include "SpriteFactory.h"
 
 #include "common/Math.h"
-#include "common/Patch9FileAdapter.h"
 #include "common/FileNameTools.h"
 #include "dataset/Bitmap.h"
 #include "render/SpriteDraw.h"
@@ -187,28 +186,25 @@ void Patch9Symbol::loadResources()
 
 	m_width = adapter.width;
 	m_height = adapter.height;
-	for (size_t i = 0; i < 3; ++i)
+
+	m_type = Type(adapter.type);
+	switch (m_type)
 	{
-		for (size_t j = 0; j < 3; ++j)
-		{
-			const Patch9FileAdapter::Entry& entry = adapter.m_data[i*3+j];
-
-			std::string filepath = entry.filepath;
-			if (!FilenameTools::isExist(filepath))
-				filepath = FilenameTools::getAbsolutePath(dlg, filepath);
-
-			ISymbol* symbol = SymbolMgr::Instance()->getSymbol(filepath);
-			ISprite* sprite = SpriteFactory::create(symbol);
-
-			sprite->name = entry.name;
-
-			sprite->setTransform(entry.pos, entry.angle);
-			sprite->setScale(entry.scale);
-			sprite->setMirror(entry.xMirror, entry.yMirror);
-
-			m_sprites[i][j] = sprite;
-		}
+	case e_9Grid:
+		for (size_t i = 0; i < 3; ++i)
+			for (size_t j = 0; j < 3; ++j)
+				initSprite(adapter.m_data[i*3+j], &m_sprites[i][j], dlg);
+		break;
+	case e_3GridHor:
+		for (size_t i = 0; i < 3; ++i)
+			initSprite(adapter.m_data[i], &m_sprites[1][i], dlg);
+		break;
+	case e_3GridVer:
+		for (size_t i = 0; i < 3; ++i)
+			initSprite(adapter.m_data[i], &m_sprites[i][1], dlg);
+		break;
 	}
+
 	composeFromSprites();
 }
 
@@ -324,4 +320,23 @@ void Patch9Symbol::stretch(ISprite* sprite, const d2d::Vector& center,
 		sprite->setScale(width / sw, height / sh);
 	else
 		sprite->setScale(height / sw, width / sh);
+}
+
+void Patch9Symbol::initSprite(const Patch9FileAdapter::Entry& entry, ISprite** pSprite,
+							  const std::string& dlg)
+{
+	std::string filepath = entry.filepath;
+	if (!FilenameTools::isExist(filepath))
+		filepath = FilenameTools::getAbsolutePath(dlg, filepath);
+
+	ISymbol* symbol = SymbolMgr::Instance()->getSymbol(filepath);
+	ISprite* sprite = SpriteFactory::create(symbol);
+
+	sprite->name = entry.name;
+
+	sprite->setTransform(entry.pos, entry.angle);
+	sprite->setScale(entry.scale);
+	sprite->setMirror(entry.xMirror, entry.yMirror);
+
+	*pSprite = sprite;
 }

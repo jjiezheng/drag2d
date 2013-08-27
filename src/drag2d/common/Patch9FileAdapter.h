@@ -49,6 +49,8 @@ namespace d2d
 		Entry load(const Json::Value& value);
 
 	public:
+		int type;
+
 		float width, height;
 
 		std::vector<Entry> m_data;

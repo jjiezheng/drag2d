@@ -32,6 +32,8 @@ namespace d2d
 		reader.parse(fin, value);
 		fin.close();
 
+		type = value["type"].asInt();
+
 		width = value["width"].asInt();
 		height = value["height"].asInt();
 
