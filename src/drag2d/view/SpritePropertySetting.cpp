@@ -41,8 +41,9 @@ void SpritePropertySetting::updatePanel(PropertySettingPanel* panel)
  		pg->GetProperty(wxT("X"))->SetValue(m_sprite->getPosition().x);
  		pg->GetProperty(wxT("Y"))->SetValue(m_sprite->getPosition().y);
  		pg->GetProperty(wxT("Angle"))->SetValue(m_sprite->getAngle());
- 		pg->GetProperty(wxT("Scale"))->SetValue(m_sprite->getScaleX());
- 
+ 		pg->GetProperty(wxT("Scale X"))->SetValue(m_sprite->getScaleX());
+		pg->GetProperty(wxT("Scale Y"))->SetValue(m_sprite->getScaleY());
+
  		bool xMirror, yMirror;
  		m_sprite->getMirror(xMirror, yMirror);
  		pg->GetProperty(wxT("Horizontal Mirror"))->SetValue(xMirror);
@@ -68,9 +69,13 @@ void SpritePropertySetting::updatePanel(PropertySettingPanel* panel)
 		pg->SetPropertyAttribute(wxT("Angle"), wxPG_ATTR_UNITS, wxT("rad"));
 		pg->SetPropertyAttribute(wxT("Angle"), "Precision", 2);
 
-		pg->Append(new wxFloatProperty(wxT("Scale"), wxPG_LABEL, m_sprite->getScaleX()));
-		pg->SetPropertyAttribute(wxT("Scale"), wxPG_ATTR_UNITS, wxT("multiple"));
-		pg->SetPropertyAttribute(wxT("Scale"), "Precision", 2);
+		pg->Append(new wxFloatProperty(wxT("Scale X"), wxPG_LABEL, m_sprite->getScaleX()));
+		pg->SetPropertyAttribute(wxT("Scale X"), wxPG_ATTR_UNITS, wxT("multiple"));
+		pg->SetPropertyAttribute(wxT("Scale X"), "Precision", 2);
+
+		pg->Append(new wxFloatProperty(wxT("Scale Y"), wxPG_LABEL, m_sprite->getScaleY()));
+		pg->SetPropertyAttribute(wxT("Scale Y"), wxPG_ATTR_UNITS, wxT("multiple"));
+		pg->SetPropertyAttribute(wxT("Scale Y"), "Precision", 2);
 
 		bool xMirror, yMirror;
 		m_sprite->getMirror(xMirror, yMirror);
@@ -92,8 +97,10 @@ void SpritePropertySetting::onPropertyGridChange(const wxString& name, const wxA
 		m_sprite->setTransform(Vector(m_sprite->getPosition().x, wxANY_AS(value, float)), m_sprite->getAngle());
 	else if (name == wxT("Angle"))
 		m_sprite->setTransform(m_sprite->getPosition(), wxANY_AS(value, float));
-	else if (name == wxT("Scale"))
-		m_sprite->setScale(wxANY_AS(value, float));
+	else if (name == wxT("Scale X"))
+		m_sprite->setScale(wxANY_AS(value, float), m_sprite->getScaleY());
+	else if (name == wxT("Scale Y"))
+		m_sprite->setScale(m_sprite->getScaleX(), wxANY_AS(value, float));
 	else if (name == wxT("Horizontal Mirror"))
 	{
 		bool xMirror, yMirror;
@@ -139,9 +146,13 @@ void SpritePropertySetting::enablePropertyGrid(PropertySettingPanel* panel, bool
 		pg->SetPropertyAttribute(wxT("Angle"), wxPG_ATTR_UNITS, wxT("rad"));
 		pg->SetPropertyAttribute(wxT("Angle"), "Precision", 2);
 
-		pg->Append(new wxFloatProperty(wxT("Scale"), wxPG_LABEL, m_sprite->getScaleX()));
-		pg->SetPropertyAttribute(wxT("Scale"), wxPG_ATTR_UNITS, wxT("multiple"));
-		pg->SetPropertyAttribute(wxT("Scale"), "Precision", 2);
+		pg->Append(new wxFloatProperty(wxT("Scale X"), wxPG_LABEL, m_sprite->getScaleX()));
+		pg->SetPropertyAttribute(wxT("Scale X"), wxPG_ATTR_UNITS, wxT("multiple"));
+		pg->SetPropertyAttribute(wxT("Scale X"), "Precision", 2);
+
+		pg->Append(new wxFloatProperty(wxT("Scale Y"), wxPG_LABEL, m_sprite->getScaleY()));
+		pg->SetPropertyAttribute(wxT("Scale Y"), wxPG_ATTR_UNITS, wxT("multiple"));
+		pg->SetPropertyAttribute(wxT("Scale Y"), "Precision", 2);
 
 		bool xMirror, yMirror;
 		m_sprite->getMirror(xMirror, yMirror);
@@ -154,7 +165,8 @@ void SpritePropertySetting::enablePropertyGrid(PropertySettingPanel* panel, bool
 	pg->GetProperty(wxT("X"))->Enable(bEnable);
 	pg->GetProperty(wxT("Y"))->Enable(bEnable);
 	pg->GetProperty(wxT("Angle"))->Enable(bEnable);
-	pg->GetProperty(wxT("Scale"))->Enable(bEnable);
+	pg->GetProperty(wxT("Scale X"))->Enable(bEnable);
+	pg->GetProperty(wxT("Scale Y"))->Enable(bEnable);
 	pg->GetProperty(wxT("Horizontal Mirror"))->Enable(bEnable);
 	pg->GetProperty(wxT("Vertical Mirror"))->Enable(bEnable);
 }

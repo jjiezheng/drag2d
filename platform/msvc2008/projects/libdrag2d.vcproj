@@ -1720,14 +1720,6 @@
 					Name="symbol"
 					>
 					<File
-						RelativePath="..\..\..\src\drag2d\view\Patch9SymbolPropertySetting.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\..\..\src\drag2d\view\Patch9SymbolPropertySetting.h"
-						>
-					</File>
-					<File
 						RelativePath="..\..\..\src\drag2d\view\SymbolPropertySetting.cpp"
 						>
 					</File>
