@@ -21,6 +21,8 @@
 
 #include "dataset/SelectionSet.h"
 
+#include <vector>
+
 namespace d2d
 {
 	class EditPanel;
@@ -56,6 +58,9 @@ namespace d2d
 
 	private:
 		void setScalingFromSelected();
+
+		void autoAlign(const std::vector<ISprite*>& sprites);
+		void autoAlign(const ISprite* src, ISprite* dst);
 
 	private:
 		class TranslateVisitor : public IVisitor
@@ -104,6 +109,9 @@ namespace d2d
 		Vector m_scaleSelected;
 
 		bool m_bDirty;
+
+		bool m_autoAlignOpen;
+		Vector m_autoAlignHor[2], m_autoAlignVer[2];
 
 	}; // ArrangeSpriteOP
 }

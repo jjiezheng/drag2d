@@ -22,6 +22,7 @@
 #include "ArrangeSpriteOP.h"
 
 #include "dataset/ISprite.h"
+#include "dataset/ISymbol.h"
 #include "dataset/AbstractBV.h"
 #include "common/Math.h"
 #include "common/visitors.h"
@@ -46,6 +47,7 @@ namespace d2d
 		, m_bRightPress(false)
 		, m_scaling(NULL)
 		, m_bDirty(false)
+		, m_autoAlignOpen(false)
 	{
 		m_selection = spritesImpl->getSpriteSelection();
 		m_selection->retain();
@@ -144,6 +146,10 @@ namespace d2d
 		}
 		m_bRightPress = false;
 
+		m_autoAlignOpen = false;
+		m_autoAlignHor[0] = m_autoAlignHor[1];
+		m_autoAlignVer[0] = m_autoAlignVer[1];
+
 		return false;
 	}
 
@@ -166,6 +172,13 @@ namespace d2d
 			m_propertyPanel->enablePropertyGrid(true);
 			m_propertyPanel->updatePropertyGrid();
 			m_bDirty = false;
+		}
+
+		if (m_autoAlignOpen && !m_selection->empty())
+		{
+			std::vector<ISprite*> sprites;
+			m_selection->traverse(FetchAllVisitor<ISprite>(sprites));
+			autoAlign(sprites);
 		}
 
 		return false;
@@ -289,6 +302,11 @@ namespace d2d
 				PrimitiveDraw::drawCircle(quad[i], SCALE_NODE_RADIUS, false, 2, Colorf(0.2f, 0.8f, 0.2f));
 		}
 
+		if (m_autoAlignHor[0] != m_autoAlignHor[1])
+			PrimitiveDraw::drawDashLine(m_autoAlignHor[0], m_autoAlignHor[1], Colorf(0, 0, 0));
+		if (m_autoAlignVer[0] != m_autoAlignVer[1])
+			PrimitiveDraw::drawDashLine(m_autoAlignVer[0], m_autoAlignVer[1], Colorf(0, 0, 0));
+
 		return false;
 	}
 
@@ -310,6 +328,7 @@ namespace d2d
 		m_selection->traverse(TranslateVisitor(delta));
 		if (!m_selection->empty()) 
 		{
+			m_autoAlignOpen = true;
 			if (m_propertyPanel && !m_bDirty)
 			{
 				m_propertyPanel->enablePropertyGrid(false);
@@ -371,6 +390,123 @@ namespace d2d
 
 		if (refresh) 
 			m_editPanel->Refresh();
+	}
+
+	template <typename TBase>
+	void ArrangeSpriteOP<TBase>::autoAlign(const std::vector<ISprite*>& sprites)
+	{
+		m_autoAlignHor[0].set(0, 0);
+		m_autoAlignHor[1].set(0, 0);
+		m_autoAlignVer[0].set(0, 0);
+		m_autoAlignVer[1].set(0, 0);
+
+		std::vector<ISprite*> sources;
+		m_spritesImpl->traverseSprites(FetchAllVisitor<ISprite>(sources));
+
+		// not support multi src now
+		if (sprites.size() > 1)
+			return;
+
+		for (size_t i = 0, n = sprites.size(); i < n; ++i)
+		{
+			for (size_t j = 0, m = sources.size(); j < m; ++j)
+			{
+				if (sprites[i] != sources[j])
+					autoAlign(sources[j], sprites[i]);
+			}
+		}
+	}
+
+	template <typename TBase>
+	void ArrangeSpriteOP<TBase>::autoAlign(const ISprite* src, ISprite* dst)
+	{
+		const float DIS = 5;
+		const float LEN = 400;
+
+		const float srcHalfWidth = src->getBounding()->width() * 0.5f,
+			srcHalfHeight = src->getBounding()->height() * 0.5f;
+		const float dstHalfWidth = dst->getBounding()->width() * 0.5f,
+			dstHalfHeight = dst->getBounding()->height() * 0.5f;
+
+		float srcLeft = src->getPosition().x - srcHalfWidth;
+		float srcRight = src->getPosition().x + srcHalfWidth;
+		float srcDown = src->getPosition().y - srcHalfHeight;
+		float srcUp = src->getPosition().y + srcHalfHeight;
+
+		// up
+		float nearest = DIS;
+		float dstUp = dst->getPosition().y + dstHalfHeight;
+		if (float dis = fabs(dstUp - srcUp) < nearest)
+		{
+			nearest = dis;
+			dst->setTransform(Vector(dst->getPosition().x, srcUp - dstHalfHeight), 
+				dst->getAngle());
+			m_autoAlignHor[0].set(dst->getPosition().x - LEN, srcUp);
+			m_autoAlignHor[1].set(dst->getPosition().x + LEN, srcUp);
+		}
+		else if (float dis = fabs(dstUp - srcDown) < nearest)
+		{
+			nearest = dis;
+			dst->setTransform(Vector(dst->getPosition().x, srcDown - dstHalfHeight), 
+				dst->getAngle());
+			m_autoAlignHor[0].set(dst->getPosition().x - LEN, srcDown);
+			m_autoAlignHor[1].set(dst->getPosition().x + LEN, srcDown);
+		}		
+		// down
+		float dstDown = dst->getPosition().y - dstHalfHeight;
+		if (float dis = fabs(dstDown - srcUp) < nearest)
+		{
+			nearest = dis;
+			dst->setTransform(Vector(dst->getPosition().x, srcUp + dstHalfHeight), 
+				dst->getAngle());
+			m_autoAlignHor[0].set(dst->getPosition().x - LEN, srcUp);
+			m_autoAlignHor[1].set(dst->getPosition().x + LEN, srcUp);
+		}
+		else if (float dis = fabs(dstDown - srcDown) < nearest)
+		{
+			nearest = dis;
+			dst->setTransform(Vector(dst->getPosition().x, srcDown + dstHalfHeight), 
+				dst->getAngle());
+			m_autoAlignHor[0].set(dst->getPosition().x - LEN, srcDown);
+			m_autoAlignHor[1].set(dst->getPosition().x + LEN, srcDown);
+		}	
+		// left
+		nearest = DIS;
+		float dstLeft = dst->getPosition().x - dstHalfWidth;
+		if (float dis = fabs(dstLeft - srcLeft) < nearest)
+		{
+			nearest = dis;
+			dst->setTransform(Vector(srcLeft + dstHalfWidth, dst->getPosition().y), 
+				dst->getAngle());
+			m_autoAlignVer[0].set(srcLeft, dst->getPosition().y - LEN);
+			m_autoAlignVer[1].set(srcLeft, dst->getPosition().y + LEN);
+		}
+		else if (float dis = fabs(dstLeft - srcRight) < nearest)
+		{
+			nearest = dis;
+			dst->setTransform(Vector(srcRight + dstHalfWidth, dst->getPosition().y),
+				dst->getAngle());
+			m_autoAlignVer[0].set(srcRight, dst->getPosition().y - LEN);
+			m_autoAlignVer[1].set(srcRight, dst->getPosition().y + LEN);
+		}
+		// right
+		float dstRight = dst->getPosition().x + dstHalfWidth;
+		if (float dis = fabs(dstRight - srcLeft) < nearest)
+		{
+			nearest = dis;
+			dst->setTransform(Vector(srcLeft - dstHalfWidth, dst->getPosition().y), 
+				dst->getAngle());
+			m_autoAlignVer[0].set(srcLeft, dst->getPosition().y - LEN);
+			m_autoAlignVer[1].set(srcLeft, dst->getPosition().y + LEN);
+		}
+		else if (float dis = fabs(dstRight - srcRight) < nearest)
+		{
+			nearest = dis;
+			dst->setTransform(Vector(srcRight - dstHalfWidth, dst->getPosition().y),
+				dst->getAngle());
+			m_autoAlignVer[0].set(srcRight, dst->getPosition().y - LEN);
+			m_autoAlignVer[1].set(srcRight, dst->getPosition().y + LEN);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
