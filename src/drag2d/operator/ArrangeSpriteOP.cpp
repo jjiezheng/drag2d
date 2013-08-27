@@ -407,14 +407,106 @@ namespace d2d
 		if (sprites.size() > 1)
 			return;
 
-		for (size_t i = 0, n = sprites.size(); i < n; ++i)
+		const float DIS = 5;
+
+		ISprite *horNearest = NULL, *verNearest = NULL;
+		float disHor = DIS, disVer = DIS;
+		// hor
+		for (size_t i = 0, n = sources.size(); i < n; ++i)
 		{
-			for (size_t j = 0, m = sources.size(); j < m; ++j)
+			ISprite *dst = sprites[0], *src = sources[i];
+
+			if (src == dst) continue;
+
+			const float srcHalfHeight = src->getBounding()->height() * 0.5f;
+			const float dstHalfHeight = dst->getBounding()->height() * 0.5f;
+
+			float srcDown = src->getPosition().y - srcHalfHeight;
+			float srcUp = src->getPosition().y + srcHalfHeight;
+
+			float dstDown = dst->getPosition().y - dstHalfHeight;
+			float dstUp = dst->getPosition().y + dstHalfHeight;
+
+			// up
+			if (float dis = fabs(dstUp - srcUp) < disHor)
 			{
-				if (sprites[i] != sources[j])
-					autoAlign(sources[j], sprites[i]);
+				disHor = dis;
+				horNearest = src;
+			}
+			else if (float dis = fabs(dstUp - srcDown) < disHor)
+			{
+				disHor = dis;
+				horNearest = src;
+			}
+			// down
+			if (float dis = fabs(dstDown - srcUp) < disHor)
+			{
+				disHor = dis;
+				horNearest = src;
+			}
+			else if (float dis = fabs(dstDown - srcDown) < disHor)
+			{
+				disHor = dis;
+				horNearest = src;
+			}	
+		}
+		// ver
+		for (size_t i = 0, n = sources.size(); i < n; ++i)
+		{
+			ISprite *dst = sprites[0], *src = sources[i];
+
+			if (src == dst) continue;
+
+			const float srcHalfWidth = src->getBounding()->width() * 0.5f;
+			const float dstHalfWidth = dst->getBounding()->width() * 0.5f;
+
+			float srcLeft = src->getPosition().x - srcHalfWidth;
+			float srcRight = src->getPosition().x + srcHalfWidth;
+
+			float dstLeft = dst->getPosition().x - dstHalfWidth;
+			float dstRight = dst->getPosition().x + dstHalfWidth;
+
+			// left
+			if (float dis = fabs(dstLeft - srcLeft) < disVer)
+			{
+				disVer = dis;
+				verNearest = src;
+			}
+			else if (float dis = fabs(dstLeft - srcRight) < disVer)
+			{
+				disVer = dis;
+				verNearest = src;
+			}
+			// right
+			if (float dis = fabs(dstRight - srcLeft) < disVer)
+			{
+				disVer = dis;
+				verNearest = src;
+			}
+			else if (float dis = fabs(dstRight - srcRight) < disVer)
+			{
+				disVer = dis;
+				verNearest = src;
 			}
 		}
+
+		//////////////////////////////////////////////////////////////////////////
+
+		if (horNearest)
+			autoAlign(horNearest, sprites[0]);
+		if (verNearest && verNearest != horNearest)
+			autoAlign(verNearest, sprites[0]);
+
+		//////////////////////////////////////////////////////////////////////////
+
+// 		for (size_t i = 0, n = sprites.size(); i < n; ++i)
+// 		{
+// 			for (size_t j = 0, m = sources.size(); j < m; ++j)
+// 			{
+// 				if (sprites[i] != sources[j])
+// 					autoAlign(sources[j], sprites[i]);
+// 			}
+// 		}
 	}
 
 	template <typename TBase>
