@@ -62,10 +62,10 @@ wxString FilenameTools::getFilenameWithExtension(const wxString& filepath)
 	return filepath.substr(filepath.find_last_of('\\') + 1);
 }
 
-wxString FilenameTools::getRelativePath(const wxString& dlg, const wxString& absolute)
+wxString FilenameTools::getRelativePath(const wxString& dir, const wxString& absolute)
 {
 // 	size_t start = 0;
-// 	while (dlg.size() > start && filepath.size() > start && dlg[start] == filepath[start])
+// 	while (dir.size() > start && filepath.size() > start && dir[start] == filepath[start])
 // 		++start;
 // 	wxString ret = filepath.substr(start);
 // 	ret.Replace('\\', '/');
@@ -74,15 +74,19 @@ wxString FilenameTools::getRelativePath(const wxString& dlg, const wxString& abs
 	//////////////////////////////////////////////////////////////////////////
 
 	wxFileName filename(absolute);
-	filename.MakeRelativeTo(dlg);
+	filename.MakeRelativeTo(dir);
 	return filename.GetFullPath().ToStdString();
 }
 
-wxString FilenameTools::getAbsolutePath(const wxString& dlg, const wxString& relative)
+wxString FilenameTools::getAbsolutePath(const wxString& dir, const wxString& relative)
 {
 	wxFileName filename(relative);
-	filename.MakeAbsolute(dlg);
-	return filename.GetFullPath();
+	filename.MakeAbsolute(dir);
+	wxString filepath = filename.GetFullPath();
+	if (!isExist(filepath))
+		return getExistFilepath(relative, dir);
+	else
+		return filepath;
 }
 
 wxString FilenameTools::getFilePathExceptExtension(const wxString& filepath)
