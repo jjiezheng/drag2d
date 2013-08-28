@@ -148,3 +148,15 @@ wxString FilenameTools::getExistFilepath(const wxString& filepath, const wxStrin
 		return filepathFixed;
 	}
 }
+
+void FilenameTools::formatSeparators(std::string& filepath)
+{
+	const std::string oldVal = "\\", newVal = "/";
+	for(std::string::size_type pos(0); pos != std::string::npos; pos += oldVal.length())   
+	{   
+		if((pos = filepath.find(oldVal, pos)) != std::string::npos)
+			filepath.replace(pos, oldVal.length(), newVal);   
+		else   
+			break;   
+	}   
+}

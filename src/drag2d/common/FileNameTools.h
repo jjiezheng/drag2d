@@ -60,6 +60,9 @@ namespace d2d
 
 		static wxString getExistFilepath(const wxString& filepath, const wxString& dir = wxEmptyString);
 
+		// use '/' replace '\'
+		static void formatSeparators(std::string& filepath);
+
 	}; // FilenameTools
 }
 

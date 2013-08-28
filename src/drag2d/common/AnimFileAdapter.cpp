@@ -32,6 +32,8 @@ void AnimFileAdapter::load(const char* filename)
 	reader.parse(fin, value);
 	fin.close();
 
+	name = value["name"].asString();
+
 	fps = value["fps"].asInt();
 
 	int i = 0;

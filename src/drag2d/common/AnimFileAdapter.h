@@ -69,6 +69,8 @@ namespace d2d
 		Entry* loadEntry(const Json::Value& entryValue, const wxString& dlg);
 
 	public:
+		std::string name;
+
 		int fps;
 
 		std::vector<Layer*> layers;

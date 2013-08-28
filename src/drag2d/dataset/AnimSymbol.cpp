@@ -132,6 +132,8 @@ void AnimSymbol::loadResources()
 	AnimFileAdapter adapter;
 	adapter.load(m_filepath.c_str());
 
+	m_name = name = adapter.name;
+
 	m_fps = adapter.fps;
 
 	std::string dlg = FilenameTools::getFileDir(m_filepath);
