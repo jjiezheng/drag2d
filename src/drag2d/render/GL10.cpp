@@ -151,3 +151,8 @@ void GL10::VertexPointer(int size, int type, int stride, const void* pointer)
 {
 	glVertexPointer(size, type, stride, pointer);
 }
+
+void GL10::GetTexImage(int target, int level, int format, int type, void* img)
+{
+	glGetTexImage(target, level, format, type, img);
+}

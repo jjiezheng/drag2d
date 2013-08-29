@@ -106,8 +106,13 @@ namespace d2d
 		static const int GL_TEXTURE_2D = 0x0DE1;
 		static const int GL_TEXTURE_WIDTH = 0x1000;
 		static const int GL_TEXTURE_HEIGHT = 0x1001;
+		static const int GL_TEXTURE_INTERNAL_FORMAT = 0x1003;
 
 		static const int GL_LINE_STIPPLE = 0x0B24;
+
+		/* PixelFormat */
+		static const int GL_RGB = 0x1907;
+		static const int GL_RGBA = 0x1908;
 
 		static void Begin(int mode);
 
@@ -160,6 +165,8 @@ namespace d2d
 		static void Vertex3f(float x, float y, float z);
 
 		static void VertexPointer(int size, int type, int stride, const void* pointer);
+
+		static void GetTexImage(int target, int level, int format, int type, void* img);
 
 	}; // GL10
 }
