@@ -20,6 +20,7 @@
 #define D2D_IMAGE_H
 
 #include "common/ResourcesMgr.h"
+#include "common/Rect.h"
 
 #include <wx/wx.h>
 
@@ -44,11 +45,18 @@ namespace d2d
 
 		void draw() const;
 
+		const Rect& getRegion() const { return m_region; }
+
+	private:
+		void removeTransparentBorder();
+		bool isTransparent(unsigned char* pixels, int x, int y, int channels);
+
 	private:
 		wxString m_filepath;
 
 		mutable unsigned int m_textureID;
 		int m_width, m_height;
+		Rect m_region;
 
 	}; // Image
 }

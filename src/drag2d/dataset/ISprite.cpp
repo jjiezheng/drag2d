@@ -106,7 +106,12 @@ void ISprite::translate(const Vector& offset)
 void ISprite::rotate(float delta)
 {
 	m_angle += delta;
+
 	m_bounding->rotate(delta);
+
+	Vector offset = m_bounding->center() - m_pos;
+	Vector dst = Math::rotateVector(offset, delta);
+	m_bounding->translate(dst - offset);
 }
 
 const Vector& ISprite::getPosition() const

@@ -56,6 +56,7 @@ bool Image::loadFromFile(const wxString& filepath)
 		GL10::GetTexLevelParameteriv(GL10::GL_TEXTURE_2D, 0, GL10::GL_TEXTURE_WIDTH, &m_width);
 		GL10::GetTexLevelParameteriv(GL10::GL_TEXTURE_2D, 0, GL10::GL_TEXTURE_HEIGHT, &m_height);
 		GL10::BindTexture(GL10::GL_TEXTURE_2D, NULL);
+		removeTransparentBorder();
 		return true;
 	}
 }
@@ -91,4 +92,93 @@ void Image::draw() const
 	GL10::BindTexture(GL10::GL_TEXTURE_2D, NULL);
 
 	GL10::Disable(GL10::GL_BLEND);
+}
+
+void Image::removeTransparentBorder()
+{
+	GL10::BindTexture(GL10::GL_TEXTURE_2D, m_textureID);
+
+	int internalFormat;
+	int channels;
+	GL10::GetTexLevelParameteriv(GL10::GL_TEXTURE_2D, 0, GL10::GL_TEXTURE_INTERNAL_FORMAT, &internalFormat);
+	int numBytes = 0;
+	switch(internalFormat)
+	{
+	case GL10::GL_RGB:
+		channels = 3;
+		numBytes = m_width * m_height * channels;
+		break;
+	case GL10::GL_RGBA:
+		channels = 4;
+		numBytes = m_width * m_height * channels;
+		break;
+	default:
+		break;
+	}
+
+	if(numBytes)
+	{
+		unsigned char* pixels = (unsigned char*)malloc(numBytes);
+		GL10::GetTexImage(GL10::GL_TEXTURE_2D, 0, internalFormat, GL10::GL_UNSIGNED_BYTE, pixels);
+		
+		// down
+		m_region.yMin = 0;
+		for (size_t i = 0; i < m_height; ++i)
+		{
+			size_t j = 0;
+			for ( ; j < m_width; ++j)
+				if (!isTransparent(pixels, j, i, channels))
+					break;
+			if (j == m_width) ++m_region.yMin;
+			else break;
+		}
+		// up
+ 		m_region.yMax = m_height;
+ 		for (size_t i = m_height - 1; i >= 0; --i)
+		{
+			size_t j = 0;
+			for ( ; j < m_width; ++j)
+				if (!isTransparent(pixels, j, i, channels))
+					break;
+			if (j == m_width) --m_region.yMax;
+			else break;
+		}
+		// left
+		m_region.xMin = 0;
+		for (size_t i = 0; i < m_width; ++i)
+		{
+			size_t j = 0;
+			for ( ; j < m_height; ++j)
+				if (!isTransparent(pixels, i, j, channels))
+					break;
+			if (j == m_height) ++m_region.xMin;
+			else break;
+		}
+		// right
+		m_region.xMax = m_width;
+		for (size_t i = m_width - 1; i >= 0; --i)
+		{
+			size_t j = 0;
+			for ( ; j < m_height; ++j)
+				if (!isTransparent(pixels, i, j, channels))
+					break;
+			if (j == m_height) --m_region.xMax;
+			else break;
+		}
+
+		free(pixels);
+
+		m_region.translate(Vector(-m_width*0.5f, -m_height*0.5f));
+	}
+
+	GL10::Disable(GL10::GL_BLEND);
+}
+
+bool Image::isTransparent(unsigned char* pixels, int x, int y, int channels)
+{
+	int ptr = (m_width * y + x) * channels;
+	for (size_t i = 0; i < channels; ++i)
+		if (pixels[ptr+i])
+			return false;
+	return true;
 }

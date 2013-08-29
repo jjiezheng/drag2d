@@ -121,16 +121,27 @@ void ImageSprite::buildBounding()
 {
 	if (!m_symbol) return;
 
-	const float hWidth = m_symbol->getWidth() * 0.5f * m_xScale,
-		hHeight = m_symbol->getHeight() * 0.5f * m_yScale;
-
 	delete m_bounding;
 	m_bounding = BVFactory::createBV(e_obb);
-	Rect rect;
-	rect.xMin = -hWidth;
-	rect.xMax = hWidth;
-	rect.yMin = -hHeight;
-	rect.yMax = hHeight;
+
+	//////////////////////////////////////////////////////////////////////////
+
+// 	const float hWidth = m_symbol->getWidth() * 0.5f * m_xScale,
+// 		hHeight = m_symbol->getHeight() * 0.5f * m_yScale;
+// 
+// 	Rect rect;
+// 	rect.xMin = -hWidth;
+// 	rect.xMax = hWidth;
+// 	rect.yMin = -hHeight;
+// 	rect.yMax = hHeight;
+// 	rect.translate(m_pos);
+// 	m_bounding->initFromRect(rect);
+// 	m_bounding->rotate(m_angle);
+
+	//////////////////////////////////////////////////////////////////////////
+
+	Rect rect = m_symbol->getImage()->getRegion();
+	rect.scale(m_xScale, m_yScale);
 	rect.translate(m_pos);
 	m_bounding->initFromRect(rect);
 	m_bounding->rotate(m_angle);
