@@ -75,15 +75,18 @@ void VerticalImageList::insert(ListItem* item)
 
 void VerticalImageList::remove()
 {
-	int index = GetSelection();
-	if (index >= 0 && index < m_items.size())
-	{
-//		delete m_items[index];
-		m_items.erase(m_items.begin() + index);
-		onListSelected(wxCommandEvent(GetSelection()));
-		SetItemCount(m_items.size());
-		Refresh();
-	}
+	remove(GetSelection());
+}
+
+void VerticalImageList::remove(int index)
+{
+	if (index < 0 || index >= m_items.size())
+		return;
+
+	//	delete m_items[index];
+	m_items.erase(m_items.begin() + index);
+ 	SetItemCount(m_items.size());
+	Refresh();
 }
 
 void VerticalImageList::swap(int i0, int i1)

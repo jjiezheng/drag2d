@@ -93,6 +93,7 @@
 #include "view/MultiSpritesImpl.h"
 #include "view/PhysicsPanelImpl.h"
 #include "view/ToolbarPanel.h"
+#include "view/ViewlistPanel.h"
 
 #include "operator/AbstractEditOP.h"
 #include "operator/NullEditOP.h"

@@ -1833,6 +1833,26 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="viewlist"
+				>
+				<File
+					RelativePath="..\..\..\src\drag2d\view\ViewlistList.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\view\ViewlistList.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\view\ViewlistPanel.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\view\ViewlistPanel.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="widget"
