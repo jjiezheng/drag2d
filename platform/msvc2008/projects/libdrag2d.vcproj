@@ -773,6 +773,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\src\drag2d\common\Matrix.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\common\Matrix.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\drag2d\dataset\RawPixels.cpp"
 					>
 				</File>
@@ -1373,6 +1381,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\src\drag2d\common\ParticleFileAdapter.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\common\ParticleFileAdapter.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\drag2d\common\Patch9FileAdapter.cpp"
 					>
 				</File>
@@ -1455,14 +1471,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\drag2d\view\Camera.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\drag2d\view\GLCanvas.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\drag2d\view\GLCanvas.h"
 				>
 			</File>
 			<Filter
@@ -1733,14 +1741,6 @@
 				Name="stage"
 				>
 				<File
-					RelativePath="..\..\..\src\drag2d\view\DialogStageCanvas.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\drag2d\view\DialogStageCanvas.h"
-					>
-				</File>
-				<File
 					RelativePath="..\..\..\src\drag2d\view\EditPanel.cpp"
 					>
 				</File>
@@ -1817,6 +1817,42 @@
 					</File>
 					<File
 						RelativePath="..\..\..\src\drag2d\view\SpriteStageCanvas.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="canvas"
+					>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\DialogStageCanvas.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\DialogStageCanvas.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\GLCanvas.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\GLCanvas.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\OrthoCanvas.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\OrthoCanvas.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\PerspectCanvas.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\PerspectCanvas.h"
 						>
 					</File>
 				</Filter>

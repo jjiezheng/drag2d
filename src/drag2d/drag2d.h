@@ -64,7 +64,8 @@
 #include "dataset/Layer.h"
 #include "dataset/BVFactory.h"
 
-#include "view/GLCanvas.h"
+#include "view/OrthoCanvas.h"
+#include "view/PerspectCanvas.h"
 #include "view/Camera.h"
 #include "view/LibraryPanel.h"
 #include "view/ILibraryPage.h"
@@ -164,6 +165,7 @@
 #include "common/ShapeFileAdapter.h"
 #include "common/TexPackerAdapter.h"
 #include "common/TexturePackerFileAdapter.h"
+#include "common/ParticleFileAdapter.h"
 #include "common/Settings.h"
 #include "common/Math.h"
 #include "common/visitors.h"
