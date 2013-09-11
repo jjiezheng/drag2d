@@ -58,8 +58,8 @@ namespace d2d
 
 		Camera* getCamera() const { return m_camera; }
 
-		// In Stage, class StagePanel can't get focus, only its class StageGLCanvas has the focus, so 
-		// these two func should be called by StageGLCanvas.
+		// In Stage, class StagePanel can't get focus, only its class GLCanvas has the focus, so 
+		// these two func should be called by GLCanvas.
 		// While in SymbolEdit, class SymbolEditPanel can get focus.
 		void onMouse(wxMouseEvent& event);
 		virtual void onKeyDown(wxKeyEvent& event);

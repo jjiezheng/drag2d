@@ -81,23 +81,9 @@ void GLCanvas::initGL()
 void GLCanvas::onSize(wxSizeEvent& event)
 {
 	wxSize size = event.GetSize();
-
-	m_width = size.GetWidth();
-	m_height = size.GetHeight();
-	glViewport(0, 0, size.GetWidth(), size.GetHeight());
-
-	const float hWidth = size.GetWidth() * m_camera->getScale() * 0.5f,
-		hHeight = size.GetHeight() * m_camera->getScale() * 0.5f;
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluOrtho2D(
-		m_camera->getCenter().x - hWidth, 
-		m_camera->getCenter().x + hWidth, 
-		m_camera->getCenter().y - hHeight,
-		m_camera->getCenter().y + hHeight
-		);
-
-	glMatrixMode(GL_MODELVIEW);
+ 	m_width = size.GetWidth();
+ 	m_height = size.GetHeight();
+	onSize(m_width, m_height);
 }
 
 void GLCanvas::onPaint(wxPaintEvent& event)
