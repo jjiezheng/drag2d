@@ -77,7 +77,7 @@ void Image::draw() const
 	GL10::Enable(GL10::GL_BLEND);
 	GL10::BlendFunc(GL10::GL_SRC_ALPHA, GL10::GL_ONE_MINUS_SRC_ALPHA);
 
-	GL10::Color4f(1.0f, 1.0f, 1.0f, 1.0f);
+//	GL10::Color4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 	const float hWidth = m_width * 0.5f,
 		hHeight = m_height * 0.5f;
@@ -176,9 +176,11 @@ void Image::removeTransparentBorder()
 
 bool Image::isTransparent(unsigned char* pixels, int x, int y, int channels)
 {
-	int ptr = (m_width * y + x) * channels;
-	for (size_t i = 0; i < channels; ++i)
-		if (pixels[ptr+i])
-			return false;
-	return true;
+// 	int ptr = (m_width * y + x) * channels;
+// 	for (size_t i = 0; i < channels; ++i)
+// 		if (pixels[ptr+i])
+// 			return false;
+// 	return true;
+
+	return pixels[(m_width * y + x) * channels + channels - 1] == 0;
 }
