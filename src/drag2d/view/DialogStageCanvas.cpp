@@ -6,14 +6,14 @@
 using namespace d2d;
 
 DialogStageCanvas::DialogStageCanvas(EditPanel* editPanel, LibraryPanel* library)
-	: GLCanvas(editPanel)
+	: OrthoCanvas(editPanel)
 	, m_library(library)
 {
 }
 
 void DialogStageCanvas::initGL()
 {
-	d2d::GLCanvas::initGL();
+	d2d::OrthoCanvas::initGL();
 	m_library->reloadTexture();
 }
 

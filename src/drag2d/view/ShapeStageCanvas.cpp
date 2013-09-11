@@ -26,7 +26,7 @@ using namespace d2d;
 
 ShapeStageCanvas::ShapeStageCanvas(EditPanel* editPanel, MultiShapesImpl* shapesImpl, 
 								   const Colorf& color/* = Colorf(0.0f, 0.0f, 0.0f)*/)
-	: GLCanvas(editPanel)
+	: OrthoCanvas(editPanel)
 	, m_color(color)
 	, m_shapesImpl(shapesImpl)
 {

@@ -46,6 +46,7 @@ namespace d2d
 
 	protected:
 		virtual void initGL();
+		virtual void onSize(int w, int h) = 0;
 		virtual void onDraw() = 0;
 
 		void onSize(wxSizeEvent& event);

@@ -19,14 +19,14 @@
 #ifndef D2D_SHAPE_STAGE_CANVAS_H
 #define D2D_SHAPE_STAGE_CANVAS_H
 
-#include "GLCanvas.h"
+#include "OrthoCanvas.h"
 
 namespace d2d
 {
 	class EditPanel;
 	class MultiShapesImpl;
 
-	class ShapeStageCanvas : public GLCanvas
+	class ShapeStageCanvas : public OrthoCanvas
 	{
 	public:
 		ShapeStageCanvas(EditPanel* editPanel, MultiShapesImpl* shapesImpl, 

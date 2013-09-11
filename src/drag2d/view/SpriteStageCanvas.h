@@ -19,7 +19,7 @@
 #ifndef D2D_SPRITE_STAGE_CANVAS_H
 #define D2D_SPRITE_STAGE_CANVAS_H
 
-#include "GLCanvas.h"
+#include "OrthoCanvas.h"
 
 #include "render/SpriteBatch.h"
 
@@ -28,7 +28,7 @@ namespace d2d
 	class EditPanel;
 	class MultiSpritesImpl;
 
-	class SpriteStageCanvas : public GLCanvas
+	class SpriteStageCanvas : public OrthoCanvas
 	{
 	public:
 		SpriteStageCanvas(EditPanel* editPanel, MultiSpritesImpl* spritesImpl);

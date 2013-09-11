@@ -23,18 +23,18 @@
 
 namespace d2d
 {
-	class GLCanvas;
+	class OrthoCanvas;
 
 	class SelectDrawTypeWidget : public AbstractWidget
 	{
 	public:
-		SelectDrawTypeWidget(wxWindow* parent, GLCanvas* canvas);
+		SelectDrawTypeWidget(wxWindow* parent, OrthoCanvas* canvas);
 
 	private:
 		void onSetDrawType(wxCommandEvent& event);
 
 	private:
-		GLCanvas* m_canvas;
+		OrthoCanvas* m_canvas;
 
 	}; // SelectDrawTypeWidget
 }

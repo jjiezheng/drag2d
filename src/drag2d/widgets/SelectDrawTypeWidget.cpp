@@ -18,12 +18,12 @@
 
 #include "SelectDrawTypeWidget.h"
 
-#include "view/GLCanvas.h"
+#include "view/OrthoCanvas.h"
 #include "common/Settings.h"
 
 using namespace d2d;
 
-SelectDrawTypeWidget::SelectDrawTypeWidget(wxWindow* parent, GLCanvas* canvas)
+SelectDrawTypeWidget::SelectDrawTypeWidget(wxWindow* parent, OrthoCanvas* canvas)
 	: AbstractWidget(parent)
 	, m_canvas(canvas)
 {

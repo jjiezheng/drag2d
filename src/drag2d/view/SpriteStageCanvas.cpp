@@ -25,7 +25,7 @@
 using namespace d2d;
 
 SpriteStageCanvas::SpriteStageCanvas(EditPanel* editPanel, MultiSpritesImpl* spritesImpl)
-	: GLCanvas(editPanel)
+	: OrthoCanvas(editPanel)
 	, m_spritesImpl(spritesImpl)
 	, m_batch(500, SpriteBatch::USAGE_STATIC)
 {
