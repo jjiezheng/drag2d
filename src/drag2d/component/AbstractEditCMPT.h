@@ -27,7 +27,7 @@ namespace d2d
 	class EditPanel;
 	class AbstractEditOP;
 
-	class AbstractEditCMPT : public wxPanel
+	class AbstractEditCMPT : public wxScrolledWindow
 	{
 	public:
 		AbstractEditCMPT(wxWindow* parent, const wxString& name, EditPanel* editPanel,

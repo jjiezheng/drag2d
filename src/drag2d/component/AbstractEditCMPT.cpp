@@ -26,7 +26,7 @@ using namespace d2d;
 
 AbstractEditCMPT::AbstractEditCMPT(wxWindow* parent, const wxString& name, EditPanel* editPanel,
 								   const wxString& childrenName/* = wxEmptyString*/)
-	: wxPanel(parent)
+	: wxScrolledWindow(parent)
 	, m_editPanel(editPanel)
 	, m_editOP(NULL)
 	, m_name(name)
