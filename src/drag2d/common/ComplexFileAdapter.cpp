@@ -56,8 +56,16 @@ namespace d2d
 
 		entry.angle = value["angle"].asDouble();
 
-		entry.scale = value["scale"].asDouble();
-
+		if (value["scale"].isNull())
+		{
+			entry.xscale = value["x scale"].asDouble();
+			entry.yscale = value["y scale"].asDouble();
+		}
+		else
+		{
+			entry.xscale = entry.yscale = value["scale"].asDouble();
+		}
+		
 		entry.xMirror = value["x mirror"].asBool();
 		entry.yMirror = value["y mirror"].asBool();
 

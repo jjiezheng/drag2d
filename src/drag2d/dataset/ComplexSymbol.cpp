@@ -142,7 +142,7 @@ void ComplexSymbol::loadResources()
 
 		sprite->name = entry.name;
 		sprite->setTransform(entry.pos, entry.angle);
-		sprite->setScale(entry.scale);
+		sprite->setScale(entry.xscale, entry.yscale);
 		sprite->setMirror(entry.xMirror, entry.yMirror);
 
 		m_sprites.push_back(sprite);
