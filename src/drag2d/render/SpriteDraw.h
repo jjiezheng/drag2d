@@ -48,6 +48,10 @@ namespace d2d
 		static void begin(const ISprite* sprite);
 		static void end(const ISprite* sprite);
 
+	public:
+		// for AnimateSymbol
+		static float time;
+
 	}; // SpriteDraw
 }
 

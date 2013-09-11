@@ -122,6 +122,11 @@ void GL10::Scalef(float x, float y, float z)
 	glScalef(x, y, z);
 }
 
+void GL10::MultMatrixf(const float* m)
+{
+	glMultMatrixf(m);
+}
+
 void GL10::TexCoord2f(float s, float t)
 {
 	glTexCoord2f(s, t);

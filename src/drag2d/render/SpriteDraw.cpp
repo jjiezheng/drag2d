@@ -21,6 +21,7 @@
 #include "SpriteBatch.h"
 
 #include "common/Math.h"
+#include "common/Matrix.h"
 #include "dataset/ISprite.h"
 #include "dataset/ISymbol.h"
 #include "dataset/ImageSprite.h"
@@ -28,19 +29,31 @@
 
 using namespace d2d;
 
+float SpriteDraw::time = 0;
+
 void SpriteDraw::drawSprite(const ISprite* sprite)
 {
 	GL10::PushMatrix();
 
-	GL10::Translatef(sprite->getPosition().x, sprite->getPosition().y, 0.0f);
+// 	GL10::Translatef(sprite->getPosition().x, sprite->getPosition().y, 0.0f);
+// 
+// 	GL10::Rotatef(sprite->getAngle() * TRANS_RAD_TO_DEG, 0, 0, 1);
+// 
+// 	bool xMirror, yMirror;
+// 	sprite->getMirror(xMirror, yMirror);
+// 	const float xScale = xMirror ? -sprite->getScaleX() : sprite->getScaleX(),
+// 		yScale = yMirror ? -sprite->getScaleY() : sprite->getScaleY();
+// 	GL10::Scalef(xScale, yScale, 1.0f);
 
-	GL10::Rotatef(sprite->getAngle() * TRANS_RAD_TO_DEG, 0, 0, 1);
 
-	bool xMirror, yMirror;
-	sprite->getMirror(xMirror, yMirror);
-	const float xScale = xMirror ? -sprite->getScaleX() : sprite->getScaleX(),
-		yScale = yMirror ? -sprite->getScaleY() : sprite->getScaleY();
-	GL10::Scalef(xScale, yScale, 1.0f);
+	love::Matrix t;
+ 	bool xMirror, yMirror;
+ 	sprite->getMirror(xMirror, yMirror);
+ 	const float xScale = xMirror ? -sprite->getScaleX() : sprite->getScaleX(),
+ 		yScale = yMirror ? -sprite->getScaleY() : sprite->getScaleY();
+	t.setTransformation(sprite->getPosition().x, sprite->getPosition().y, sprite->getAngle(), 
+		xScale, yScale, 0, 0, 0, 1);
+	GL10::MultMatrixf((const float*)t.getElements( ));
 
 	sprite->getSymbol().draw(sprite);
 
@@ -52,10 +65,17 @@ void SpriteDraw::drawSprite(const ISymbol* symbol, const Vector& pos,
 							float yScale/* = 1.0f*/)
 {
 	yScale = xScale;
+
 	GL10::PushMatrix();
-	GL10::Translatef(pos.x, pos.y, 0.0f);
-	GL10::Scalef(xScale, yScale, 1.0f);
-	GL10::Rotatef(angle * TRANS_RAD_TO_DEG, 0, 0, 1);
+
+// 	GL10::Translatef(pos.x, pos.y, 0.0f);
+// 	GL10::Scalef(xScale, yScale, 1.0f);
+// 	GL10::Rotatef(angle * TRANS_RAD_TO_DEG, 0, 0, 1);
+
+	love::Matrix t;
+	t.setTransformation(pos.x, pos.y, angle, xScale, yScale, 0, 0, 0, 0);
+	GL10::MultMatrixf((const float*)t.getElements());
+
 	symbol->draw();
 	GL10::PopMatrix();
 }
