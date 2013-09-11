@@ -18,6 +18,7 @@
 
 #include "AnimSymbol.h"
 #include "ISprite.h"
+#include "AnimSprite.h"
 #include "SymbolMgr.h"
 #include "SpriteFactory.h"
 
@@ -83,16 +84,31 @@ void AnimSymbol::reloadTexture() const
 
 void AnimSymbol::draw(const ISprite* sprite/* = NULL*/) const
 {
+	int index = SpriteDraw::time / (1.0f / m_fps);
+	index = index % getMaxFrameIndex();
+
 	for (size_t i = 0, n = m_layers.size(); i < n; ++i)
 	{
 		Layer* layer = m_layers[i];
 		if (!layer->frames.empty())
 		{
-			Frame* frame = layer->frames[0];
-			for (size_t j = 0, m = frame->sprites.size(); j < m; ++j)
+			Frame* frame = NULL;
+			for (int i = layer->frames.size() - 1; i >= 0; --i)
 			{
-				d2d::ISprite* sprite = frame->sprites[j];
-				SpriteDraw::drawSprite(sprite);
+				if (layer->frames[i]->index <= index)
+				{
+					frame = layer->frames[i];
+					break;
+				}
+			}
+
+			if (frame)
+			{
+				for (size_t j = 0, m = frame->sprites.size(); j < m; ++j)
+				{
+					d2d::ISprite* sprite = frame->sprites[j];
+					SpriteDraw::drawSprite(sprite);
+				}
 			}
 		}
 	}
@@ -147,6 +163,7 @@ void AnimSymbol::loadResources()
 		{
 			Frame* dstFrame = new Frame;
 			AnimFileAdapter::Frame* srcFrame = srcLayer->frames[j];
+			dstFrame->id = srcFrame->id;
 			dstFrame->index = srcFrame->index;
 			dstFrame->bClassicTween = srcFrame->bClassicTween;
 			for (size_t k = 0, l = srcFrame->entries.size(); k < l; ++k)
