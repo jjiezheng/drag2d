@@ -46,6 +46,8 @@ namespace d2d
 
 		struct Frame
 		{
+			int id;
+
 			int index;
 
 			std::vector<Entry*> entries;

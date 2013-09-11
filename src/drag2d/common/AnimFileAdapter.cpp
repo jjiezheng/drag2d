@@ -69,6 +69,7 @@ AnimFileAdapter::Frame* AnimFileAdapter::loadFrame(const Json::Value& frameValue
 	int time = frameValue["time"].asInt();
 
 	Frame* frame = new Frame;
+	frame->id = frameValue["id"].asInt();
 	frame->index = time;
 	frame->bClassicTween = frameValue["tween"].asBool();
 
