@@ -154,6 +154,8 @@ namespace d2d
 
 		static void Scalef(float x, float y, float z);
 
+		static void MultMatrixf(const float* m);
+
 		static void TexCoord2f(float s, float t);
 
 		static void TexCoordPointer(int size, int type, int stride, const void* pointer);
