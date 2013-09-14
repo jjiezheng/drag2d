@@ -35,24 +35,13 @@ void SpriteDraw::drawSprite(const ISprite* sprite)
 {
 	GL10::PushMatrix();
 
-// 	GL10::Translatef(sprite->getPosition().x, sprite->getPosition().y, 0.0f);
-// 
-// 	GL10::Rotatef(sprite->getAngle() * TRANS_RAD_TO_DEG, 0, 0, 1);
-// 
-// 	bool xMirror, yMirror;
-// 	sprite->getMirror(xMirror, yMirror);
-// 	const float xScale = xMirror ? -sprite->getScaleX() : sprite->getScaleX(),
-// 		yScale = yMirror ? -sprite->getScaleY() : sprite->getScaleY();
-// 	GL10::Scalef(xScale, yScale, 1.0f);
-
-
 	love::Matrix t;
  	bool xMirror, yMirror;
  	sprite->getMirror(xMirror, yMirror);
  	const float xScale = xMirror ? -sprite->getScaleX() : sprite->getScaleX(),
  		yScale = yMirror ? -sprite->getScaleY() : sprite->getScaleY();
 	t.setTransformation(sprite->getPosition().x, sprite->getPosition().y, sprite->getAngle(), 
-		xScale, yScale, 0, 0, 0, 1);
+		xScale, yScale, 0, 0, sprite->getShearX(), sprite->getShearY());
 	GL10::MultMatrixf((const float*)t.getElements( ));
 
 	sprite->getSymbol().draw(sprite);
@@ -62,18 +51,15 @@ void SpriteDraw::drawSprite(const ISprite* sprite)
 
 void SpriteDraw::drawSprite(const ISymbol* symbol, const Vector& pos,
 							float angle/* = 0.0f*/, float xScale/* = 1.0f*/, 
-							float yScale/* = 1.0f*/)
+							float yScale/* = 1.0f*/, float xShear/* = 0.0f*/, 
+							float yShear/* = 0.0f*/)
 {
 	yScale = xScale;
 
 	GL10::PushMatrix();
 
-// 	GL10::Translatef(pos.x, pos.y, 0.0f);
-// 	GL10::Scalef(xScale, yScale, 1.0f);
-// 	GL10::Rotatef(angle * TRANS_RAD_TO_DEG, 0, 0, 1);
-
 	love::Matrix t;
-	t.setTransformation(pos.x, pos.y, angle, xScale, yScale, 0, 0, 0, 0);
+	t.setTransformation(pos.x, pos.y, angle, xScale, yScale, 0, 0, xShear, yShear);
 	GL10::MultMatrixf((const float*)t.getElements());
 
 	symbol->draw();

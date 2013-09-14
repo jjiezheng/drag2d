@@ -33,6 +33,7 @@ ISprite::ISprite()
 	m_pos.set(0.0f, 0.0f);
 	m_angle = 0.0f;
 	m_xScale = m_yScale = 1.0f;
+	m_xShear = m_yShear = 0.0f;
 	m_xMirror = m_yMirror = false;
 	m_bounding = NULL;
 }
@@ -43,6 +44,8 @@ ISprite::ISprite(const ISprite& sprite)
 	m_angle = sprite.m_angle;
 	m_xScale = sprite.m_xScale;
 	m_yScale = sprite.m_yScale;
+	m_xShear = sprite.m_xShear;
+	m_yShear = sprite.m_yShear;
 	m_xMirror = sprite.m_xMirror;
 	m_yMirror = sprite.m_yMirror;
 	m_bounding = sprite.m_bounding->clone();
@@ -85,6 +88,13 @@ void ISprite::setScale(float scale)
 {
 	m_xScale = m_yScale = scale;
 	afterScaleChanged();
+}
+
+void ISprite::setShear(float xShear, float yShear)
+{
+	m_xShear = xShear;
+	m_yShear = yShear;
+	// todo: change bounding
 }
 
 bool ISprite::isContain(const Vector& pos) const

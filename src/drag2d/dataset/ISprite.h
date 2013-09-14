@@ -56,6 +56,7 @@ namespace d2d
 		virtual void setTransform(const Vector& position, float angle);
 		void setScale(float xScale, float yScale);
 		void setScale(float scale);
+		void setShear(float xShear, float yShear);
 
 		bool isContain(const Vector& pos) const;
 		bool isIntersect(const Rect& rect) const;
@@ -67,6 +68,8 @@ namespace d2d
 		float getAngle() const;
 		float getScaleX() const { return m_xScale; }
 		float getScaleY() const { return m_yScale; }
+		float getShearX() const { return m_xShear; }
+		float getShearY() const { return m_yShear; }
 
 		void setMirror(bool xMirror, bool yMirror) { m_xMirror = xMirror; m_yMirror = yMirror; }
 		void getMirror(bool& xMirror, bool& yMirror) const { xMirror = m_xMirror; yMirror = m_yMirror; }
@@ -88,6 +91,7 @@ namespace d2d
 		Vector m_pos;
 		float m_angle;
 		float m_xScale, m_yScale;
+		float m_xShear, m_yShear;
 
 		bool m_xMirror, m_yMirror;
 

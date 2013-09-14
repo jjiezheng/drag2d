@@ -181,6 +181,7 @@ void AnimSymbol::loadResources()
 
 				sprite->setTransform(entry->pos, entry->angle);
 				sprite->setScale(entry->xScale, entry->yScale);
+				sprite->setShear(entry->xShear, entry->yShear);
 				sprite->setMirror(entry->xMirror, entry->yMirror);
 
 				dstFrame->sprites.push_back(sprite);

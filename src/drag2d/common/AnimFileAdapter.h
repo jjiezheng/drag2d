@@ -41,6 +41,7 @@ namespace d2d
 			Vector pos;
 			float angle;
 			float xScale, yScale;
+			float xShear, yShear;
 			bool xMirror, yMirror;
 		};
 

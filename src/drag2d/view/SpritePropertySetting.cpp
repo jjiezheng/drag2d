@@ -43,6 +43,8 @@ void SpritePropertySetting::updatePanel(PropertySettingPanel* panel)
  		pg->GetProperty(wxT("Angle"))->SetValue(m_sprite->getAngle());
  		pg->GetProperty(wxT("Scale X"))->SetValue(m_sprite->getScaleX());
 		pg->GetProperty(wxT("Scale Y"))->SetValue(m_sprite->getScaleY());
+		pg->GetProperty(wxT("Shear X"))->SetValue(m_sprite->getShearX());
+		pg->GetProperty(wxT("Shear Y"))->SetValue(m_sprite->getShearY());
 
  		bool xMirror, yMirror;
  		m_sprite->getMirror(xMirror, yMirror);
@@ -77,6 +79,14 @@ void SpritePropertySetting::updatePanel(PropertySettingPanel* panel)
 		pg->SetPropertyAttribute(wxT("Scale Y"), wxPG_ATTR_UNITS, wxT("multiple"));
 		pg->SetPropertyAttribute(wxT("Scale Y"), "Precision", 2);
 
+		pg->Append(new wxFloatProperty(wxT("Shear X"), wxPG_LABEL, m_sprite->getShearX()));
+		pg->SetPropertyAttribute(wxT("Shear X"), wxPG_ATTR_UNITS, wxT("multiple"));
+		pg->SetPropertyAttribute(wxT("Shear X"), "Precision", 2);
+
+		pg->Append(new wxFloatProperty(wxT("Shear Y"), wxPG_LABEL, m_sprite->getShearY()));
+		pg->SetPropertyAttribute(wxT("Shear Y"), wxPG_ATTR_UNITS, wxT("multiple"));
+		pg->SetPropertyAttribute(wxT("Shear Y"), "Precision", 2);
+
 		bool xMirror, yMirror;
 		m_sprite->getMirror(xMirror, yMirror);
 		pg->Append(new wxBoolProperty(wxT("Horizontal Mirror"), wxPG_LABEL, xMirror));
@@ -101,6 +111,10 @@ void SpritePropertySetting::onPropertyGridChange(const wxString& name, const wxA
 		m_sprite->setScale(wxANY_AS(value, float), m_sprite->getScaleY());
 	else if (name == wxT("Scale Y"))
 		m_sprite->setScale(m_sprite->getScaleX(), wxANY_AS(value, float));
+	else if (name == wxT("Shear X"))
+		m_sprite->setShear(wxANY_AS(value, float), m_sprite->getShearY());
+	else if (name == wxT("Shear Y"))
+		m_sprite->setShear(m_sprite->getShearX(), wxANY_AS(value, float));
 	else if (name == wxT("Horizontal Mirror"))
 	{
 		bool xMirror, yMirror;
@@ -154,6 +168,14 @@ void SpritePropertySetting::enablePropertyGrid(PropertySettingPanel* panel, bool
 		pg->SetPropertyAttribute(wxT("Scale Y"), wxPG_ATTR_UNITS, wxT("multiple"));
 		pg->SetPropertyAttribute(wxT("Scale Y"), "Precision", 2);
 
+		pg->Append(new wxFloatProperty(wxT("Shear X"), wxPG_LABEL, m_sprite->getShearX()));
+		pg->SetPropertyAttribute(wxT("Shear X"), wxPG_ATTR_UNITS, wxT("multiple"));
+		pg->SetPropertyAttribute(wxT("Shear X"), "Precision", 2);
+
+		pg->Append(new wxFloatProperty(wxT("Shear Y"), wxPG_LABEL, m_sprite->getShearY()));
+		pg->SetPropertyAttribute(wxT("Shear Y"), wxPG_ATTR_UNITS, wxT("multiple"));
+		pg->SetPropertyAttribute(wxT("Shear Y"), "Precision", 2);
+
 		bool xMirror, yMirror;
 		m_sprite->getMirror(xMirror, yMirror);
 		pg->Append(new wxBoolProperty(wxT("Horizontal Mirror"), wxPG_LABEL, xMirror));
@@ -167,6 +189,8 @@ void SpritePropertySetting::enablePropertyGrid(PropertySettingPanel* panel, bool
 	pg->GetProperty(wxT("Angle"))->Enable(bEnable);
 	pg->GetProperty(wxT("Scale X"))->Enable(bEnable);
 	pg->GetProperty(wxT("Scale Y"))->Enable(bEnable);
+	pg->GetProperty(wxT("Shear X"))->Enable(bEnable);
+	pg->GetProperty(wxT("Shear Y"))->Enable(bEnable);
 	pg->GetProperty(wxT("Horizontal Mirror"))->Enable(bEnable);
 	pg->GetProperty(wxT("Vertical Mirror"))->Enable(bEnable);
 }
