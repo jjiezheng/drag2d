@@ -22,6 +22,10 @@
 
 #include <SOIL/SOIL.h>
 
+#include "ImageLoader.h"
+
+#include <fstream>
+
 using namespace d2d;
 
 Image::Image()
@@ -33,43 +37,59 @@ Image::Image()
 bool Image::loadFromFile(const wxString& filepath)
 {
 	m_filepath = filepath;
+ 
+//	return true;
 
-	reload();
-
-	//  	LibJpeg::ImageData data;
-	//  	LibJpeg::read_JPEG_file(m_filepath.c_str(), data);
-	//  	m_textureID = SOIL_internal_create_OGL_texture(
-	//  		data.pixels, data.width, data.height, data.channels,
-	//  		m_textureID, SOIL_FLAG_INVERT_Y,
-	//  		GL_TEXTURE_2D, GL_TEXTURE_2D,
-	//  		GL_MAX_TEXTURE_SIZE );
-	//  	delete[] data.pixels;
-
-	if (m_textureID == 0)
-	{
-		m_width = m_height = 0;
-		return false;
-	}
-	else
-	{
-		GL10::BindTexture(GL10::GL_TEXTURE_2D, m_textureID);
-		GL10::GetTexLevelParameteriv(GL10::GL_TEXTURE_2D, 0, GL10::GL_TEXTURE_WIDTH, &m_width);
-		GL10::GetTexLevelParameteriv(GL10::GL_TEXTURE_2D, 0, GL10::GL_TEXTURE_HEIGHT, &m_height);
-		GL10::BindTexture(GL10::GL_TEXTURE_2D, NULL);
-		removeTransparentBorder();
-		return true;
-	}
+ 	reload();
+ 
+ 	//  	LibJpeg::ImageData data;
+ 	//  	LibJpeg::read_JPEG_file(m_filepath.c_str(), data);
+ 	//  	m_textureID = SOIL_internal_create_OGL_texture(
+ 	//  		data.pixels, data.width, data.height, data.channels,
+ 	//  		m_textureID, SOIL_FLAG_INVERT_Y,
+ 	//  		GL_TEXTURE_2D, GL_TEXTURE_2D,
+ 	//  		GL_MAX_TEXTURE_SIZE );
+ 	//  	delete[] data.pixels;
+ 
+ 	if (m_textureID == 0)
+ 	{
+ 		m_width = m_height = 0;
+ 		return false;
+ 	}
+ 	else
+ 	{
+ 		GL10::BindTexture(GL10::GL_TEXTURE_2D, m_textureID);
+ 		GL10::GetTexLevelParameteriv(GL10::GL_TEXTURE_2D, 0, GL10::GL_TEXTURE_WIDTH, &m_width);
+ 		GL10::GetTexLevelParameteriv(GL10::GL_TEXTURE_2D, 0, GL10::GL_TEXTURE_HEIGHT, &m_height);
+ 		GL10::BindTexture(GL10::GL_TEXTURE_2D, NULL);
+ 		removeTransparentBorder();
+ 		return true;
+ 	}
 }
 
 void Image::reload() const
 {
-	m_textureID = SOIL_load_OGL_texture
-		(
-		m_filepath.c_str(),
-		SOIL_LOAD_AUTO,
-		m_textureID,
-		SOIL_FLAG_INVERT_Y
-		);
+// 	m_textureID = SOIL_load_OGL_texture
+// 		(
+// 		m_filepath.c_str(),
+// 		SOIL_LOAD_AUTO,
+// 		m_textureID,
+// 		SOIL_FLAG_INVERT_Y
+// 		);
+
+	std::ifstream fin(m_filepath.fn_str(), std::ios::binary);
+	assert(!fin.fail());
+
+	// get length of file:
+	fin.seekg (0, fin.end);
+	int length = fin.tellg();
+	fin.seekg (0, fin.beg);
+
+	char* buffer = new char[length];
+	fin.read (buffer,length);
+	m_textureID = ImageLoader::loadTexture(buffer);
+
+	delete[] buffer;
 }
 
 void Image::draw() const
@@ -134,7 +154,7 @@ void Image::removeTransparentBorder()
 		}
 		// up
  		m_region.yMax = m_height;
- 		for (size_t i = m_height - 1; i >= 0; --i)
+ 		for (int i = m_height - 1; i >= 0; --i)
 		{
 			size_t j = 0;
 			for ( ; j < m_width; ++j)
@@ -156,7 +176,7 @@ void Image::removeTransparentBorder()
 		}
 		// right
 		m_region.xMax = m_width;
-		for (size_t i = m_width - 1; i >= 0; --i)
+		for (int i = m_width - 1; i >= 0; --i)
 		{
 			size_t j = 0;
 			for ( ; j < m_height; ++j)

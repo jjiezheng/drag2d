@@ -773,6 +773,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\src\drag2d\dataset\ImageLoader.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\dataset\ImageLoader.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\drag2d\common\Matrix.cpp"
 					>
 				</File>
