@@ -59,7 +59,25 @@ namespace d2d
 
 		entry.angle = value["angle"].asDouble();
 
-		entry.scale = value["scale"].asDouble();
+		if (value["scale"].isNull())
+		{
+			entry.xscale = value["x scale"].asDouble();
+			entry.yscale = value["y scale"].asDouble();
+		}
+		else
+		{
+			entry.xscale = entry.yscale = value["scale"].asDouble();
+		}
+
+		if (!value["x shear"].isNull())
+		{
+			entry.xshear = value["x shear"].asDouble();
+			entry.yshear = value["y shear"].asDouble();
+		}
+		else
+		{
+			entry.xshear = entry.yshear = 0;
+		}
 
 		entry.xMirror = value["x mirror"].asDouble();
 		entry.yMirror = value["y mirror"].asDouble();

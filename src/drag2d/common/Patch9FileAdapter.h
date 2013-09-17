@@ -38,7 +38,8 @@ namespace d2d
 
 			d2d::Vector pos;
 			float angle;
-			float scale;
+			float xscale, yscale;
+			float xshear, yshear;
 			bool xMirror, yMirror;
 		};
 

@@ -311,6 +311,10 @@ bool Patch9Symbol::isGrid3VerType(ISprite* sprites[3][3]) const
 void Patch9Symbol::stretch(ISprite* sprite, const d2d::Vector& center, 
 						  float width, float height)
 {
+ 	if (sprite->getSymbol().getWidth() == 0
+ 		|| sprite->getSymbol().getHeight() == 0)
+ 		return;
+
 	sprite->setTransform(center, sprite->getAngle());
 	const float sw = sprite->getSymbol().getWidth(),
 		sh = sprite->getSymbol().getHeight();
@@ -335,7 +339,8 @@ void Patch9Symbol::initSprite(const Patch9FileAdapter::Entry& entry, ISprite** p
 	sprite->name = entry.name;
 
 	sprite->setTransform(entry.pos, entry.angle);
-	sprite->setScale(entry.scale);
+	sprite->setScale(entry.xscale, entry.yscale);
+	sprite->setShear(entry.xshear, entry.yshear);
 	sprite->setMirror(entry.xMirror, entry.yMirror);
 
 	*pSprite = sprite;
