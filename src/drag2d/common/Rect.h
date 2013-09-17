@@ -75,9 +75,8 @@ namespace d2d
 			yMax += offset.y;
 		}
 
-		void scale(float xScale, float yScale = 1.0f)
+		void scale(float xScale, float yScale)
 		{
-			yScale = xScale;
 			const float cx = xCenter(),
 				cy = yCenter();
 			const float dx = xLength() * xScale * 0.5f,
