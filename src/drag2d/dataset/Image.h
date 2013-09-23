@@ -35,7 +35,7 @@ namespace d2d
 		Image();
 		
 		bool loadFromFile(const wxString& filepath);
-		void reload() const;
+		void reload();
 
 		const wxString& filepath() const { return m_filepath; }
 
@@ -54,7 +54,7 @@ namespace d2d
 	private:
 		wxString m_filepath;
 
-		mutable unsigned int m_textureID;
+		unsigned int m_textureID;
 		int m_width, m_height;
 		Rect m_region;
 

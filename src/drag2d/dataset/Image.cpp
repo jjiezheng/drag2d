@@ -20,6 +20,8 @@
 
 #include "render/GL10.h"
 
+#include "common/config.h"
+
 #include <SOIL/SOIL.h>
 
 #include "ImageLoader.h"
@@ -38,7 +40,9 @@ bool Image::loadFromFile(const wxString& filepath)
 {
 	m_filepath = filepath;
  
-//	return true;
+#ifdef NOT_LOAD_IMAGE
+	return true;
+#endif
 
  	reload();
  
@@ -53,21 +57,24 @@ bool Image::loadFromFile(const wxString& filepath)
  
  	if (m_textureID == 0)
  	{
+		assert(0);
  		m_width = m_height = 0;
  		return false;
  	}
  	else
  	{
- 		GL10::BindTexture(GL10::GL_TEXTURE_2D, m_textureID);
- 		GL10::GetTexLevelParameteriv(GL10::GL_TEXTURE_2D, 0, GL10::GL_TEXTURE_WIDTH, &m_width);
- 		GL10::GetTexLevelParameteriv(GL10::GL_TEXTURE_2D, 0, GL10::GL_TEXTURE_HEIGHT, &m_height);
- 		GL10::BindTexture(GL10::GL_TEXTURE_2D, NULL);
+//  		GL10::BindTexture(GL10::GL_TEXTURE_2D, m_textureID);
+//  		GL10::GetTexLevelParameteriv(GL10::GL_TEXTURE_2D, 0, GL10::GL_TEXTURE_WIDTH, &m_width);
+//  		GL10::GetTexLevelParameteriv(GL10::GL_TEXTURE_2D, 0, GL10::GL_TEXTURE_HEIGHT, &m_height);
+//  		GL10::BindTexture(GL10::GL_TEXTURE_2D, NULL);
+
  		removeTransparentBorder();
+
  		return true;
  	}
 }
 
-void Image::reload() const
+void Image::reload()
 {
 // 	m_textureID = SOIL_load_OGL_texture
 // 		(
@@ -87,7 +94,7 @@ void Image::reload() const
 
 	char* buffer = new char[length];
 	fin.read (buffer,length);
-	m_textureID = ImageLoader::loadTexture(buffer);
+	m_textureID = ImageLoader::loadTexture(buffer, m_width, m_height);
 
 	delete[] buffer;
 }
