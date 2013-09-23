@@ -43,6 +43,8 @@ namespace d2d
 
 		void onSelected(int index);
 
+		void clear();
+
 	private:
 		void initLayout();
 
