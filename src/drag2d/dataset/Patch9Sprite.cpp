@@ -26,17 +26,22 @@ using namespace d2d;
 Patch9Sprite::Patch9Sprite()
 	: m_symbol(NULL)
 {
+	width = height = 0;
 }
 
 Patch9Sprite::Patch9Sprite(const Patch9Sprite& sprite)
 	: ISprite(sprite)
 	, m_symbol(sprite.m_symbol)
 {
+	width = m_symbol->getWidth();
+	height = m_symbol->getHeight();
 }
 
 Patch9Sprite::Patch9Sprite(Patch9Symbol* symbol)
 	: m_symbol(symbol)
 {
+	width = m_symbol->getWidth();
+	height = m_symbol->getHeight();
 	buildBounding();
 }
 
