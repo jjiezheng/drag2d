@@ -20,7 +20,7 @@
 
 #include "VertexBufferObject.h"
 
-#include "Exception.h"
+#include "../common/Exception.h"
 
 #include <stdlib.h>
 

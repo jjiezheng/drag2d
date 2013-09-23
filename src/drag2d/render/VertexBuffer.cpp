@@ -22,7 +22,7 @@
 #include "VertexArray.h"
 #include "VertexBufferObject.h"
 
-#include "Exception.h"
+#include "../common/Exception.h"
 
 using namespace d2d;
 
