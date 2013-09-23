@@ -63,6 +63,7 @@
 #include "dataset/Joint.h"
 #include "dataset/Layer.h"
 #include "dataset/BVFactory.h"
+#include "dataset/ImageLoader.h"
 
 #include "view/OrthoCanvas.h"
 #include "view/PerspectCanvas.h"
@@ -95,6 +96,7 @@
 #include "view/PhysicsPanelImpl.h"
 #include "view/ToolbarPanel.h"
 #include "view/ViewlistPanel.h"
+#include "view/ExceptionDlg.h"
 
 #include "operator/AbstractEditOP.h"
 #include "operator/NullEditOP.h"
@@ -172,6 +174,7 @@
 #include "common/tools.h"
 #include "common/Random.h"
 #include "common/Context.h"
+#include "common/Exception.h"
 
 #include "render/b2Render.h"
 #include "render/PrimitiveDraw.h"

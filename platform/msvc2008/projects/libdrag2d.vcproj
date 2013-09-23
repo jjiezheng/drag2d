@@ -1254,11 +1254,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\src\drag2d\common\config.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\src\drag2d\common\Context.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\..\src\drag2d\common\Context.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\drag2d\common\Exception.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\drag2d\common\Exception.h"
 				>
 			</File>
 			<File
@@ -1736,6 +1748,14 @@
 					Name="symbol"
 					>
 					<File
+						RelativePath="..\..\..\src\drag2d\view\Scale9PropertySetting.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\Scale9PropertySetting.h"
+						>
+					</File>
+					<File
 						RelativePath="..\..\..\src\drag2d\view\SymbolPropertySetting.cpp"
 						>
 					</File>
@@ -1894,6 +1914,18 @@
 				</File>
 				<File
 					RelativePath="..\..\..\src\drag2d\view\ViewlistPanel.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="tools"
+				>
+				<File
+					RelativePath="..\..\..\src\drag2d\view\ExceptionDlg.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\view\ExceptionDlg.h"
 					>
 				</File>
 			</Filter>
