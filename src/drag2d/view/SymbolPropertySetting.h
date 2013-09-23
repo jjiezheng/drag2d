@@ -29,6 +29,7 @@ namespace d2d
 	{
 	public:
 		SymbolPropertySetting(EditPanel* editPanel, ISymbol* symbol);
+		SymbolPropertySetting(EditPanel* editPanel, std::string* name);
 
 		virtual void updatePanel(PropertySettingPanel* panel);
 
@@ -38,6 +39,8 @@ namespace d2d
 
 	private:
 		ISymbol* m_symbol;
+
+		std::string* m_name;
 
 	}; // SymbolPropertySetting
 }
