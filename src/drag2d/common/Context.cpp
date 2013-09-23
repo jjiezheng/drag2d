@@ -9,7 +9,9 @@ Context* Context::m_instance = NULL;
 Context::Context() 
 {
 //	exePath = wxStandardPaths::Get().GetExecutablePath();
-	exePath = wxStandardPaths::Get().GetPluginsDir();
+
+//	exePath = wxStandardPaths::Get().GetPluginsDir();
+
 }
 
 wxString Context::getDir()
