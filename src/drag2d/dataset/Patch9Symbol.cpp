@@ -20,6 +20,7 @@
 #include "ISprite.h"
 #include "SymbolMgr.h"
 #include "SpriteFactory.h"
+#include "Patch9Sprite.h"
 
 #include "common/Math.h"
 #include "common/FileNameTools.h"
@@ -77,6 +78,11 @@ void Patch9Symbol::reloadTexture() const
 
 void Patch9Symbol::draw(const ISprite* sprite/* = NULL*/) const
 {
+	const Patch9Sprite* scale9 = dynamic_cast<const Patch9Sprite*>(sprite);
+	bool isResize = scale9 && ((scale9->width != m_width) || (scale9->height != m_height));
+	float w = m_width, h = m_height;
+	if (isResize) resize(scale9->width, scale9->height);
+
 	switch (m_type)
 	{
 	case e_9Grid:
@@ -102,6 +108,8 @@ void Patch9Symbol::draw(const ISprite* sprite/* = NULL*/) const
 		}
 		break;
 	}
+
+	if (isResize) resize(w, h);
 }
 
 float Patch9Symbol::getWidth(const ISprite* sprite/* = NULL*/) const
@@ -169,7 +177,7 @@ void Patch9Symbol::composeFromSprites(ISprite* sprites[3][3],
 	composeFromSprites();
 }
 
-void Patch9Symbol::resize(float width, float height)
+void Patch9Symbol::resize(float width, float height) const
 {
 	m_width = width;
 	m_height = height;
@@ -241,7 +249,7 @@ void Patch9Symbol::refreshThumbnail()
 	memDC.SelectObject(wxNullBitmap);
 }
 
-void Patch9Symbol::composeFromSprites()
+void Patch9Symbol::composeFromSprites() const
 {
 	if (m_type == e_9Grid)
 	{
@@ -311,9 +319,8 @@ bool Patch9Symbol::isGrid3VerType(ISprite* sprites[3][3]) const
 void Patch9Symbol::stretch(ISprite* sprite, const d2d::Vector& center, 
 						  float width, float height)
 {
- 	if (sprite->getSymbol().getWidth() == 0
- 		|| sprite->getSymbol().getHeight() == 0)
- 		return;
+	assert(sprite->getSymbol().getWidth() != 0
+		&& sprite->getSymbol().getHeight() != 0);
 
 	sprite->setTransform(center, sprite->getAngle());
 	const float sw = sprite->getSymbol().getWidth(),

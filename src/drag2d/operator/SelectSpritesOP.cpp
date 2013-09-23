@@ -20,11 +20,13 @@
 
 #include "common/Rect.h"
 #include "dataset/TextSprite.h"
+#include "dataset/Patch9Sprite.h"
 #include "component/AbstractEditCMPT.h"
 #include "view/PropertySettingPanel.h"
 #include "view/SpritePropertySetting.h"
 #include "view/MultiSpritesPropertySetting.h"
 #include "view/TextPropertySetting.h"
+#include "view/Scale9PropertySetting.h"
 #include "view/MultiSpritesImpl.h"
 #include "render/DrawSelectedSpriteVisitor.h"
 
@@ -190,6 +192,8 @@ IPropertySetting* SelectSpritesOP::createPropertySetting(ISprite* sprite) const
 {
 	if (TextSprite* text = dynamic_cast<TextSprite*>(sprite))
 		return new TextPropertySetting(m_editPanel, text);
+//  	else if (Patch9Sprite* scale = dynamic_cast<Patch9Sprite*>(sprite))
+//  		return new Scale9PropertySetting(m_editPanel, const_cast<Patch9Symbol*>(&scale->getSymbol()));
 	else if (sprite)
 		return new SpritePropertySetting(m_editPanel, sprite);
 	else 

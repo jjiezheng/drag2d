@@ -47,6 +47,9 @@ namespace d2d
 
 		virtual void buildBounding();
 
+	public:
+		float width, height;
+
 	protected:
 		Patch9Symbol* m_symbol;
 

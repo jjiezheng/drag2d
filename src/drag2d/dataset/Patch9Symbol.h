@@ -69,7 +69,7 @@ namespace d2d
 		void composeFromSprites(ISprite* sprites[3][3], 
 			float width, float height);
 
-		void resize(float width, float height);
+		void resize(float width, float height) const;
 
 		Type type() const { return m_type; }
 
@@ -81,7 +81,7 @@ namespace d2d
 
 		void refreshThumbnail();
 
-		void composeFromSprites();
+		void composeFromSprites() const;
 
 		bool isGrid9Type(ISprite* sprites[3][3]) const;
 		bool isGrid3HorType(ISprite* sprites[3][3]) const;
@@ -101,7 +101,7 @@ namespace d2d
 		// 0 1 2
 		ISprite* m_sprites[3][3];
 
-		float m_width, m_height;
+		mutable float m_width, m_height;
 
 	}; // Patch9Symbol
 }
