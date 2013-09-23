@@ -20,6 +20,8 @@
 
 #include <fstream>
 
+#include <drag2d.h>
+
 using namespace d2d;
 
 void TexturePackerFileAdapter::load(const char* filename)
@@ -46,6 +48,7 @@ void TexturePackerFileAdapter::load(const char* filename)
 void TexturePackerFileAdapter::load(const Json::Value& value, Entry& entry)
 {
 	entry.filename = value["filename"].asString();
+	StringTools::toLower(entry.filename);
 	load(value["frame"], entry.frame);
 	entry.rotated = value["rotated"].asBool();
 	entry.trimmed = value["trimmed"].asBool();

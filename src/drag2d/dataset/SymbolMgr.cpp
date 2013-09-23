@@ -20,6 +20,8 @@
 #include "SymbolFactory.h"
 #include "ISymbol.h"
 
+#include "common/Exception.h"
+
 using namespace d2d;
 
 SymbolMgr* SymbolMgr::m_instance = NULL;
@@ -44,20 +46,23 @@ SymbolMgr* SymbolMgr::Instance()
 
 ISymbol* SymbolMgr::getSymbol(const wxString& filepath)
 {
-	std::map<wxString, ISymbol*>::iterator itr = m_symbols.find(filepath);
+	wxString lowerpath = filepath.Lower();
+
+	std::map<wxString, ISymbol*>::iterator itr = m_symbols.find(lowerpath);
 	if (itr == m_symbols.end())
 	{
-		ISymbol* symbol = SymbolFactory::create(filepath);
-		bool isLoaded = symbol->loadFromFile(filepath);
+		ISymbol* symbol = SymbolFactory::create(lowerpath);
+		bool isLoaded = symbol->loadFromFile(lowerpath);
 		if (isLoaded)
 		{
 			symbol->refresh();
-			m_symbols.insert(std::make_pair(filepath, symbol));
+			m_symbols.insert(std::make_pair(lowerpath, symbol));
 			return symbol;
 		}
 		else
 		{
 			delete symbol;
+			throw Exception("Symbol %s load fail!", filepath.c_str());
 			return NULL;
 		}
 	}
