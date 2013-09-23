@@ -103,6 +103,14 @@ namespace d2d
 		case 'w': case 'W':
 			translateSprite(Vector(0, 1));
 			break;
+		case WXK_SPACE:
+			{
+				std::vector<ISprite*> selected;
+				m_selection->traverse(FetchAllVisitor<ISprite>(selected));
+				for (size_t i = 0, n = selected.size(); i < n; ++i)
+					selected[i]->setTransform(Vector(0, 0), 0);
+			}
+			break;
 		}
 
 		for (size_t i = 0, n = sprites.size(); i < n; ++i)
@@ -264,14 +272,18 @@ namespace d2d
 		{
 		case EditPanel::Menu_UpOneLayer:
 			{
-				d2d::ISprite* sprite = m_spritesImpl->querySpriteByPos(m_firstPos);
-				m_spritesImpl->resetSpriteOrder(sprite, true);
+				std::vector<d2d::ISprite*> selected;
+				m_selection->traverse(d2d::FetchAllVisitor<d2d::ISprite>(selected));
+				for (size_t i = 0, n = selected.size(); i < n; ++i)
+					m_spritesImpl->resetSpriteOrder(selected[i], true);
 			}
 			break;
 		case EditPanel::Menu_DownOneLayer:
 			{
-				d2d::ISprite* sprite = m_spritesImpl->querySpriteByPos(m_firstPos);
-				m_spritesImpl->resetSpriteOrder(sprite, false);
+				std::vector<d2d::ISprite*> selected;
+				m_selection->traverse(d2d::FetchAllVisitor<d2d::ISprite>(selected));
+				for (size_t i = 0, n = selected.size(); i < n; ++i)
+					m_spritesImpl->resetSpriteOrder(selected[i], false);
 			}
 			break;
 		}

@@ -76,13 +76,19 @@ namespace d2d
 		enum
 		{
 			Menu_UpOneLayer,
-			Menu_DownOneLayer
+			Menu_DownOneLayer,
+
+			Hot_UpOneLayer,
+			Hot_DownOneLayer
 		};
 
 		static std::string menu_entries[];
 
 		void onMenuUpOneLayer(wxCommandEvent& event);
 		void onMenuDownOneLayer(wxCommandEvent& event);
+
+		void onMenuUpOneLayer(wxKeyEvent& event);
+		void onMenuDownOneLayer(wxKeyEvent& event);
 
 	protected:
 		void onSize(wxSizeEvent& event);

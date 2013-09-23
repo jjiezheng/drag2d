@@ -33,6 +33,8 @@ BEGIN_EVENT_TABLE(EditPanel, wxPanel)
 
 	EVT_MENU(Menu_UpOneLayer, EditPanel::onMenuUpOneLayer)
 	EVT_MENU(Menu_DownOneLayer, EditPanel::onMenuDownOneLayer)
+	EVT_HOTKEY(Hot_UpOneLayer, EditPanel::onMenuUpOneLayer)
+	EVT_HOTKEY(Hot_DownOneLayer, EditPanel::onMenuDownOneLayer)
 END_EVENT_TABLE()
 
 std::string EditPanel::menu_entries[] = 
@@ -44,6 +46,9 @@ std::string EditPanel::menu_entries[] =
 EditPanel::EditPanel(wxWindow* parent)
 	: wxPanel(parent)
 {
+	RegisterHotKey(Hot_UpOneLayer, 0, VK_ADD);
+	RegisterHotKey(Hot_DownOneLayer, 0, VK_SUBTRACT);
+
 	m_editOP = NULL;
 	m_canvas = NULL;
 	m_camera = new Camera;
@@ -192,6 +197,18 @@ void EditPanel::onMenuUpOneLayer(wxCommandEvent& event)
 }
 
 void EditPanel::onMenuDownOneLayer(wxCommandEvent& event)
+{
+	m_editOP->onPopMenuSelected(Menu_DownOneLayer);
+	Refresh();
+}
+
+void EditPanel::onMenuUpOneLayer(wxKeyEvent& event)
+{
+	m_editOP->onPopMenuSelected(Menu_UpOneLayer);
+	Refresh();
+}
+
+void EditPanel::onMenuDownOneLayer(wxKeyEvent& event)
 {
 	m_editOP->onPopMenuSelected(Menu_DownOneLayer);
 	Refresh();
