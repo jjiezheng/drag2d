@@ -19,6 +19,9 @@
 #include "FilenameTools.h"
 #include "Settings.h"
 
+#include "common/tools.h"
+#include "common/Exception.h"
+
 #include <wx/filename.h>
 
 using namespace d2d;
@@ -83,9 +86,9 @@ wxString FilenameTools::getAbsolutePath(const wxString& dir, const wxString& rel
 	wxFileName filename(relative);
 	filename.MakeAbsolute(dir);
 	wxString filepath = filename.GetFullPath();
-	if (!isExist(filepath))
-		return getExistFilepath(relative, dir);
-	else
+ 	if (!isExist(filepath))
+ 		return getExistFilepath(relative, dir);
+ 	else
 		return filepath;
 }
 
@@ -136,6 +139,7 @@ wxString FilenameTools::getExistFilepath(const wxString& filepath, const wxStrin
 				if (isExist(filepathFixed))
 					return filepathFixed;
 			}
+			throw Exception("File: %s don't exist!", filepath.ToStdString().c_str());
 			return wxEmptyString;
 		}
 		else
@@ -151,6 +155,7 @@ wxString FilenameTools::getExistFilepath(const wxString& filepath, const wxStrin
 
 void FilenameTools::formatSeparators(std::string& filepath)
 {
+//	StringTools::toLower(filepath);
 	const std::string oldVal = "\\", newVal = "/";
 	for(std::string::size_type pos(0); pos != std::string::npos; pos += oldVal.length())   
 	{   
