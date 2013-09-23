@@ -38,7 +38,7 @@ FileNameParser::Type FileNameParser::getFileType(const wxString& filename)
 {
 	if (filename.empty()) return e_unknown;
 
-	int pos = filename.find('.');
+	int pos = filename.rfind('.');
 	if (pos == -1) return e_unknown;
 
 	std::string extension = filename.substr(pos);
@@ -48,6 +48,7 @@ FileNameParser::Type FileNameParser::getFileType(const wxString& filename)
 		if (txtName.find('_') == -1) return e_unknown;
 
 		const wxString txtExtension = txtName.substr(txtName.find_last_of('_') + 1);
+
 		if (txtExtension == TAG_POLYLINE) return e_polyline;
 		else if (txtExtension == TAG_CIRCLE) return e_circle;
 		else if (txtExtension == TAG_POLYGON) return e_polygon;
@@ -61,6 +62,7 @@ FileNameParser::Type FileNameParser::getFileType(const wxString& filename)
 		if (jsonName.find('_') == -1) return e_unknown;
 
 		const wxString jsonExtension = jsonName.substr(jsonName.find_last_of('_') + 1);
+
 		if (jsonExtension == TAG_SHAPE) return e_shape;
 		else if (jsonExtension == TAG_COMPLEX) return e_complex;
 		else if (jsonExtension == TAG_ANIM) return e_anim;
