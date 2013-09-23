@@ -3,14 +3,15 @@
 #include <libpng/png.h>
 #include <assert.h>
 #include <gl/glew.h>
+#include <fstream>
 
 namespace d2d
 {
 	int offset = 0;
 
-	unsigned int ImageLoader::loadTexture(void* data)
+	unsigned int ImageLoader::loadTexture(void* data, int& width, int& height)
 	{
-		int width, height, format;
+		int format;
 		unsigned char* pixel_data = loadPNG(data, width, height, format);
 		assert(pixel_data);
 
@@ -38,6 +39,25 @@ namespace d2d
 		delete[] pixel_data;
 
 		return texture;
+	}
+
+	unsigned char* ImageLoader::loadData(const char* filepath, int& width, int& height, int& format)
+	{
+		std::ifstream fin(filepath, std::ios::binary);
+		assert(!fin.fail());
+
+		// get length of file:
+		fin.seekg (0, fin.end);
+		int length = fin.tellg();
+		fin.seekg (0, fin.beg);
+
+		char* buffer = new char[length];
+		fin.read (buffer,length);
+		fin.close();
+		unsigned char* data = loadPNG(buffer, width, height, format);
+		delete[] buffer;
+
+		return data;
 	}
 
 	void callback_read(png_structp png, png_bytep data, png_size_t size)
