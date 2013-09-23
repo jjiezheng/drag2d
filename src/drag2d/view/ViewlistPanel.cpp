@@ -76,6 +76,12 @@ void ViewlistPanel::onSelected(int index)
 	}
 }
 
+void ViewlistPanel::clear()
+{
+	m_list->clear();
+	m_sprites.clear();
+}
+
 void ViewlistPanel::initLayout()
 {
 	wxSizer* sizer = new wxBoxSizer(wxVERTICAL);
