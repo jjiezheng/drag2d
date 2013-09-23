@@ -115,58 +115,58 @@ struct DeletePointerFunctor
 	}
 };
 
+////
+//// Exceptions
+////
+//class Exception
+//{
+//public:
+//	virtual std::string what() = 0;
+//	virtual ~Exception() {}
+//}; // Exception
 //
-// Exceptions
+//class IndexOutOfBoundsException : public Exception
+//{
+//public:
+//	IndexOutOfBoundsException(size_t i) { m_error = StringTools::intToString(i); }
+//	virtual ~IndexOutOfBoundsException() {}
+//	virtual std::string what() { return "IndexOutOfBoundsException: " + m_error; }
 //
-class Exception
-{
-public:
-	virtual std::string what() = 0;
-	virtual ~Exception() {}
-}; // Exception
-
-class IndexOutOfBoundsException : public Exception
-{
-public:
-	IndexOutOfBoundsException(size_t i) { m_error = StringTools::intToString(i); }
-	virtual ~IndexOutOfBoundsException() {}
-	virtual std::string what() { return "IndexOutOfBoundsException: " + m_error; }
-
-private:
-	std::string m_error;
-}; // IndexOutOfBoundsException
-
-class IllegalArgumentException : public Exception
-{
-public:
-	IllegalArgumentException(std::string s) : m_error(s) {}
-	virtual ~IllegalArgumentException() {}
-	virtual std::string what() { return "IllegalArgumentException: " + m_error; }
-
-private:
-	std::string m_error;
-}; // IllegalArgumentException
-
-class IllegalStateException : public Exception
-{
-public:
-	IllegalStateException(std::string s) : m_error(s) {}
-	virtual ~IllegalStateException() {}
-	virtual std::string what() { return "IllegalStateException: " + m_error + "\nPlease contact "/* + PACKAGE_BUGREPORT*/; }
-
-private:
-	std::string m_error;
-}; // IllegalStateException
-
-class NotSupportedException : public Exception
-{
-public:
-	NotSupportedException(std::string s) : m_error(s) {}
-	virtual ~NotSupportedException() {}
-	virtual std::string what() { return "NotSupportedException: " + m_error; }
-
-private:
-	std::string m_error;
-}; // NotSupportedException
+//private:
+//	std::string m_error;
+//}; // IndexOutOfBoundsException
+//
+//class IllegalArgumentException : public Exception
+//{
+//public:
+//	IllegalArgumentException(std::string s) : m_error(s) {}
+//	virtual ~IllegalArgumentException() {}
+//	virtual std::string what() { return "IllegalArgumentException: " + m_error; }
+//
+//private:
+//	std::string m_error;
+//}; // IllegalArgumentException
+//
+//class IllegalStateException : public Exception
+//{
+//public:
+//	IllegalStateException(std::string s) : m_error(s) {}
+//	virtual ~IllegalStateException() {}
+//	virtual std::string what() { return "IllegalStateException: " + m_error + "\nPlease contact "/* + PACKAGE_BUGREPORT*/; }
+//
+//private:
+//	std::string m_error;
+//}; // IllegalStateException
+//
+//class NotSupportedException : public Exception
+//{
+//public:
+//	NotSupportedException(std::string s) : m_error(s) {}
+//	virtual ~NotSupportedException() {}
+//	virtual std::string what() { return "NotSupportedException: " + m_error; }
+//
+//private:
+//	std::string m_error;
+//}; // NotSupportedException
 
 #endif // D2D_TOOLS_H
