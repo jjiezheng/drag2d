@@ -29,6 +29,7 @@ namespace d2d
 		template<class T>
 			static void RandomPermutation(std::vector<T>& src);
 
+		static float getNum(float min, float max);
 		static float getNum0To1();
 		static float getRadian();
 
@@ -44,6 +45,11 @@ namespace d2d
 			size_t rndIndex = int(__int64(range) * rand() / (RAND_MAX + 1.0 ));
 			std::swap(src.at(i), src.at(rndIndex));
 		}
+	}
+
+	inline float Random::getNum(float min, float max)
+	{
+		return (rand() / (float(RAND_MAX)+1) * (max - min)) + min;
 	}
 
 	inline float Random::getNum0To1()
