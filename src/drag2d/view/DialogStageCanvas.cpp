@@ -14,7 +14,8 @@ DialogStageCanvas::DialogStageCanvas(EditPanel* editPanel, LibraryPanel* library
 void DialogStageCanvas::initGL()
 {
 	d2d::OrthoCanvas::initGL();
-	m_library->reloadTexture();
+	if (m_library)
+		m_library->reloadTexture();
 }
 
 void DialogStageCanvas::onDraw()
