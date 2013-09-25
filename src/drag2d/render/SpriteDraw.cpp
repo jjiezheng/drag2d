@@ -54,8 +54,6 @@ void SpriteDraw::drawSprite(const ISymbol* symbol, const Vector& pos,
 							float yScale/* = 1.0f*/, float xShear/* = 0.0f*/, 
 							float yShear/* = 0.0f*/)
 {
-	yScale = xScale;
-
 	GL10::PushMatrix();
 
 	love::Matrix t;
