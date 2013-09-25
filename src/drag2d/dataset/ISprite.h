@@ -87,6 +87,8 @@ namespace d2d
 	public:
 		std::string name;
 		
+		std::string multiColor, addColor;
+
 	protected:
 		Vector m_pos;
 		float m_angle;

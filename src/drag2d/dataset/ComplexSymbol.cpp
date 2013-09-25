@@ -63,13 +63,9 @@ void ComplexSymbol::storeToTextFile(std::ofstream& fout) const
 
 void ComplexSymbol::reloadTexture() const
 {
-	std::vector<std::pair<const ISprite*, d2d::Vector> > children;
-	getAllChildren(children);
-	
 	std::set<const ISymbol*> symbols;
-	for (size_t i = 0, n = children.size(); i < n; ++i)
-		symbols.insert(&children[i].first->getSymbol());
-
+	for (size_t i = 0, n = m_sprites.size(); i < n; ++i)
+		symbols.insert(&m_sprites[i]->getSymbol());
 	std::set<const ISymbol*>::iterator itr = symbols.begin();
 	for ( ; itr != symbols.end(); ++itr)
 		(*itr)->reloadTexture();
@@ -77,27 +73,8 @@ void ComplexSymbol::reloadTexture() const
 
 void ComplexSymbol::draw(const ISprite* sprite/* = NULL*/) const
 {
-// 	for (size_t i = 0, n = m_sprites.size(); i < n; ++i)
-// 		SpriteDraw::drawSprite(m_sprites[i]);
-
-	//////////////////////////////////////////////////////////////////////////
-
-// 	std::vector<const ISprite*> children;
-// 	getAllChildren(children);
-// 	for (size_t i = 0, n = children.size(); i < n; ++i)
-// 		SpriteDraw::drawSprite(children[i]);
-
-	//////////////////////////////////////////////////////////////////////////
-
-	std::vector<std::pair<const ISprite*, d2d::Vector> > children;
-	getAllChildren(children);
-
-	for (size_t i = 0, n = children.size(); i < n; ++i)
-	{
-		const ISprite* child = children[i].first;
-		SpriteDraw::drawSprite(&child->getSymbol(), child->getPosition() + children[i].second, 
-			child->getAngle(), child->getScaleX(), child->getScaleY());
-	}
+	for (size_t i = 0, n = m_sprites.size(); i < n; ++i)
+		SpriteDraw::drawSprite(m_sprites[i]);
 }
 
 float ComplexSymbol::getWidth(const ISprite* sprite/* = NULL*/) const
@@ -141,6 +118,8 @@ void ComplexSymbol::loadResources()
 		sprite = SpriteFactory::create(symbol);
 
 		sprite->name = entry.name;
+		sprite->multiColor = entry.multiColor;
+		sprite->addColor = entry.addColor;
 		sprite->setTransform(entry.pos, entry.angle);
 		sprite->setScale(entry.xscale, entry.yscale);
 		sprite->setShear(entry.xshear, entry.yshear);
