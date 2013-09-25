@@ -37,6 +37,7 @@ namespace d2d
 			std::string filepath;
 
 			std::string name;
+			std::string multiColor, addColor;
 
 			Vector pos;
 			float angle;

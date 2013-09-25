@@ -92,6 +92,8 @@ AnimFileAdapter::Entry* AnimFileAdapter::loadEntry(const Json::Value& entryValue
 	entry->filepath = entryValue["filepath"].asString();
 
 	entry->name = entryValue["name"].asString();
+	entry->name = entryValue["multi color"].asString();
+	entry->name = entryValue["add color"].asString();
 
 	entry->pos.x = entryValue["position"]["x"].asDouble();
 	entry->pos.y = entryValue["position"]["y"].asDouble();

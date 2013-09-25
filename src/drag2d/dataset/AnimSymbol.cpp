@@ -178,6 +178,8 @@ void AnimSymbol::loadResources()
 				ISprite* sprite = SpriteFactory::create(symbol);
 
 				sprite->name = entry->name;
+				sprite->multiColor = entry->multiColor;
+				sprite->addColor = entry->addColor;
 
 				sprite->setTransform(entry->pos, entry->angle);
 				sprite->setScale(entry->xScale, entry->yScale);

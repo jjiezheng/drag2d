@@ -50,6 +50,8 @@ namespace d2d
 			Context::Instance()->getDir(), value["filepath"].asString());
 
 		entry.name = value["name"].asString();
+		entry.multiColor = value["multi color"].asString();
+		entry.addColor = value["add color"].asString();
 
 		entry.pos.x = value["position"]["x"].asDouble();
 		entry.pos.y = value["position"]["y"].asDouble();
