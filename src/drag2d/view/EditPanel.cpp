@@ -33,8 +33,9 @@ BEGIN_EVENT_TABLE(EditPanel, wxPanel)
 
 	EVT_MENU(Menu_UpOneLayer, EditPanel::onMenuUpOneLayer)
 	EVT_MENU(Menu_DownOneLayer, EditPanel::onMenuDownOneLayer)
-	EVT_HOTKEY(Hot_UpOneLayer, EditPanel::onMenuUpOneLayer)
-	EVT_HOTKEY(Hot_DownOneLayer, EditPanel::onMenuDownOneLayer)
+	EVT_HOTKEY(Hot_UpOneLayer, EditPanel::onKeyUpOneLayer)
+	EVT_HOTKEY(Hot_DownOneLayer, EditPanel::onKeyDownOneLayer)
+	EVT_HOTKEY(Hot_Delete, EditPanel::onKeyDelete)
 END_EVENT_TABLE()
 
 std::string EditPanel::menu_entries[] = 
@@ -48,6 +49,7 @@ EditPanel::EditPanel(wxWindow* parent)
 {
 	RegisterHotKey(Hot_UpOneLayer, 0, VK_ADD);
 	RegisterHotKey(Hot_DownOneLayer, 0, VK_SUBTRACT);
+	RegisterHotKey(Hot_Delete, 0, VK_DELETE);
 
 	m_editOP = NULL;
 	m_canvas = NULL;
@@ -202,16 +204,22 @@ void EditPanel::onMenuDownOneLayer(wxCommandEvent& event)
 	Refresh();
 }
 
-void EditPanel::onMenuUpOneLayer(wxKeyEvent& event)
+void EditPanel::onKeyUpOneLayer(wxKeyEvent& event)
 {
 	m_editOP->onPopMenuSelected(Menu_UpOneLayer);
 	Refresh();
 }
 
-void EditPanel::onMenuDownOneLayer(wxKeyEvent& event)
+void EditPanel::onKeyDownOneLayer(wxKeyEvent& event)
 {
 	m_editOP->onPopMenuSelected(Menu_DownOneLayer);
 	Refresh();
+}
+
+void EditPanel::onKeyDelete(wxKeyEvent& event)
+{
+	if (!this->HasFocus())
+		m_editOP->onKeyDown(event.GetKeyCode());
 }
 
 void EditPanel::onSize(wxSizeEvent& event)

@@ -79,7 +79,8 @@ namespace d2d
 			Menu_DownOneLayer,
 
 			Hot_UpOneLayer,
-			Hot_DownOneLayer
+			Hot_DownOneLayer,
+			Hot_Delete
 		};
 
 		static std::string menu_entries[];
@@ -87,8 +88,9 @@ namespace d2d
 		void onMenuUpOneLayer(wxCommandEvent& event);
 		void onMenuDownOneLayer(wxCommandEvent& event);
 
-		void onMenuUpOneLayer(wxKeyEvent& event);
-		void onMenuDownOneLayer(wxKeyEvent& event);
+		void onKeyUpOneLayer(wxKeyEvent& event);
+		void onKeyDownOneLayer(wxKeyEvent& event);
+		void onKeyDelete(wxKeyEvent& event);
 
 	protected:
 		void onSize(wxSizeEvent& event);
