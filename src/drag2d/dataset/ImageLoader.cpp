@@ -9,15 +9,14 @@ namespace d2d
 {
 	int offset = 0;
 
-	unsigned int ImageLoader::loadTexture(void* data, int& width, int& height)
+	void ImageLoader::loadTexture(void* data, int& width, int& height, unsigned int& texture)
 	{
 		int format;
 		unsigned char* pixel_data = loadPNG(data, width, height, format);
 		assert(pixel_data);
 
-		GLuint texture;
-
-		glGenTextures(1,(GLuint*)&texture);
+		if (texture == 0)
+			glGenTextures(1,(GLuint*)&texture);
 
 		glBindTexture(GL_TEXTURE_2D, texture);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -37,8 +36,6 @@ namespace d2d
 			pixel_data);
 
 		delete[] pixel_data;
-
-		return texture;
 	}
 
 	unsigned char* ImageLoader::loadData(const char* filepath, int& width, int& height, int& format)

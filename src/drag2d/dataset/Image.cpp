@@ -28,6 +28,8 @@
 
 #include <fstream>
 
+//#define USE_SOIL
+
 using namespace d2d;
 
 Image::Image()
@@ -63,10 +65,12 @@ bool Image::loadFromFile(const wxString& filepath)
  	}
  	else
  	{
-//  		GL10::BindTexture(GL10::GL_TEXTURE_2D, m_textureID);
-//  		GL10::GetTexLevelParameteriv(GL10::GL_TEXTURE_2D, 0, GL10::GL_TEXTURE_WIDTH, &m_width);
-//  		GL10::GetTexLevelParameteriv(GL10::GL_TEXTURE_2D, 0, GL10::GL_TEXTURE_HEIGHT, &m_height);
-//  		GL10::BindTexture(GL10::GL_TEXTURE_2D, NULL);
+#ifdef USE_SOIL
+  		GL10::BindTexture(GL10::GL_TEXTURE_2D, m_textureID);
+  		GL10::GetTexLevelParameteriv(GL10::GL_TEXTURE_2D, 0, GL10::GL_TEXTURE_WIDTH, &m_width);
+  		GL10::GetTexLevelParameteriv(GL10::GL_TEXTURE_2D, 0, GL10::GL_TEXTURE_HEIGHT, &m_height);
+  		GL10::BindTexture(GL10::GL_TEXTURE_2D, NULL);
+#endif
 
  		removeTransparentBorder();
 
@@ -76,14 +80,15 @@ bool Image::loadFromFile(const wxString& filepath)
 
 void Image::reload()
 {
-// 	m_textureID = SOIL_load_OGL_texture
-// 		(
-// 		m_filepath.c_str(),
-// 		SOIL_LOAD_AUTO,
-// 		m_textureID,
-// 		SOIL_FLAG_INVERT_Y
-// 		);
-
+#ifdef USE_SOIL
+ 	m_textureID = SOIL_load_OGL_texture
+ 		(
+ 		m_filepath.c_str(),
+ 		SOIL_LOAD_AUTO,
+ 		m_textureID,
+ 		SOIL_FLAG_INVERT_Y
+ 		);
+#else
 	std::ifstream fin(m_filepath.fn_str(), std::ios::binary);
 	assert(!fin.fail());
 
@@ -94,9 +99,10 @@ void Image::reload()
 
 	char* buffer = new char[length];
 	fin.read (buffer,length);
-	m_textureID = ImageLoader::loadTexture(buffer, m_width, m_height);
+	ImageLoader::loadTexture(buffer, m_width, m_height, m_textureID);
 
 	delete[] buffer;
+#endif
 }
 
 void Image::draw() const
@@ -104,7 +110,7 @@ void Image::draw() const
 	GL10::Enable(GL10::GL_BLEND);
 	GL10::BlendFunc(GL10::GL_SRC_ALPHA, GL10::GL_ONE_MINUS_SRC_ALPHA);
 
-//	GL10::Color4f(1.0f, 1.0f, 1.0f, 1.0f);
+	GL10::Color4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 	const float hWidth = m_width * 0.5f,
 		hHeight = m_height * 0.5f;
