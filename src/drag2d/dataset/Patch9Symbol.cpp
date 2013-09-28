@@ -1,21 +1,3 @@
-/*
-* Copyright (c) 2012-2013 Guang Zhu http://runnersoft.net
-*
-* This software is provided 'as-is', without any express or implied
-* warranty.  In no event will the authors be held liable for any damages
-* arising from the use of this software.
-* Permission is granted to anyone to use this software for any purpose,
-* including commercial applications, and to alter it and redistribute it
-* freely, subject to the following restrictions:
-* 1. The origin of this software must not be misrepresented; you must not
-* claim that you wrote the original software. If you use this software
-* in a product, an acknowledgment in the product documentation would be
-* appreciated but is not required.
-* 2. Altered source versions must be plainly marked as such, and must not be
-* misrepresented as being the original software.
-* 3. This notice may not be removed or altered from any source distribution.
-*/
-
 #include "Patch9Symbol.h"
 #include "ISprite.h"
 #include "SymbolMgr.h"
@@ -27,7 +9,8 @@
 #include "dataset/Bitmap.h"
 #include "render/SpriteDraw.h"
 
-using namespace d2d;
+namespace d2d
+{
 
 Patch9Symbol::Patch9Symbol()
 {
@@ -79,9 +62,9 @@ void Patch9Symbol::reloadTexture() const
 void Patch9Symbol::draw(const ISprite* sprite/* = NULL*/) const
 {
 	const Patch9Sprite* scale9 = dynamic_cast<const Patch9Sprite*>(sprite);
-	bool isResize = scale9 && ((scale9->width != m_width) || (scale9->height != m_height));
-	float w = m_width, h = m_height;
-	if (isResize) resize(scale9->width, scale9->height);
+// 	bool isResize = scale9 && ((scale9->width != m_width) || (scale9->height != m_height));
+// 	float w = m_width, h = m_height;
+// 	if (isResize) resize(scale9->width, scale9->height);
 
 	switch (m_type)
 	{
@@ -107,9 +90,16 @@ void Patch9Symbol::draw(const ISprite* sprite/* = NULL*/) const
 			SpriteDraw::drawSprite(m_sprites[i][1]);
 		}
 		break;
+	case e_6GridUpper:
+		for (size_t i = 1; i < 3; ++i)
+			for (size_t j = 0; j < 3; ++j)
+			{
+				if (!m_sprites[i][j]) continue;
+				SpriteDraw::drawSprite(m_sprites[i][j]);
+			}
 	}
 
-	if (isResize) resize(w, h);
+//	if (isResize) resize(w, h);
 }
 
 float Patch9Symbol::getWidth(const ISprite* sprite/* = NULL*/) const
@@ -126,23 +116,13 @@ void Patch9Symbol::refresh()
 {
 	ISymbol::refresh();
 	refreshThumbnail();
-	initBounding();
 }
 
 void Patch9Symbol::composeFromSprites(ISprite* sprites[3][3],
 									  float width, float height)
 {
-	if (isGrid9Type(sprites))
-		m_type = e_9Grid;
-	else if (isGrid3HorType(sprites))
-		m_type = e_3GridHor;
-	else if (isGrid3VerType(sprites))
-		m_type = e_3GridVer;
-	else 
-	{
-		m_type = e_null;
-		return;
-	}
+	m_type = getType(sprites);
+	if (m_type == e_null) return;
 
 	m_width = width;
 	m_height = height;
@@ -172,6 +152,14 @@ void Patch9Symbol::composeFromSprites(ISprite* sprites[3][3],
 		}
 		m_width = m_sprites[0][1]->getSymbol().getWidth();
 		break;
+	case e_6GridUpper:
+		for (size_t i = 1; i < 3; ++i)
+			for (size_t j = 0; j < 3; ++j)
+			{
+				if (m_sprites[i][j]) m_sprites[i][j]->release();
+				m_sprites[i][j] = sprites[i][j]->clone();
+			} 
+		break;
 	}
 
 	composeFromSprites();
@@ -195,6 +183,8 @@ void Patch9Symbol::loadResources()
 	m_width = adapter.width;
 	m_height = adapter.height;
 
+	int index = 0;
+
 	m_type = Type(adapter.type);
 	switch (m_type)
 	{
@@ -211,14 +201,14 @@ void Patch9Symbol::loadResources()
 		for (size_t i = 0; i < 3; ++i)
 			initSprite(adapter.m_data[i], &m_sprites[i][1], dlg);
 		break;
+	case e_6GridUpper:
+		for (size_t i = 1; i < 3; ++i)
+			for (size_t j = 0; j < 3; ++j)
+				initSprite(adapter.m_data[index++], &m_sprites[i][j], dlg);
+		break;
 	}
 
 	composeFromSprites();
-}
-
-void Patch9Symbol::initBounding()
-{
-	
 }
 
 void Patch9Symbol::refreshThumbnail()
@@ -244,6 +234,11 @@ void Patch9Symbol::refreshThumbnail()
 		for (size_t i = 0; i < 3; ++i)
 			SpriteDraw::drawSprite(m_sprites[i][1], memDC);
 		break;
+	case e_6GridUpper:
+		for (size_t i = 1; i < 3; ++i)
+			for (size_t j = 0; j < 3; ++j)
+				SpriteDraw::drawSprite(m_sprites[i][j], memDC);
+		break;
 	}
 
 	memDC.SelectObject(wxNullBitmap);
@@ -263,6 +258,22 @@ void Patch9Symbol::composeFromSprites() const
 		stretch(m_sprites[0][0], d2d::Vector(-w0*0.5f-w1*0.5f, -h0*0.5f-h1*0.5f), w0, h0);
 		stretch(m_sprites[0][1], d2d::Vector(0.0f, -h0*0.5f-h1*0.5f), w1, h0);
 		stretch(m_sprites[0][2], d2d::Vector(w1*0.5f+w2*0.5f, -h0*0.5f-h1*0.5f), w2, h0);
+
+		stretch(m_sprites[1][0], d2d::Vector(-w0*0.5f-w1*0.5f, 0.0f), w0, h1);
+		stretch(m_sprites[1][1], d2d::Vector(0.0f, 0.0f), w1, h1);
+		stretch(m_sprites[1][2], d2d::Vector(w1*0.5f+w2*0.5f, 0.0f), w2, h1);
+
+		stretch(m_sprites[2][0], d2d::Vector(-w0*0.5f-w1*0.5f, h1*0.5f+h2*0.5f), w0, h2);
+		stretch(m_sprites[2][1], d2d::Vector(0.0f, h1*0.5f+h2*0.5f), w1, h2);
+		stretch(m_sprites[2][2], d2d::Vector(w1*0.5f+w2*0.5f, h1*0.5f+h2*0.5f), w2, h2);
+	}
+	else if (m_type == e_6GridUpper)
+	{
+		const float w0 = m_sprites[2][0]->getSymbol().getWidth(),
+			w2 = m_sprites[2][2]->getSymbol().getWidth(),
+			w1 = m_width - w0 - w2;
+		const float h2 = m_sprites[2][0]->getSymbol().getHeight(),
+			h1 = m_height - h2;
 
 		stretch(m_sprites[1][0], d2d::Vector(-w0*0.5f-w1*0.5f, 0.0f), w0, h1);
 		stretch(m_sprites[1][1], d2d::Vector(0.0f, 0.0f), w1, h1);
@@ -294,26 +305,35 @@ void Patch9Symbol::composeFromSprites() const
 	}
 }
 
-bool Patch9Symbol::isGrid9Type(ISprite* sprites[3][3]) const
+Patch9Symbol::Type Patch9Symbol::getType(ISprite* sprites[3][3]) const
 {
-	for (size_t i = 0; i < 3; ++i)
-		for (size_t j = 0; j < 3; ++j)
-			if (!sprites[i][j]) return false;
-	return true;
-}
-
-bool Patch9Symbol::isGrid3HorType(ISprite* sprites[3][3]) const
-{
-	for (size_t i = 0; i < 3; ++i)
-		if (!sprites[1][i]) return false;
-	return true;
-}
-
-bool Patch9Symbol::isGrid3VerType(ISprite* sprites[3][3]) const
-{
-	for (size_t i = 0; i < 3; ++i)
-		if (!sprites[i][1]) return false;
-	return true;
+	{
+		Type type = e_9Grid;
+		for (size_t i = 0; i < 3 && type == e_9Grid; ++i)
+			for (size_t j = 0; j < 3 && type == e_9Grid; ++j)
+				if (!sprites[i][j]) type = e_null;
+		if (type == e_9Grid) return type;
+	}
+	{
+		Type type = e_6GridUpper;
+		for (size_t i = 1; i < 3 && type == e_6GridUpper; ++i)
+			for (size_t j = 0; j < 3 && type == e_6GridUpper; ++j)
+				if (!sprites[i][j]) type = e_null;
+		if (type == e_6GridUpper) return type;
+	}
+	{
+		Type type = e_3GridHor;
+		for (size_t i = 0; i < 3 && type == e_3GridHor; ++i)
+			if (!sprites[1][i]) type = e_null;
+		if (type == e_3GridHor) return type;
+	}
+	{
+		Type type = e_3GridVer;
+		for (size_t i = 0; i < 3 && type == e_3GridVer; ++i)
+			if (!sprites[i][1]) type = e_3GridVer;
+		if (type == e_3GridVer) return type;
+	}
+	return e_null;
 }
 
 void Patch9Symbol::stretch(ISprite* sprite, const d2d::Vector& center, 
@@ -341,7 +361,7 @@ void Patch9Symbol::initSprite(const Patch9FileAdapter::Entry& entry, ISprite** p
 		filepath = FilenameTools::getAbsolutePath(dlg, filepath);
 
 	ISymbol* symbol = SymbolMgr::Instance()->getSymbol(filepath);
-	ISprite* sprite = SpriteFactory::create(symbol);
+	ISprite* sprite = SpriteFactory::Instance()->create(symbol);
 
 	sprite->name = entry.name;
 
@@ -352,3 +372,4 @@ void Patch9Symbol::initSprite(const Patch9FileAdapter::Entry& entry, ISprite** p
 
 	*pSprite = sprite;
 }
+} // d2d

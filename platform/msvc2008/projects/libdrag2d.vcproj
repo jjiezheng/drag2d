@@ -5,10 +5,6 @@
 	Name="libdrag2d"
 	ProjectGUID="{E69A7CDE-521A-45B5-B776-AD16F72F6A07}"
 	RootNamespace="libdrag2d"
-	SccProjectName="Svn"
-	SccAuxPath="Svn"
-	SccLocalPath="Svn"
-	SccProvider="SubversionScc"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -1129,6 +1125,14 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="struct"
+				>
+				<File
+					RelativePath="..\..\..\src\drag2d\dataset\VectorObjectStream.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="render"
@@ -1832,6 +1836,14 @@
 						>
 					</File>
 					<File
+						RelativePath="..\..\..\src\drag2d\view\SpriteDropTarget.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\SpriteDropTarget.h"
+						>
+					</File>
+					<File
 						RelativePath="..\..\..\src\drag2d\view\SpritesPanelImpl.cpp"
 						>
 					</File>
@@ -1884,6 +1896,30 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="data"
+					>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\IDataContainer.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\SpritesContainer.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\SpritesContainer.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\StageDataWrapper.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\drag2d\view\VectorUtils.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="toolbar"
@@ -1926,6 +1962,26 @@
 				</File>
 				<File
 					RelativePath="..\..\..\src\drag2d\view\ExceptionDlg.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\view\ExitDlg.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\view\ExitDlg.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="frame"
+				>
+				<File
+					RelativePath="..\..\..\src\drag2d\view\Frame.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\drag2d\view\Frame.h"
 					>
 				</File>
 			</Filter>
@@ -2038,6 +2094,14 @@
 				>
 			</File>
 		</Filter>
+		<File
+			RelativePath="..\..\..\src\drag2d\drag2d.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\src\drag2d\interfaces.h"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

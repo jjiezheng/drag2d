@@ -23,7 +23,7 @@ using namespace std;
 using namespace d2d;
 
 b2GLRender::b2GLRender(float32 ratio)
-	: m_ratio(ratio)
+: m_ratio(ratio)
 {
 }
 

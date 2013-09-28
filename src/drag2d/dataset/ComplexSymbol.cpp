@@ -1,21 +1,3 @@
-/*
-* Copyright (c) 2012-2013 Guang Zhu http://runnersoft.net
-*
-* This software is provided 'as-is', without any express or implied
-* warranty.  In no event will the authors be held liable for any damages
-* arising from the use of this software.
-* Permission is granted to anyone to use this software for any purpose,
-* including commercial applications, and to alter it and redistribute it
-* freely, subject to the following restrictions:
-* 1. The origin of this software must not be misrepresented; you must not
-* claim that you wrote the original software. If you use this software
-* in a product, an acknowledgment in the product documentation would be
-* appreciated but is not required.
-* 2. Altered source versions must be plainly marked as such, and must not be
-* misrepresented as being the original software.
-* 3. This notice may not be removed or altered from any source distribution.
-*/
-
 #include "ComplexSymbol.h"
 #include "ComplexSprite.h"
 #include "ISprite.h"
@@ -30,7 +12,8 @@
 #include <queue>
 #include <set>
 
-using namespace d2d;
+namespace d2d
+{
 
 const float ComplexSymbol::SCALE = 0.15f;
 
@@ -104,6 +87,10 @@ bool ComplexSymbol::isOneLayer() const
 
 void ComplexSymbol::loadResources()
 {
+	for (size_t i = 0, n = m_sprites.size(); i < n; ++i)
+		m_sprites[i]->release();
+	m_sprites.clear();
+
 	ComplexFileAdapter adapter;
 	adapter.load(m_filepath.c_str());
 
@@ -115,7 +102,7 @@ void ComplexSymbol::loadResources()
 
 		const ComplexFileAdapter::Entry& entry = adapter.m_data[i];
 		ISymbol* symbol = SymbolMgr::Instance()->getSymbol(entry.filepath);
-		sprite = SpriteFactory::create(symbol);
+		sprite = SpriteFactory::Instance()->create(symbol);
 
 		sprite->name = entry.name;
 		sprite->multiColor = entry.multiColor;
@@ -194,3 +181,4 @@ void ComplexSymbol::getAllChildren(std::vector<std::pair<const ISprite*, d2d::Ve
 		}
 	}
 }
+} // d2d

@@ -18,7 +18,7 @@
 
 #ifndef BOX2D_RENDER_H
 #define BOX2D_RENDER_H
- 
+
 #include <Box2D/Box2D.h>
 
 struct b2AABB;

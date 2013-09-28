@@ -2,7 +2,8 @@
 
 #include <wx/stdpaths.h>
 
-using namespace d2d;
+namespace d2d
+{
 
 Context* Context::m_instance = NULL;
 
@@ -30,3 +31,5 @@ Context* Context::Instance()
 	}
 	return m_instance;
 }
+
+} // d2d

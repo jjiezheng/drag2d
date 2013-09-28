@@ -1,7 +1,6 @@
-#ifndef D2D_CONTEXT_H
-#define D2D_CONTEXT_H
+#pragma once
 
-#include <wx/string.h>
+#include <wx/wx.h>
 
 namespace d2d
 {
@@ -29,4 +28,3 @@ namespace d2d
 	}; // Context
 }
 
-#endif // D2D_CONTEXT_H

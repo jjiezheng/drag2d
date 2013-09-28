@@ -1,21 +1,3 @@
-/*
-* Copyright (c) 2012-2013 Guang Zhu http://runnersoft.net
-*
-* This software is provided 'as-is', without any express or implied
-* warranty.  In no event will the authors be held liable for any damages
-* arising from the use of this software.
-* Permission is granted to anyone to use this software for any purpose,
-* including commercial applications, and to alter it and redistribute it
-* freely, subject to the following restrictions:
-* 1. The origin of this software must not be misrepresented; you must not
-* claim that you wrote the original software. If you use this software
-* in a product, an acknowledgment in the product documentation would be
-* appreciated but is not required.
-* 2. Altered source versions must be plainly marked as such, and must not be
-* misrepresented as being the original software.
-* 3. This notice may not be removed or altered from any source distribution.
-*/
-
 #include "SelectSpritesOP.h"
 
 #include "common/Rect.h"
@@ -30,7 +12,8 @@
 #include "view/MultiSpritesImpl.h"
 #include "render/DrawSelectedSpriteVisitor.h"
 
-using namespace d2d;
+namespace d2d
+{
 
 SelectSpritesOP::SelectSpritesOP(EditPanel* editPanel, MultiSpritesImpl* spritesImpl, 
 								 PropertySettingPanel* propertyPanel, AbstractEditCMPT* callback/* = NULL*/,
@@ -39,6 +22,7 @@ SelectSpritesOP::SelectSpritesOP(EditPanel* editPanel, MultiSpritesImpl* sprites
 	, m_callback(callback)
 	, m_spritesImpl(spritesImpl)
 	, m_propertyPanel(propertyPanel)
+	, m_lastCtrlPress(false)
 	, m_bDraggable(true)
 {
 	m_selection = spritesImpl->getSpriteSelection();
@@ -59,6 +43,35 @@ bool SelectSpritesOP::onKeyDown(int keyCode)
 
 	if (keyCode == WXK_DELETE)
 		m_spritesImpl->removeSpriteSelection();	
+	else if (wxGetKeyState(WXK_CONTROL_X))
+	{
+		clearClipboard();
+		m_selection->traverse(FetchAllVisitor<ISprite>(m_clipboard));
+		for (size_t i = 0, n = m_clipboard.size(); i < n; ++i)
+			m_clipboard[i]->retain();
+		m_spritesImpl->removeSpriteSelection();
+	}
+	else if (m_lastCtrlPress && (keyCode == 'c' || keyCode == 'C')/*wxGetKeyState(WXK_CONTROL_C)*/)
+	{
+		clearClipboard();
+
+		std::vector<ISprite*> sprites;
+		m_selection->traverse(FetchAllVisitor<ISprite>(sprites));
+		for (size_t i = 0, n = sprites.size(); i < n; ++i)
+			m_clipboard.push_back(sprites[i]->clone());
+	}
+	else if (wxGetKeyState(WXK_CONTROL_V))
+	{
+		// todo: should deep copy
+		for (size_t i = 0, n = m_clipboard.size(); i < n; ++i)
+		{
+			m_clipboard[i]->retain();
+			m_spritesImpl->insertSprite(m_clipboard[i]);
+			m_editPanel->Refresh();
+		}
+	}
+
+	m_lastCtrlPress = keyCode == WXK_CONTROL;
 
 	return false;
 }
@@ -204,3 +217,12 @@ IPropertySetting* SelectSpritesOP::createPropertySetting(const std::vector<ISpri
 {
 	return new MultiSpritesPropertySetting(m_editPanel, sprites);
 }
+
+void SelectSpritesOP::clearClipboard()
+{
+	for (size_t i = 0, n = m_clipboard.size(); i < n; ++i)
+		m_clipboard[i]->release();
+	m_clipboard.clear();
+}
+
+} // d2d

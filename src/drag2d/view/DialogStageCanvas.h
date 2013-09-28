@@ -1,26 +1,24 @@
-#ifndef D2D_DIALOG_STAGE_CANVAS_H
-#define D2D_DIALOG_STAGE_CANVAS_H
+#pragma once
 
 #include "OrthoCanvas.h"
 
 namespace d2d
 {
 	class EditPanel;
-	class LibraryPanel;
+	class ISymbol;
 
 	class DialogStageCanvas : public OrthoCanvas
 	{
 	public:
-		DialogStageCanvas(EditPanel* editPanel, LibraryPanel* library);
+		DialogStageCanvas(EditPanel* editPanel, ISymbol* symbol);
 
 	protected:
 		virtual void initGL();
 		virtual void onDraw();
 
 	private:
-		LibraryPanel* m_library;
+		ISymbol* m_symbol;
 
 	}; // DialogStageCanvas
 }
 
-#endif // D2D_DIALOG_STAGE_CANVAS_H

@@ -1,22 +1,8 @@
-/*
-* Copyright (c) 2012-2013 Guang Zhu http://runnersoft.net
-*
-* This software is provided 'as-is', without any express or implied
-* warranty.  In no event will the authors be held liable for any damages
-* arising from the use of this software.
-* Permission is granted to anyone to use this software for any purpose,
-* including commercial applications, and to alter it and redistribute it
-* freely, subject to the following restrictions:
-* 1. The origin of this software must not be misrepresented; you must not
-* claim that you wrote the original software. If you use this software
-* in a product, an acknowledgment in the product documentation would be
-* appreciated but is not required.
-* 2. Altered source versions must be plainly marked as such, and must not be
-* misrepresented as being the original software.
-* 3. This notice may not be removed or altered from any source distribution.
-*/
-
 #include "SpriteFactory.h"
+
+#include "common/FileNameTools.h"
+#include "common/FileNameParser.h"
+
 #include "ImageSprite.h"
 #include "ShapeSprite.h"
 #include "EShapeSprite.h"
@@ -28,39 +14,104 @@
 #include "TextSprite.h"
 #include "FontBlankSprite.h"
 
-using namespace d2d;
+namespace d2d
+{
+
+SpriteFactory* SpriteFactory::m_instance = NULL;
 
 ISprite* SpriteFactory::create(ISymbol* symbol)
 {
-	ImageSymbol* image = dynamic_cast<ImageSymbol*>(symbol);
-	if (image) return new ImageSprite(image);
+	ISprite* sprite = NULL;
 
-	ShapeSymbol* shape = dynamic_cast<ShapeSymbol*>(symbol);
-	if (shape) return new ShapeSprite(shape);
+	wxString filepath = symbol->getFilepath();
+	wxString ext = FilenameTools::getExtension(filepath).Lower();
 
-	EShapeSymbol* eshape = dynamic_cast<EShapeSymbol*>(symbol);
-	if (eshape) return new EShapeSprite(eshape);
+	if (ext == "png" || ext == "jpg" || ext == "bmp")
+	{
+		sprite = new ImageSprite(static_cast<ImageSymbol*>(symbol));
+	}
+	else if (ext == "ttf")
+	{
+		sprite = new TextSprite(static_cast<FontSymbol*>(symbol));
+	}
+	else if (ext == "txt")
+	{
+		if (FileNameParser::isType(filepath, FileNameParser::e_polygon))
+			sprite = new ShapeSprite(static_cast<ShapeSymbol*>(symbol));
+		else if (FileNameParser::isType(filepath, FileNameParser::e_mesh))
+			sprite = new MeshSprite(static_cast<MeshSymbol*>(symbol));
+		else if (FileNameParser::isType(filepath, FileNameParser::e_combination))
+			sprite = new CombinationSprite(static_cast<CombinationSymbol*>(symbol));
+	}
+	else if (ext == "json")
+	{
+		if (FileNameParser::isType(filepath, FileNameParser::e_shape))
+			sprite = new EShapeSprite(static_cast<EShapeSymbol*>(symbol));
+		else if (FileNameParser::isType(filepath, FileNameParser::e_complex))
+			sprite = new ComplexSprite(static_cast<ComplexSymbol*>(symbol));
+		else if (FileNameParser::isType(filepath, FileNameParser::e_anim))
+			sprite = new AnimSprite(static_cast<AnimSymbol*>(symbol));
+		else if (FileNameParser::isType(filepath, FileNameParser::e_9patch))
+			sprite = new Patch9Sprite(static_cast<Patch9Symbol*>(symbol));
+		else if (FileNameParser::isType(filepath, FileNameParser::e_fontblank))
+			sprite = new FontBlankSprite(static_cast<FontBlankSymbol*>(symbol));
+	}
 
-	MeshSymbol* mesh = dynamic_cast<MeshSymbol*>(symbol);
-	if (mesh) return new MeshSprite(mesh);
+	if (sprite) insert(sprite);
 
-	CombinationSymbol* combination = dynamic_cast<CombinationSymbol*>(symbol);
-	if (combination) return new CombinationSprite(combination);
-
-	ComplexSymbol* complex = dynamic_cast<ComplexSymbol*>(symbol);
-	if (complex) return new ComplexSprite(complex);
-
-	AnimSymbol* anim = dynamic_cast<AnimSymbol*>(symbol);
-	if (anim) return new AnimSprite(anim);
-
-	Patch9Symbol* patch = dynamic_cast<Patch9Symbol*>(symbol);
-	if (patch) return new Patch9Sprite(patch);
-
-	FontSymbol* font = dynamic_cast<FontSymbol*>(symbol);
-	if (font) return new TextSprite(font);
-
-	FontBlankSymbol* fontblank = dynamic_cast<FontBlankSymbol*>(symbol);
-	if (fontblank) return new FontBlankSprite(fontblank);
-
-	return NULL;
+	return sprite;
 }
+
+void SpriteFactory::insert(ISprite* sprite)
+{
+	std::map<const ISymbol*, SpriteList>::iterator 
+		itr = map_symbol2sprites_.find(&sprite->getSymbol());
+	if (itr == map_symbol2sprites_.end())
+	{
+		SpriteList list;
+		list.push_back(sprite);
+		map_symbol2sprites_.insert(std::make_pair(&sprite->getSymbol(), list));
+	}
+	else 
+	{
+		itr->second.push_back(sprite);
+	}
+}
+
+void SpriteFactory::remove(ISprite* sprite)
+{
+	std::map<const ISymbol*, SpriteList>::iterator 
+		itr = map_symbol2sprites_.begin();
+	for ( ; itr != map_symbol2sprites_.end(); ++itr)
+	{
+		SpriteList::iterator itr_sprite = itr->second.begin();
+		for ( ; itr_sprite != itr->second.end(); )
+		{
+			if (*itr_sprite == sprite)
+				itr_sprite = itr->second.erase(itr_sprite);
+			else
+				++itr_sprite;
+		}
+	}
+}
+
+void SpriteFactory::updateBoundings(const ISymbol& symbol)
+{
+	std::map<const ISymbol*, SpriteList>::iterator 
+		itr = map_symbol2sprites_.find(&symbol);
+	if (itr != map_symbol2sprites_.end())
+	{
+		for (size_t i = 0, n = itr->second.size(); i < n; ++i)
+			itr->second[i]->buildBounding();
+	}
+}
+
+SpriteFactory* SpriteFactory::Instance()
+{
+	if (!m_instance)
+	{
+		m_instance = new SpriteFactory();
+	}
+	return m_instance;
+}
+} // d2d

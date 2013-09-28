@@ -1,62 +1,42 @@
-/*
-* Copyright (c) 2012-2013 Guang Zhu http://runnersoft.net
-*
-* This software is provided 'as-is', without any express or implied
-* warranty.  In no event will the authors be held liable for any damages
-* arising from the use of this software.
-* Permission is granted to anyone to use this software for any purpose,
-* including commercial applications, and to alter it and redistribute it
-* freely, subject to the following restrictions:
-* 1. The origin of this software must not be misrepresented; you must not
-* claim that you wrote the original software. If you use this software
-* in a product, an acknowledgment in the product documentation would be
-* appreciated but is not required.
-* 2. Altered source versions must be plainly marked as such, and must not be
-* misrepresented as being the original software.
-* 3. This notice may not be removed or altered from any source distribution.
-*/
-
-#ifndef D2D_INTERFACE_H
-#define D2D_INTERFACE_H
+#pragma once
 
 #include <fstream>
 
 namespace d2d
 {
-	class ICloneable 
-	{
-	public:
-		virtual ~ICloneable() {}
-		virtual ICloneable* clone() = 0;
+// 	class ICloneable 
+// 	{
+// 	public:
+// 		virtual ~ICloneable() {}
+// 		virtual ICloneable* clone() = 0;
+// 
+// 	}; // ICloneable
 
-	}; // ICloneable
+// 	class IVisitor
+// 	{
+// 	public:
+// 		virtual ~IVisitor() {}
+// 		virtual void visit(Object* object, bool& bFetchNext) = 0;
+// 
+// 	}; // IVisitor
 
-	class IVisitor
-	{
-	public:
-		virtual ~IVisitor() {}
-		virtual void visit(ICloneable* object, bool& bFetchNext) = 0;
+	//class ISerializable
+	//{
+	//public:
+	//	virtual ~ISerializable() {}
 
-	}; // IVisitor
+	//	virtual void loadFromTextFile(std::ifstream& fin) = 0;
+	//	virtual void storeToTextFile(std::ofstream& fout) const = 0;
 
-	class ISerializable
-	{
-	public:
-		virtual ~ISerializable() {}
+	//}; // ISerializable
 
-		virtual void loadFromTextFile(std::ifstream& fin) = 0;
-		virtual void storeToTextFile(std::ofstream& fout) const = 0;
-
-	}; // ISerializable
-
-	class ICameraObserver
-	{
-	public:
-		virtual ~ICameraObserver() {}
-
-		virtual void onCameraChanged() = 0;
-
-	}; // ICameraObserver
+// 	class ICameraObserver
+// 	{
+// 	public:
+// 		virtual ~ICameraObserver() {}
+// 
+// 		virtual void onCameraChanged() = 0;
+// 
+// 	}; // ICameraObserver
 }
 
-#endif // D2D_INTERFACE_H

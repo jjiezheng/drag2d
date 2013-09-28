@@ -1,29 +1,13 @@
-/*
-* Copyright (c) 2012-2013 Guang Zhu http://runnersoft.net
-*
-* This software is provided 'as-is', without any express or implied
-* warranty.  In no event will the authors be held liable for any damages
-* arising from the use of this software.
-* Permission is granted to anyone to use this software for any purpose,
-* including commercial applications, and to alter it and redistribute it
-* freely, subject to the following restrictions:
-* 1. The origin of this software must not be misrepresented; you must not
-* claim that you wrote the original software. If you use this software
-* in a product, an acknowledgment in the product documentation would be
-* appreciated but is not required.
-* 2. Altered source versions must be plainly marked as such, and must not be
-* misrepresented as being the original software.
-* 3. This notice may not be removed or altered from any source distribution.
-*/
-
 #include "EditPanel.h"
 
+#include "common/Context.h"
 #include "operator/AbstractEditOP.h"
 #include "history/AbstractAtomicOP.h"
 #include "view/Camera.h"
 #include "view/GLCanvas.h"
 
-using namespace d2d;
+namespace d2d
+{
 
 BEGIN_EVENT_TABLE(EditPanel, wxPanel)
 	EVT_MOUSE_EVENTS(EditPanel::onMouse)
@@ -35,7 +19,7 @@ BEGIN_EVENT_TABLE(EditPanel, wxPanel)
 	EVT_MENU(Menu_DownOneLayer, EditPanel::onMenuDownOneLayer)
 	EVT_HOTKEY(Hot_UpOneLayer, EditPanel::onKeyUpOneLayer)
 	EVT_HOTKEY(Hot_DownOneLayer, EditPanel::onKeyDownOneLayer)
-	EVT_HOTKEY(Hot_Delete, EditPanel::onKeyDelete)
+//	EVT_HOTKEY(Hot_Delete, EditPanel::onKeyDelete)
 END_EVENT_TABLE()
 
 std::string EditPanel::menu_entries[] = 
@@ -44,12 +28,14 @@ std::string EditPanel::menu_entries[] =
 	"Down One Layer"
 };
 
-EditPanel::EditPanel(wxWindow* parent)
+EditPanel::EditPanel(wxWindow* parent, wxTopLevelWindow* frame)
 	: wxPanel(parent)
+	, m_frame(frame)
+	, m_savedOP(NULL)
 {
 	RegisterHotKey(Hot_UpOneLayer, 0, VK_ADD);
 	RegisterHotKey(Hot_DownOneLayer, 0, VK_SUBTRACT);
-	RegisterHotKey(Hot_Delete, 0, VK_DELETE);
+//	RegisterHotKey(Hot_Delete, 0, VK_DELETE);
 
 	m_editOP = NULL;
 	m_canvas = NULL;
@@ -60,11 +46,11 @@ EditPanel::EditPanel(wxWindow* parent)
 
 EditPanel::~EditPanel()
 {
+	clear();
+
 	delete m_camera;
 	delete m_canvas;
 	if (m_editOP) m_editOP->release();
-	clearAtomicOPStack(m_undoStack);
-	clearAtomicOPStack(m_redoStack);
 }
 
 void EditPanel::onCameraChanged()
@@ -76,6 +62,9 @@ void EditPanel::onCameraChanged()
 void EditPanel::clear()
 {
 	m_editOP->clear();
+
+	clearAtomicOPStack(m_undoStack);
+	clearAtomicOPStack(m_redoStack);
 }
 
 Vector EditPanel::transPosScreenToProject(int x, int y) const
@@ -171,6 +160,13 @@ void EditPanel::undo()
 		op->undo();
 		m_redoStack.push(op);
 		Refresh();
+
+		if (!m_savedOP && m_undoStack.empty())
+			setTitleStatus(false);
+		else if (m_savedOP && !m_undoStack.empty() && m_savedOP == m_undoStack.top())
+			setTitleStatus(false);
+		else
+			setTitleStatus(true);
 	}
 }
 
@@ -183,6 +179,13 @@ void EditPanel::redo()
 		op->redo();
 		m_undoStack.push(op);
 		Refresh();
+
+		if (!m_savedOP && m_undoStack.empty())
+			setTitleStatus(false);
+		else if (m_savedOP && !m_undoStack.empty() && m_savedOP == m_undoStack.top())
+			setTitleStatus(false);
+		else
+			setTitleStatus(true);
 	}
 }
 
@@ -190,6 +193,22 @@ void EditPanel::addHistoryOP(AbstractAtomicOP* op)
 {
 	m_undoStack.push(op);
 	clearAtomicOPStack(m_redoStack);
+	setTitleStatus(true);
+}
+
+void EditPanel::onSave()
+{
+	if (!m_undoStack.empty())
+		m_savedOP = m_undoStack.top();
+	setTitleStatus(false);
+}
+
+bool EditPanel::isDirty() const
+{
+	if (!m_frame) return false;
+
+	wxString title = m_frame->GetTitle();
+	return title[title.Len()-1] == '*';
 }
 
 void EditPanel::onMenuUpOneLayer(wxCommandEvent& event)
@@ -216,11 +235,11 @@ void EditPanel::onKeyDownOneLayer(wxKeyEvent& event)
 	Refresh();
 }
 
-void EditPanel::onKeyDelete(wxKeyEvent& event)
-{
-	if (!this->HasFocus())
-		m_editOP->onKeyDown(event.GetKeyCode());
-}
+// void EditPanel::onKeyDelete(wxKeyEvent& event)
+// {
+// 	if (!this->HasFocus())
+// 		m_editOP->onKeyDown(event.GetKeyCode());
+// }
 
 void EditPanel::onSize(wxSizeEvent& event)
 {
@@ -238,3 +257,22 @@ void EditPanel::clearAtomicOPStack(std::stack<AbstractAtomicOP*>& stack)
 		stack.pop();
 	}
 }
+
+void EditPanel::setTitleStatus(bool fixed)
+{
+	if (!m_frame) return;
+
+	wxString title = m_frame->GetTitle();
+	if (title.IsNull()) return;
+	if (fixed && title[title.Len()-1] != '*')
+	{
+		title.Append('*');
+		m_frame->SetTitle(title);
+	}
+	else if (!fixed && title[title.Len()-1] == '*')
+	{
+		title = title.SubString(0, title.Len()-2);
+		m_frame->SetTitle(title);
+	}
+}
+} // d2d
