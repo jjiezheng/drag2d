@@ -49,8 +49,13 @@ void LibraryFontBlankPage::onAddPress(wxCommandEvent& event)
 		wxEmptyString, filter, wxFD_OPEN | wxFD_MULTIPLE);
 	if (dlg.ShowModal() == wxID_OK)
 	{
-		ISymbol* symbol = SymbolMgr::Instance()->getSymbol(dlg.GetPath());
-		m_list->insert(symbol);
+		wxArrayString filenames;
+		dlg.GetPaths(filenames);
+		for (size_t i = 0, n = filenames.size(); i < n; ++i)
+		{
+			ISymbol* symbol = SymbolMgr::Instance()->getSymbol(filenames[i]);
+			m_list->insert(symbol);
+		}
 	}
 }
 
