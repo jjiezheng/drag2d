@@ -62,11 +62,9 @@ bool SelectSpritesOP::onKeyDown(int keyCode)
 	}
 	else if (wxGetKeyState(WXK_CONTROL_V))
 	{
-		// todo: should deep copy
 		for (size_t i = 0, n = m_clipboard.size(); i < n; ++i)
 		{
-			m_clipboard[i]->retain();
-			m_spritesImpl->insertSprite(m_clipboard[i]);
+			m_spritesImpl->insertSprite(m_clipboard[i]->clone());
 			m_editPanel->Refresh();
 		}
 	}
