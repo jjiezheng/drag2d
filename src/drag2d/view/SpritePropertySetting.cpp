@@ -2,6 +2,7 @@
 #include "PropertySettingPanel.h"
 
 #include "dataset/ISprite.h"
+#include "dataset/ISymbol.h"
 #include "view/EditPanel.h"
 
 namespace d2d
@@ -29,6 +30,8 @@ void SpritePropertySetting::updatePanel(PropertySettingPanel* panel)
  		pg->GetProperty(wxT("Angle"))->SetValue(m_sprite->getAngle());
  		pg->GetProperty(wxT("Scale X"))->SetValue(m_sprite->getScaleX());
 		pg->GetProperty(wxT("Scale Y"))->SetValue(m_sprite->getScaleY());
+		pg->GetProperty(wxT("Width"))->SetValue(m_sprite->getSymbol().getWidth() * m_sprite->getScaleX());
+		pg->GetProperty(wxT("Height"))->SetValue(m_sprite->getSymbol().getHeight() * m_sprite->getScaleY());
 		pg->GetProperty(wxT("Shear X"))->SetValue(m_sprite->getShearX());
 		pg->GetProperty(wxT("Shear Y"))->SetValue(m_sprite->getShearY());
 
@@ -68,6 +71,14 @@ void SpritePropertySetting::updatePanel(PropertySettingPanel* panel)
 		pg->SetPropertyAttribute(wxT("Scale Y"), wxPG_ATTR_UNITS, wxT("multiple"));
 		pg->SetPropertyAttribute(wxT("Scale Y"), "Precision", 2);
 
+		pg->Append(new wxFloatProperty(wxT("Width"), wxPG_LABEL, m_sprite->getSymbol().getWidth() * m_sprite->getScaleX()));
+		pg->SetPropertyAttribute(wxT("Width"), wxPG_ATTR_UNITS, wxT("pixels"));
+		pg->SetPropertyAttribute(wxT("Width"), "Precision", 2);
+
+		pg->Append(new wxFloatProperty(wxT("Height"), wxPG_LABEL, m_sprite->getSymbol().getHeight() * m_sprite->getScaleY()));
+		pg->SetPropertyAttribute(wxT("Height"), wxPG_ATTR_UNITS, wxT("pixels"));
+		pg->SetPropertyAttribute(wxT("Height"), "Precision", 2);
+
 		pg->Append(new wxFloatProperty(wxT("Shear X"), wxPG_LABEL, m_sprite->getShearX()));
 		pg->SetPropertyAttribute(wxT("Shear X"), wxPG_ATTR_UNITS, wxT("multiple"));
 		pg->SetPropertyAttribute(wxT("Shear X"), "Precision", 2);
@@ -104,6 +115,16 @@ void SpritePropertySetting::onPropertyGridChange(const wxString& name, const wxA
 		m_sprite->setScale(wxANY_AS(value, float), m_sprite->getScaleY());
 	else if (name == wxT("Scale Y"))
 		m_sprite->setScale(m_sprite->getScaleX(), wxANY_AS(value, float));
+	else if (name == wxT("Width"))
+	{
+		const float width = wxANY_AS(value, float);
+		m_sprite->setScale(width/m_sprite->getSymbol().getWidth(), m_sprite->getScaleY());
+	}
+	else if (name == wxT("Height"))
+	{
+		const float height = wxANY_AS(value, float);
+		m_sprite->setScale(m_sprite->getScaleX(), height/m_sprite->getSymbol().getHeight());
+	}
 	else if (name == wxT("Shear X"))
 		m_sprite->setShear(wxANY_AS(value, float), m_sprite->getShearY());
 	else if (name == wxT("Shear Y"))
@@ -164,6 +185,14 @@ void SpritePropertySetting::enablePropertyGrid(PropertySettingPanel* panel, bool
 		pg->SetPropertyAttribute(wxT("Scale Y"), wxPG_ATTR_UNITS, wxT("multiple"));
 		pg->SetPropertyAttribute(wxT("Scale Y"), "Precision", 2);
 
+		pg->Append(new wxFloatProperty(wxT("Width"), wxPG_LABEL, m_sprite->getSymbol().getWidth() * m_sprite->getScaleX()));
+		pg->SetPropertyAttribute(wxT("Width"), wxPG_ATTR_UNITS, wxT("pixels"));
+		pg->SetPropertyAttribute(wxT("Width"), "Precision", 2);
+
+		pg->Append(new wxFloatProperty(wxT("Height"), wxPG_LABEL, m_sprite->getSymbol().getHeight() * m_sprite->getScaleY()));
+		pg->SetPropertyAttribute(wxT("Height"), wxPG_ATTR_UNITS, wxT("pixels"));
+		pg->SetPropertyAttribute(wxT("Height"), "Precision", 2);
+
 		pg->Append(new wxFloatProperty(wxT("Shear X"), wxPG_LABEL, m_sprite->getShearX()));
 		pg->SetPropertyAttribute(wxT("Shear X"), wxPG_ATTR_UNITS, wxT("multiple"));
 		pg->SetPropertyAttribute(wxT("Shear X"), "Precision", 2);
@@ -187,6 +216,8 @@ void SpritePropertySetting::enablePropertyGrid(PropertySettingPanel* panel, bool
 	pg->GetProperty(wxT("Angle"))->Enable(bEnable);
 	pg->GetProperty(wxT("Scale X"))->Enable(bEnable);
 	pg->GetProperty(wxT("Scale Y"))->Enable(bEnable);
+	pg->GetProperty(wxT("Width"))->Enable(bEnable);
+	pg->GetProperty(wxT("Height"))->Enable(bEnable);
 	pg->GetProperty(wxT("Shear X"))->Enable(bEnable);
 	pg->GetProperty(wxT("Shear Y"))->Enable(bEnable);
 	pg->GetProperty(wxT("Horizontal Mirror"))->Enable(bEnable);
