@@ -6,7 +6,7 @@
 #include "dataset/SpriteFactory.h"
 #include "view/LibraryPanel.h"
 #include "view/EditPanel.h"
-#include "view/SpritePanelImpl.h"
+#include "view/SpritesPanelImpl.h"
 
 namespace d2d
 {
