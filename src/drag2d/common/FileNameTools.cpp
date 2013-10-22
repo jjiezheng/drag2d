@@ -5,6 +5,7 @@
 #include "common/Exception.h"
 
 #include <wx/filename.h>
+#include <wx/dir.h>
 
 namespace d2d
 {
@@ -148,4 +149,35 @@ void FilenameTools::formatSeparators(std::string& filepath)
 			break;   
 	}   
 }
+
+void FilenameTools::fetchAllFiles(const std::string& dirpath, wxArrayString& files)
+{
+	class DirTraverser : public wxDirTraverser
+	{
+	public:
+		DirTraverser(wxArrayString& files) 
+			: _files(files) {}
+
+		virtual wxDirTraverseResult OnFile(const wxString& filename)
+		{
+			_files.Add(filename);
+			return wxDIR_CONTINUE;
+		}
+
+		virtual wxDirTraverseResult OnDir(const wxString& dirname)
+		{
+			return wxDIR_CONTINUE;
+		}
+
+	private:
+		wxArrayString& _files;
+
+	}; // DirTraverser
+
+	DirTraverser traverser(files);
+
+	wxDir dir(dirpath);
+	dir.Traverse(traverser);
+}
+
 } // d2d

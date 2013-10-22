@@ -44,6 +44,8 @@ namespace d2d
 		// use '/' replace '\'
 		static void formatSeparators(std::string& filepath);
 
+		static void fetchAllFiles(const std::string& dirpath, wxArrayString& files);
+
 	}; // FilenameTools
 }
 
