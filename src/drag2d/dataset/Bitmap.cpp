@@ -36,8 +36,13 @@ bool Bitmap::loadFromFile(const wxString& filepath)
  	image.LoadFile(filepath);
  
 	m_scale = computeScale(image.GetWidth());
- 	wxImage scaled = image.Scale(image.GetWidth() * m_scale, image.GetHeight() * m_scale);
- 	m_bitmap = new wxBitmap(scaled);
+
+	int w = image.GetWidth() * m_scale;
+	int h = image.GetHeight() * m_scale;
+	if (w > 1 && h > 1)
+		m_bitmap = new wxBitmap(image.Scale(w, h));
+	else
+		m_bitmap = new wxBitmap(image.Scale(image.GetWidth(), image.GetHeight()));
 
 	return true;
 }
