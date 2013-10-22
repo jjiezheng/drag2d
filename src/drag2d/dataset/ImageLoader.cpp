@@ -9,9 +9,8 @@ namespace d2d
 {
 	int offset = 0;
 
-	void ImageLoader::loadTexture(void* data, int& width, int& height, unsigned int& texture)
+	unsigned char* ImageLoader::loadTexture(void* data, int& width, int& height, unsigned int& texture, int& format)
 	{
-		int format;
 		unsigned char* pixel_data = loadPNG(data, width, height, format);
 		assert(pixel_data);
 
@@ -35,7 +34,7 @@ namespace d2d
 			GL_UNSIGNED_BYTE,
 			pixel_data);
 
-		delete[] pixel_data;
+		return pixel_data;
 	}
 
 	unsigned char* ImageLoader::loadData(const char* filepath, int& width, int& height, int& format)

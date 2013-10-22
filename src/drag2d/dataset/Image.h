@@ -14,6 +14,7 @@ namespace d2d
 	{
 	public:
 		Image();
+		~Image();
 		
 		bool loadFromFile(const wxString& filepath);
 		void reload();
@@ -38,6 +39,9 @@ namespace d2d
 		unsigned int m_textureID;
 		int m_width, m_height;
 		Rect m_region;
+		int m_format;
+
+		unsigned char* m_pixels;
 
 	}; // Image
 }

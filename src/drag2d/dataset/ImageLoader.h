@@ -5,7 +5,7 @@ namespace d2d
 	class ImageLoader
 	{
 	public:
-		static void loadTexture(void* data, int& width, int& height, unsigned int& texture);
+		static unsigned char* loadTexture(void* data, int& width, int& height, unsigned int& texture, int& format);
 
 		static unsigned char* loadData(const char* filepath, int& width, int& height, int& format);
 
